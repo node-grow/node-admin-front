@@ -1,32 +1,42 @@
 <template>
   <ATabs v-model:activeKey="tab_index"
-          type="editable-card"
-          @edit="onEditTab"
-          :hideAdd="true"
-          class="admin-tabs"
-          style="height: 100%;">
+         type="editable-card"
+         @edit="onEditTab"
+         :hideAdd="true"
+         class="admin-tabs"
+         style="height: 100%;">
+    <template #rightExtra>
+      <Button type="primary" @click="reload">
+        刷新
+      </Button>
+    </template>
     <TabPane v-for="tab in admin_tabs"
-                :key="tab.key"
-                :tab="tab.title"
-                :closable="tab.closable && admin_tabs.length>1"
-                style="height: 100%;background: #fff;overflow:hidden;">
+             :key="tab.key"
+             :tab="tab.title"
+             :closable="tab.closable && admin_tabs.length>1"
+             style="height: 100%;background: #fff;overflow:hidden;">
       <div style="height: 100%;overflow-y:auto;position:relative;" ref="scroll_container" :id="'tab_'+tab.key">
-        <component :is="TabContent" :option="tab" :remove="()=>remove(tab.key)"></component>
+        <component :is="TabContent" :ref="'tab_contents_'+tab.key" :option="tab"
+                   :remove="()=>remove(tab.key)"></component>
       </div>
     </TabPane>
   </ATabs>
 </template>
 
 <script lang="ts">
-import {computed, defineAsyncComponent, onMounted, provide, ref, Ref, watch} from "vue"
+import {computed, defineAsyncComponent, getCurrentInstance, provide, ref, Ref, watch} from "vue"
 import store from "@/store"
 import ATabs, {TabPane} from "ant-design-vue/es/tabs"
+import {Button} from "ant-design-vue";
+import {ReloadOutlined} from "@ant-design/icons-vue"
 
 export default {
   name: "AdminTabs",
   components: {
     ATabs,
     TabPane,
+    ReloadOutlined,
+    Button,
   },
   setup: function () {
     const tab_key = <Ref<string>>ref(store.state.admin_tab_index)
@@ -78,7 +88,10 @@ export default {
         remove(targetKey as string);
       }
     }
+
     const TabContent = defineAsyncComponent(() => import('@/components/TabContent/index.vue'))
+
+    const ins = getCurrentInstance()
 
     return {
       tab_index: tab_key,
@@ -87,6 +100,13 @@ export default {
       TabContent,
       remove,
       onEditTab,
+      reload() {
+        const arr = <any[]>ins?.refs['tab_contents_' + tab_key.value]
+        const tab = arr[0]
+        if (tab?.reload instanceof Function) {
+          tab.reload()
+        }
+      }
     }
   }
 }

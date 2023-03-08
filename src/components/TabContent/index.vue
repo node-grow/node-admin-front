@@ -1,6 +1,6 @@
 <template>
   <div>
-    <component :is="componentIs" :nodePreload="nodePreload" :option="option"></component>
+    <component v-if="com" :is="componentIs" :nodePreload="nodePreloadRef" :option="option"></component>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 import {AdminTabOption} from "@/store"
 import InnerPath from "@/components/TabContent/InnerPath.vue"
 import NodeContent from "@/components/TabContent/NodeContent/index.vue"
-import {computed, provide} from "vue";
+import {computed, nextTick, provide, ref} from "vue";
 
 export default {
   name: 'TabContent',
@@ -21,7 +21,9 @@ export default {
     remove: Function,
     nodePreload: Object,
   },
-  setup(props:any){
+  setup(props:any) {
+    const com = ref(true)
+    const nodePreloadRef = ref(props.nodePreload)
 
     if (props.remove) {
       provide('close', () => {
@@ -29,15 +31,25 @@ export default {
       })
     }
 
+    const reload = () => {
+      com.value = false
+      nextTick(() => {
+        com.value = true
+      })
+    }
+
     return {
-      componentIs: computed(()=>{
-        switch (props.option.type){
+      componentIs: computed(() => {
+        switch (props.option.type) {
           case 'inner_path':
             return InnerPath
           case 'node_content':
             return NodeContent
         }
-      })
+      }),
+      reload,
+      com,
+      nodePreloadRef,
     }
   },
 }
