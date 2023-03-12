@@ -2,7 +2,6 @@ import {AxiosError, AxiosInstance, default as axios} from "axios"
 import {notification} from "ant-design-vue"
 import $router from '@/router'
 import $store from '@/store'
-import {getKey} from "@/utils/api/auth";
 
 const timeout = 10000
 interface MyAxios extends AxiosInstance{
@@ -12,8 +11,8 @@ interface MyAxios extends AxiosInstance{
 }
 
 let myAxios = <MyAxios>axios.create({
-    baseURL: (process.env.VUE_APP_API_BASE_URL || 'http://127.0.0.1:4523/mock/838680').replace(/\/$/,''),
-    timeout,
+    baseURL: (process.env.VUE_APP_API_BASE_URL || '/admin',
+        timeout,
 })
 
 myAxios.loading=true
