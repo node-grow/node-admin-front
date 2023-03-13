@@ -1,9 +1,10 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
-  css:{
+  publicPath: './',
+  css: {
     extract: !process.env.CUSTOM_COMPONENT,
-    loaderOptions:{
+    loaderOptions: {
       less: {
         lessOptions: {
           javascriptEnabled: true,
