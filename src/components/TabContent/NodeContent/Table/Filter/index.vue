@@ -12,7 +12,8 @@
 <script lang="ts">
 import FilterMixin from "@/components/TabContent/NodeContent/Table/Filter/FilterMixin";
 import _ from "lodash";
-import {ComponentInternalInstance, ComponentPublicInstance, defineAsyncComponent, inject} from "vue";
+import {ComponentInternalInstance, defineAsyncComponent, inject} from "vue";
+import {importAsyncModule} from "@/utils/helpers";
 
 export default {
   name: "Filter",
@@ -23,7 +24,7 @@ export default {
   setup(props:any, ins: ComponentInternalInstance){
     const c =_.upperFirst(_.camelCase(props.option.type));
     const component=defineAsyncComponent(()=>
-        import('@/components/TabContent/NodeContent/Table/Filter/'+c+'.vue')
+        importAsyncModule('@/components/TabContent/NodeContent/Table/Filter/' + c + '.vue')
     )
 
     const filter = <Function>inject('filter')

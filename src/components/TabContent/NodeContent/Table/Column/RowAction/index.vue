@@ -18,6 +18,7 @@ import Operation from "@/components/TabContent/NodeContent/Operation";
 import {ConditionOption, handleCondition} from "@/components/TabContent/NodeContent/Condition";
 import {Badge, Spin} from "ant-design-vue";
 import {cloneDeep} from "lodash-es";
+import {importAsyncModule} from "@/utils/helpers";
 
 export default {
   name: "RowAction",
@@ -32,7 +33,7 @@ export default {
   setup(props:any){
     const c =_.upperFirst(_.camelCase(props.option.type));
     const component=defineAsyncComponent(()=>
-        import('@/components/TabContent/NodeContent/Table/Column/RowAction/'+c+'.vue')
+        importAsyncModule('@/components/TabContent/NodeContent/Table/Column/RowAction/' + c + '.vue')
     )
     const appContext = getCurrentInstance()?.appContext
 

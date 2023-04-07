@@ -1,6 +1,3 @@
-import c from './PermissionTransfer.vue'
-import {createApp} from "vue";
+import PermissionTransfer from './PermissionTransfer.vue'
 
-export default function (props) {
-    return createApp(c,props)
-}
+export default PermissionTransfer

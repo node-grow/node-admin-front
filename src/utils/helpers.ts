@@ -1,8 +1,8 @@
 export function addQuery(url: string, query: any): string {
     let u = new URL(url, url.indexOf('://') === -1 ? location.origin : undefined)
     for (let q in query) {
-        if ([undefined,null,''].indexOf(query[q]) === -1) {
-            u.searchParams.set(q,query[q])
+        if ([undefined, null, ''].indexOf(query[q]) === -1) {
+            u.searchParams.set(q, query[q])
         }
     }
     return u.toString()
@@ -47,4 +47,11 @@ export async function externalComponent(url:any) {
     })
 
     return window[name];
+}
+
+let modules = import.meta.glob('@/**/*.(vue|ts)')
+
+export async function importAsyncModule(path: string) {
+    const p = path.replace(/^@/, '..')
+    return await modules[p]()
 }

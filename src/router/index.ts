@@ -1,21 +1,22 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
 import $store from '@/store'
+import {importAsyncModule} from "@/utils/helpers";
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: ()=>import('@/views/Home/index.vue'),
+    component: () => importAsyncModule('@/views/Home/index.vue'),
   },
   {
     path: '/login',
     name: 'login',
-    component: ()=>import('@/views/Login.vue'),
+    component: () => importAsyncModule('@/views/Login.vue'),
   },
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: ()=>import('@/views/Dashboard.vue'),
+    component: () => importAsyncModule('@/views/Dashboard.vue'),
   }
 ]
 

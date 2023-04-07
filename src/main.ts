@@ -13,7 +13,7 @@ import 'viewerjs/dist/viewer.min.css'
 import VueViewer from "v-viewer";
 
 initStorePersistence(store)
-console.log(process.env)
+console.log(import.meta.env)
 
 createApp(App)
     .use(initProvide)

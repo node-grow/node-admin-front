@@ -29,6 +29,7 @@ import store from "@/store"
 import ATabs, {TabPane} from "ant-design-vue/es/tabs"
 import {Button} from "ant-design-vue";
 import {ReloadOutlined} from "@ant-design/icons-vue"
+import {importAsyncModule} from "@/utils/helpers";
 
 export default {
   name: "AdminTabs",
@@ -89,7 +90,7 @@ export default {
       }
     }
 
-    const TabContent = defineAsyncComponent(() => import('@/components/TabContent/index.vue'))
+    const TabContent = defineAsyncComponent(() => importAsyncModule('@/components/TabContent/index.vue'))
 
     const ins = getCurrentInstance()
 

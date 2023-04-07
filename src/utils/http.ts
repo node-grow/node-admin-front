@@ -11,7 +11,7 @@ interface MyAxios extends AxiosInstance{
 }
 
 let myAxios = <MyAxios>axios.create({
-    baseURL: (process.env.VUE_APP_API_BASE_URL || '/admin'),
+    baseURL: (import.meta.env.VITE_APP_API_BASE_URL || '/admin'),
     timeout,
 })
 
