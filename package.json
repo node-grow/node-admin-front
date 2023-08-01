@@ -32,7 +32,7 @@
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-typescript": "^5.0.4",
     "@vue/cli-plugin-vuex": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
+    "@vue/cli-service": "~5.0.8",
     "less": "^4.0.0",
     "less-loader": "^10.2.0",
     "ts-loader": "^9.2.8",
