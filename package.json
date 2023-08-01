@@ -36,6 +36,6 @@
     "less": "^4.0.0",
     "less-loader": "^10.2.0",
     "ts-loader": "^9.2.8",
-    "typescript": "^4.6.3"
+    "typescript": "^5.1.6"
   }
 }
