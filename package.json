@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.6",
-    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-babel": "~5.0.8",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-typescript": "^5.0.4",
     "@vue/cli-plugin-vuex": "~5.0.0",
