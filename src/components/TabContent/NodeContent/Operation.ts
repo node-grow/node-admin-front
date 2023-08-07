@@ -1,8 +1,7 @@
 import $store, {AdminTabOption} from '@/store'
-import {Modal, notification} from "ant-design-vue";
+import {Modal} from "ant-design-vue";
 import {createVNode, getCurrentInstance, h} from "vue";
 import $http from "@/utils/http"
-import {AxiosError} from "axios";
 import {ExclamationCircleOutlined} from "@ant-design/icons-vue"
 import ModalContainer from "@/components/TabContent/NodeContent/ModalContainer.vue"
 
@@ -108,7 +107,17 @@ async function modal(option: any) {
 
 }
 
-function goto(option: any) {
+function goto_as_a(option: any) {
+    option = Object.assign({}, {
+        url: '',
+        target: '_blank',
+    }, option)
+
+    option.url = replaceUrl(option.href || option.url, option.replace)
+    const a = document.createElement('a')
+    a.href = option.url
+    a.target = option.target
+    a.click()
 
 }
 
@@ -183,7 +192,7 @@ export declare interface OperationType {
 }
 
 export default <OperationType>{
-    // goto,
+    goto_as_a,
     add_tab,
     modal,
     request
