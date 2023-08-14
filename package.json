@@ -17,7 +17,7 @@
     "cross-env": "^7.0.3",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
-    "v-viewer": "^3.0.10",
+    "v-viewer": "^3.0.11",
     "vue": "^3.3.4",
     "vue-axios": "^3.4.1",
     "vue-class-component": "^8.0.0-0",
