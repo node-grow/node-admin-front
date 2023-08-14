@@ -1728,24 +1728,24 @@
   resolved "https://registry.yarnpkg.com/@vue/web-component-wrapper/-/web-component-wrapper-1.3.0.tgz#b6b40a7625429d2bd7c2281ddba601ed05dc7f1a"
   integrity sha512-Iu8Tbg3f+emIIMmI2ycSI8QcEuAUgPTgHwesDU1eKMLE4YC/c/sFbGc70QgMq31ijRftV0R7vCm9co6rldCeOA==
 
-"@wangeditor/basic-modules@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@wangeditor/basic-modules/-/basic-modules-1.1.1.tgz#1ae0b11202b2ac319b4883e46f4d069ffce2f78d"
-  integrity sha512-tQl2Pw8M2g3CM+ESx2phzr9zSKeuFCM1AMBoPdnlbatU7Dnae0CsEB/b3C+gI0dIQzM2jh34yTmqgbbhrwuRLg==
+"@wangeditor/basic-modules@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@wangeditor/basic-modules/-/basic-modules-1.1.7.tgz#a9c3ccf4ef53332f29550d59d3676e15f395946f"
+  integrity sha512-cY9CPkLJaqF05STqfpZKWG4LpxTMeGSIIF1fHvfm/mz+JXatCagjdkbxdikOuKYlxDdeqvOeBmsUBItufDLXZg==
   dependencies:
     is-url "^1.2.4"
 
-"@wangeditor/code-highlight@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@wangeditor/code-highlight/-/code-highlight-1.0.2.tgz#df6bf7ac8d232c6afb0cb8189baa9f8d52feeded"
-  integrity sha512-SCtOcUxjKqIso/LSxGSOaYr3G6MC2En0gNTyHIMCG928T0fo0ufaqp/vIXKQzVL2Y+X/CSAOB2EbrFlgGvr0AQ==
+"@wangeditor/code-highlight@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@wangeditor/code-highlight/-/code-highlight-1.0.3.tgz#90256857714d5c0cf83ac475aea64db7bf29a7cd"
+  integrity sha512-iazHwO14XpCuIWJNTQTikqUhGKyqj+dUNWJ9288Oym9M2xMVHvnsOmDU2sgUDWVy+pOLojReMPgXCsvvNlOOhw==
   dependencies:
     prismjs "^1.23.0"
 
-"@wangeditor/core@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@wangeditor/core/-/core-1.1.1.tgz#f749a7d65ad95dbffccdf4d6f11272be8134eb88"
-  integrity sha512-SrbvOGlONMNMOeFIJI7fC9x0/6T6LvQHTITPCqjgbCm2QF+POcrHzRKGQOqKCsyKi9UJz9hLsjsvJnvP10rxjQ==
+"@wangeditor/core@^1.1.19":
+  version "1.1.19"
+  resolved "https://registry.yarnpkg.com/@wangeditor/core/-/core-1.1.19.tgz#f9155f7fd92d03cb1982405b3b82e54c31f1c2b0"
+  integrity sha512-KevkB47+7GhVszyYF2pKGKtCSj/YzmClsD03C3zTt+9SR2XWT5T0e3yQqg8baZpcMvkjs1D8Dv4fk8ok/UaS2Q==
   dependencies:
     "@types/event-emitter" "^0.3.3"
     event-emitter "^0.3.5"
@@ -1759,20 +1759,20 @@
   resolved "https://registry.yarnpkg.com/@wangeditor/editor-for-vue/-/editor-for-vue-5.1.12.tgz#f7d5f239b39cdfc01d31151488de8443fe6edc64"
   integrity sha512-0Ds3D8I+xnpNWezAeO7HmPRgTfUxHLMd9JKcIw+QzvSmhC5xUHbpCcLU+KLmeBKTR/zffnS5GQo6qi3GhTMJWQ==
 
-"@wangeditor/editor@^5.0.1":
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/@wangeditor/editor/-/editor-5.1.1.tgz#009b11277de86a4052087d0428934e7d2dd30147"
-  integrity sha512-BtccuHFm0QvYunIhIu7tllQWkwppkmEkD3OJ5Mn+F0REPQ/Z3HiEXbtlss2t9c/kHO4CtiFwv2XD/k/VEg7taA==
+"@wangeditor/editor@^5.1.23":
+  version "5.1.23"
+  resolved "https://registry.yarnpkg.com/@wangeditor/editor/-/editor-5.1.23.tgz#c9d2007b7cb0ceef6b72692b4ee87b01ee2367b3"
+  integrity sha512-0RxfeVTuK1tktUaPROnCoFfaHVJpRAIE2zdS0mpP+vq1axVQpLjM8+fCvKzqYIkH0Pg+C+44hJpe3VVroSkEuQ==
   dependencies:
     "@uppy/core" "^2.1.1"
     "@uppy/xhr-upload" "^2.0.3"
-    "@wangeditor/basic-modules" "^1.1.1"
-    "@wangeditor/code-highlight" "^1.0.2"
-    "@wangeditor/core" "^1.1.1"
-    "@wangeditor/list-module" "^1.0.2"
-    "@wangeditor/table-module" "^1.1.0"
-    "@wangeditor/upload-image-module" "^1.0.1"
-    "@wangeditor/video-module" "^1.1.0"
+    "@wangeditor/basic-modules" "^1.1.7"
+    "@wangeditor/code-highlight" "^1.0.3"
+    "@wangeditor/core" "^1.1.19"
+    "@wangeditor/list-module" "^1.0.5"
+    "@wangeditor/table-module" "^1.1.4"
+    "@wangeditor/upload-image-module" "^1.0.2"
+    "@wangeditor/video-module" "^1.1.4"
     dom7 "^3.0.0"
     is-hotkey "^0.2.0"
     lodash.camelcase "^4.3.0"
@@ -1786,25 +1786,25 @@
     slate "^0.72.0"
     snabbdom "^3.1.0"
 
-"@wangeditor/list-module@^1.0.2":
+"@wangeditor/list-module@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@wangeditor/list-module/-/list-module-1.0.5.tgz#3fc0b167acddf885536b45fa0c127f9c6adaea33"
+  integrity sha512-uDuYTP6DVhcYf7mF1pTlmNn5jOb4QtcVhYwSSAkyg09zqxI1qBqsfUnveeDeDqIuptSJhkh81cyxi+MF8sEPOQ==
+
+"@wangeditor/table-module@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@wangeditor/table-module/-/table-module-1.1.4.tgz#757d4a5868b2b658041cd323854a4d707c8347e9"
+  integrity sha512-5saanU9xuEocxaemGdNi9t8MCDSucnykEC6jtuiT72kt+/Hhh4nERYx1J20OPsTCCdVr7hIyQenFD1iSRkIQ6w==
+
+"@wangeditor/upload-image-module@^1.0.2":
   version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@wangeditor/list-module/-/list-module-1.0.2.tgz#c9e57c4c34bbcc32df3a9030df2fda0bb4f77a39"
-  integrity sha512-VfENZEFvsLTiLxN/cj8cibFGy9NVV+/cfATTiLiH9ef+8lgKv8apttXYVlqIAfnlJLLuCk0cIm8c/zH+hbtrZg==
+  resolved "https://registry.yarnpkg.com/@wangeditor/upload-image-module/-/upload-image-module-1.0.2.tgz#89e9b9467e10cbc6b11dc5748e08dd23aaebee30"
+  integrity sha512-z81lk/v71OwPDYeQDxj6cVr81aDP90aFuywb8nPD6eQeECtOymrqRODjpO6VGvCVxVck8nUxBHtbxKtjgcwyiA==
 
-"@wangeditor/table-module@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@wangeditor/table-module/-/table-module-1.1.0.tgz#5cd4ebdd0500915c51793efd6227c43b5e185d77"
-  integrity sha512-QpjCXSzsXcsR0pEI5Pu28e8aYh9+lHcVV4TTmGV6lRGE/etQF3PHUZNGUlfhkCgmGPq+E7n/Whb4RpAM3PJVhw==
-
-"@wangeditor/upload-image-module@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@wangeditor/upload-image-module/-/upload-image-module-1.0.1.tgz#a074518d73ce9c5cfd3e8ee56d1adf831996f142"
-  integrity sha512-vgUV4ENttTITblqtVuzleIq732OmzmzzgrIvX6b3GRGPSw5u8glJ/87tOEhvHjHECc4oFo18B7xzJ1GpBj79/w==
-
-"@wangeditor/video-module@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@wangeditor/video-module/-/video-module-1.1.0.tgz#664405b1eeef1e9ab09f84a50270a4394f885355"
-  integrity sha512-VR6x7Vk9ebvXtxCPwobiNiTGZGgqEzCVc6ViWlNH3v4jlDIeo/s7N7OCgpvELR7X/X7GHecBu7wySDkHIskB5w==
+"@wangeditor/video-module@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@wangeditor/video-module/-/video-module-1.1.4.tgz#b9df1b3ab2cd53f678b19b4d927e200774a6f532"
+  integrity sha512-ZdodDPqKQrgx3IwWu4ZiQmXI8EXZ3hm2/fM6E3t5dB8tCaIGWQZhmqd6P5knfkRAd3z2+YRSRbxOGfoRSp/rLg==
 
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
