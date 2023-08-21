@@ -19,7 +19,7 @@
     "lodash-es": "^4.17.21",
     "v-viewer": "^3.0.11",
     "vue": "^3.3.4",
-    "vue-axios": "^3.4.1",
+    "vue-axios": "^3.5.2",
     "vue-class-component": "^8.0.0-0",
     "vue-external-component": "^1.0.0",
     "vue-request": "^1.2.4",
