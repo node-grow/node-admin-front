@@ -7,7 +7,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@surely-vue/table": "^2.2.2",
+    "@surely-vue/table": "^4.0.8",
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-vue": "^5.1.10",
     "ant-design-vue": "^3.2.20",
