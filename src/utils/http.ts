@@ -1,17 +1,18 @@
-import {AxiosError, AxiosInstance, default as axios} from "axios"
+import {AxiosError, AxiosStatic, default as axios} from "axios"
 import {notification} from "ant-design-vue"
 import $router from '@/router'
 import $store from '@/store'
 
 const timeout = 10000
-interface MyAxios extends AxiosInstance{
+
+interface MyAxios extends AxiosStatic {
     loading: boolean,
     show_success_message: true,
     show_error_message: true,
 }
 
 let myAxios = <MyAxios>axios.create({
-    baseURL: (process.env.VUE_APP_API_BASE_URL || '/admin'),
+    baseURL: (import.meta.env.VITE_APP_API_BASE_URL || '/admin'),
     timeout,
 })
 
@@ -62,6 +63,7 @@ myAxios.interceptors.response.use(response=>{
         return
     }
 
+    // @ts-ignore
     const res=error.response?.data?.apifoxError || error.response?.data
     let message=res?.message||'网络请求错误，请稍候重试'
 

@@ -11,9 +11,10 @@ import initProvide from "@/utils/initProvide"
 import initStorePersistence from "@/store/store.persistence"
 import 'viewerjs/dist/viewer.min.css'
 import VueViewer from "v-viewer";
+import {AxiosStatic} from "axios";
 
 initStorePersistence(store)
-console.log(process.env)
+console.log(import.meta.env)
 
 createApp(App)
     .use(initProvide)
@@ -21,7 +22,7 @@ createApp(App)
     .use(router)
     .use(VueViewer)
     // .use(Antd)
-    .use(VueAxios,http)
+    .use(VueAxios, http as AxiosStatic)
     .provide('operation',Operation)
     .provide('axios', http)  // provide 'axios'
     .mount('#app')

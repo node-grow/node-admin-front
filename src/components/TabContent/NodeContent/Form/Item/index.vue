@@ -10,6 +10,7 @@
 <script lang="ts">
 import _ from "lodash";
 import {defineAsyncComponent} from "vue";
+import {importDynamicComponent} from "@/utils/helpers";
 
 export default {
   name: "Item",
@@ -22,7 +23,7 @@ export default {
 
     const c =_.upperFirst(_.camelCase(props.option.type));
     const component=defineAsyncComponent(()=>
-        import('@/components/TabContent/NodeContent/Form/Item/'+c+'.vue')
+        importDynamicComponent('@/components/TabContent/NodeContent/Form/Item/' + c + '.vue')
     )
     return {
       componentIs: component,

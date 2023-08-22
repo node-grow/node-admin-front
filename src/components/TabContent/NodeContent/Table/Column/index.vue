@@ -5,6 +5,7 @@
 <script lang="ts">
 import _ from 'lodash'
 import {defineAsyncComponent} from "vue";
+import {importDynamicComponent} from "@/utils/helpers";
 
 export default {
   name: "Column",
@@ -15,7 +16,7 @@ export default {
   setup(props:any){
     const c =_.upperFirst(_.camelCase(props.column.resColumn.type));
     const component=defineAsyncComponent(()=>
-      import('@/components/TabContent/NodeContent/Table/Column/'+c+'.vue')
+        importDynamicComponent('@/components/TabContent/NodeContent/Table/Column/' + c + '.vue')
     )
     return {
       componentIs: component

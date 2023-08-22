@@ -6,6 +6,7 @@
 
 <script lang="ts">
 import {defineAsyncComponent, provide, ref} from "vue";
+import {importDynamicComponent} from "@/utils/helpers";
 
 export default {
   name: "ModalContainer",
@@ -30,7 +31,7 @@ export default {
     })
 
     return {
-      TabContent: defineAsyncComponent(()=>import('@/components/TabContent/index.vue')),
+      TabContent: defineAsyncComponent(() => importDynamicComponent('@/components/TabContent/index.vue')),
       scroll_container,
     }
   }

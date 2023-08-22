@@ -1,27 +1,26 @@
 <template>
-<!--  <nav>-->
-<!--    <router-link to="/">Home</router-link> |-->
-<!--    <router-link to="/about">About</router-link>-->
-<!--  </nav>-->
-<!--  <a-button @click="addCount">点击{{count}}</a-button>-->
-<!--  <a-button @click="testNoAuth">测试未登录授权</a-button>-->
-<!--  <span>-->
-<!--    <icon-font type="icon-font-jilu20190917"></icon-font>-->
-<!--  </span>-->
-<!--  <a-button @click="testAddTab">增加tab</a-button>-->
-<!--  <a-button @click="testOpenModal">打开模态框</a-button>-->
-  <ConfigProvider :locale="locale">
+  <!--  <nav>-->
+  <!--    <router-link to="/">Home</router-link> |-->
+  <!--    <router-link to="/about">About</router-link>-->
+  <!--  </nav>-->
+  <!--  <a-button @click="addCount">点击{{count}}</a-button>-->
+  <!--  <a-button @click="testNoAuth">测试未登录授权</a-button>-->
+  <!--  <span>-->
+  <!--    <icon-font type="icon-font-jilu20190917"></icon-font>-->
+  <!--  </span>-->
+  <!--  <a-button @click="testAddTab">增加tab</a-button>-->
+  <!--  <a-button @click="testOpenModal">打开模态框</a-button>-->
+  <ConfigProvider :locale="zhCN">
     <Spin :spinning="loading" :delay="500">
       <router-view/>
     </Spin>
   </ConfigProvider>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import {computed, onMounted,} from "vue"
 import $store from '@/store'
 import {getSystemConfig} from "@/utils/api/common"
-import IconFont from "@/components/IconFont"
 import {ConfigProvider, Spin} from "ant-design-vue"
 
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
@@ -30,39 +29,25 @@ import 'dayjs/locale/zh-cn';
 
 dayjs.locale('zh-cn');
 
-export default {
-  components: {
-    ConfigProvider,
-    Spin,
+let count = computed(() => $store.state.count)
+onMounted(async () => {
+  try {
+    const res = await getSystemConfig()
 
-    IconFont,
-  },
-  setup(){
-    let count = computed(()=>$store.state.count)
-    onMounted(async ()=>{
-      try {
-        const res = await getSystemConfig()
-
-        $store.commit('setSystemConfig',res.data)
-        if (!$store.state.admin_tabs.length){
-          $store.commit('setAdminTabs',res.data.default_tabs)
-        }
-      }catch (e){
-
-      }
-    })
-
-    if ($store.state.document_title){
-      document.title=$store.state.document_title
+    $store.commit('setSystemConfig', res.data)
+    if (!$store.state.admin_tabs.length) {
+      $store.commit('setAdminTabs', res.data.default_tabs)
     }
+  } catch (e) {
 
-    return {
-      locale: zhCN,
-      count,
-      loading: computed(()=>$store.state.global_loading),
-    }
   }
+})
+
+if ($store.state.document_title) {
+  document.title = $store.state.document_title
 }
+
+const loading = computed(() => $store.state.global_loading)
 </script>
 
 <style lang="less">
@@ -87,8 +72,8 @@ nav {
   }
 }
 
-.tab-content-modal{
-  .ant-modal-confirm-btns{
+.tab-content-modal {
+  .ant-modal-confirm-btns {
     display: none;
   }
 }

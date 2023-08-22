@@ -13,11 +13,12 @@
 
 <script lang="ts">
 import _ from "lodash";
-import {defineAsyncComponent, getCurrentInstance, inject, provide, ref, toRaw} from "vue";
+import {defineAsyncComponent, getCurrentInstance, inject, provide, ref} from "vue";
 import {FormInstance} from "ant-design-vue/lib/form";
 import Operation, {RequestOption} from "@/components/TabContent/NodeContent/Operation";
 import {ConditionOption, handleCondition} from "@/components/TabContent/NodeContent/Condition";
 import {Spin} from "ant-design-vue";
+import {importDynamicComponent} from "@/utils/helpers";
 
 export default {
   name: "Action",
@@ -38,7 +39,7 @@ export default {
 
     const c = _.upperFirst(_.camelCase(props.option.type));
     const component = defineAsyncComponent(() =>
-        import('@/components/TabContent/NodeContent/Form/Action/' + c + '.vue')
+        importDynamicComponent('@/components/TabContent/NodeContent/Form/Action/' + c + '.vue')
     )
     const form: FormInstance = getForm ? getForm() : {}
 

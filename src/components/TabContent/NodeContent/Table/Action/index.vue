@@ -14,6 +14,7 @@ import {defineAsyncComponent, getCurrentInstance, inject, ref} from "vue";
 import {TableActionOption} from "@/components/TabContent/NodeContent/Table";
 import {OperationType} from "@/components/TabContent/NodeContent/Operation";
 import {Badge, Spin} from "ant-design-vue";
+import {importDynamicComponent} from "@/utils/helpers";
 
 export default {
   name: "Action",
@@ -29,7 +30,7 @@ export default {
 
     const c = _.upperFirst(_.camelCase(props.option.type));
     const component = defineAsyncComponent(() =>
-        import('@/components/TabContent/NodeContent/Table/Action/' + c + '.vue')
+        importDynamicComponent('@/components/TabContent/NodeContent/Table/Action/' + c + '.vue')
     )
     const operation = <OperationType>inject('operation')
     const reloadData = <Function>inject('reloadData')

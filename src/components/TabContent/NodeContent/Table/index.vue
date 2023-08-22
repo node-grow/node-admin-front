@@ -69,7 +69,7 @@
 <script lang="ts">
 import ContentMixin from "@/components/TabContent/NodeContent/ContentMixin";
 import type {Ref} from 'vue';
-import {getCurrentInstance, inject, nextTick, onMounted, provide, ref, toRaw, watch} from 'vue';
+import {inject, nextTick, provide, ref, toRaw} from 'vue';
 import {CheckOutlined, EditOutlined, SearchOutlined} from '@ant-design/icons-vue';
 import Action from '@/components/TabContent/NodeContent/Table/Action/index.vue'
 import {ColumnType} from "@/components/TabContent/NodeContent/Table/index";
@@ -115,6 +115,7 @@ export default {
     const scroll = (e: any) => {
       console.log(e)
     }
+
 
     const filter_query = <Ref<object>>ref(props.option.filters_data || {})
 
