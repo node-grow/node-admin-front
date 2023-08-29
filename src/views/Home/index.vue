@@ -3,8 +3,7 @@
     <LayoutHeader class="header">
       <div>
         <div class="logo"
-             :title="system_name"
-             style="width: 200px;text-overflow: ellipsis;overflow:hidden;">
+             :title="system_name">
           {{ system_name }}
         </div>
         <Menu
@@ -71,7 +70,7 @@
         >
           <AdminTab></AdminTab>
         </LayoutContent>
-        <div style="margin-top: 15px;">&copy;Copyright node-admin</div>
+        <div class="footer">&copy;Copyright node-admin</div>
       </Layout>
     </Layout>
   </Layout>
@@ -149,9 +148,18 @@ const onClickTopNav = async (m: { name: string }) => {
     .logo {
       float: left;
       color: #ccc;
-      padding: 0 10px
+      padding: 0 10px;
+      width: 200px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      text-align: center;
     }
   }
+}
+
+.footer {
+  margin-top: 15px;
+  text-align: center;
 }
 
 .site-layout-background {

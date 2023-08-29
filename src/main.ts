@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 // import Antd from 'ant-design-vue'
-import 'ant-design-vue/dist/antd.css'
+import 'ant-design-vue/dist/reset.css'
 import VueAxios from "vue-axios"
 import http from '@/utils/http'
 import Operation from "@/components/TabContent/NodeContent/Operation";

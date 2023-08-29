@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-right: 25px;margin-bottom: 5px;">
+  <div style="margin-right: 10px;margin-bottom: 5px;">
     <Spin :spinning="loading">
       <Badge :count="option.badge">
         <component :is="componentIs" :option="option.action_option" :operate="operate"></component>
