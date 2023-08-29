@@ -19,7 +19,7 @@
               @click="onClickTopNav(m)"
           >
             <Badge :count="m.badge" :offset="[20,0]">
-              <span>{{ m.nav }}</span>
+              <span class="top-nav-span">{{ m.nav }}</span>
             </Badge>
           </MenuItem>
         </Menu>
@@ -155,6 +155,10 @@ const onClickTopNav = async (m: { name: string }) => {
       text-overflow: ellipsis;
       overflow: hidden;
       text-align: center;
+    }
+
+    .top-nav-span {
+      color: #fff;
     }
   }
 }
