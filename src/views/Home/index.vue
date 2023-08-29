@@ -18,7 +18,9 @@
               :key="m.name"
               @click="onClickTopNav(m)"
           >
-            <span>{{ m.nav }}</span>
+            <Badge :count="m.badge" :offset="[20,0]">
+              <span>{{ m.nav }}</span>
+            </Badge>
           </MenuItem>
         </Menu>
       </div>
@@ -83,7 +85,7 @@ import SiderMenu from "./SiderMenu.vue"
 import AdminTab from "./AdminTabs.vue"
 import {deleteUser} from "@/utils/api/login";
 import router from "@/router";
-import {Layout, Menu} from "ant-design-vue"
+import {Badge, Layout, Menu} from "ant-design-vue"
 
 const LayoutHeader = Layout.Header
 const LayoutContent = Layout.Content
