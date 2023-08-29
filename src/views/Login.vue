@@ -50,7 +50,7 @@
           </div>
         </FormItem>
 
-        <FormItem :wrapper-col="{ offset: 0, span: 16 }">
+        <FormItem :wrapper-col="{ offset: 8, span: 16 }">
           <Button type="primary" html-type="submit">提交</Button>
         </FormItem>
       </Form>
@@ -65,6 +65,7 @@ import $store from "@/store"
 import $router from '@/router'
 import {ReloadOutlined} from '@ant-design/icons-vue'
 import {Button, Form, Input, Space, Spin, Typography} from "ant-design-vue"
+
 const FormItem= Form.Item
 const InputPassword=Input.Password
 const TypographyTitle = Typography.Title
@@ -122,6 +123,7 @@ const onFinishFailed = (errorInfo: any) => {
 .container{
   width: 100vw;
   height: 100vh;
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
