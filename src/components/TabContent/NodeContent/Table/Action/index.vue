@@ -34,6 +34,7 @@ export default {
     )
     const operation = <OperationType>inject('operation')
     const reloadData = <Function>inject('reloadData')
+    const reloadLayout = <Function>inject('reloadLayout')
     const getModal = <Function>inject('getModal')
 
     const appContext = getCurrentInstance()?.appContext
@@ -65,6 +66,9 @@ export default {
               }
               if (reloadData) {
                 reloadData()
+              }
+              if (reloadLayout && props.option.operation.reload_layout) {
+                reloadLayout()
               }
             },
             onClose() {

@@ -24,6 +24,8 @@ export default createStore({
       username: '',
     },
     sider_menu: [],
+    nav_module: [],
+    top_nav_selected_key: '',
     admin_tab_index: '',
     admin_tabs: <AdminTabOption[]><any[]>[],
     document_title: '',
@@ -55,6 +57,9 @@ export default createStore({
     },
     setSiderMenu(state,val){
       state.sider_menu=val
+    },
+    setNavModule(state, val) {
+      state.nav_module = val
     },
     pushAdminTab(state,val){
       for (let index=0;index<state.admin_tabs.length;index++) {

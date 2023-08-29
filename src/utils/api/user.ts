@@ -1,7 +1,11 @@
 import $http from '@/utils/http'
 
-export function getCurrentMenu(){
-    return $http.get('/user/current/menu')
+export function getCurrentMenu(module: string) {
+    return $http.get(`/user/current/menu/${module}`)
+}
+
+export function getCurrentModule() {
+    return $http.get('/user/current/module')
 }
 
 export function getCurrentInfo(){

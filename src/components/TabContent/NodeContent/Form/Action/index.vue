@@ -45,6 +45,8 @@ export default {
 
     const appContext = getCurrentInstance()?.appContext
     const reloadData = <Function|null>inject('reloadData');
+    const reloadLayout = <Function | null>inject('reloadLayout', () => {
+    });
     return {
       loading,
       componentIs: component,
@@ -65,10 +67,13 @@ export default {
               ...operation.operation_option.body
             },
             onSuccess(){
-              if (!reloadData){
-                return
+              if (reloadData) {
+                reloadData()
               }
-              reloadData()
+
+              if (reloadLayout && props.option.operation.reload_layout) {
+                reloadLayout()
+              }
             },
             onClose(){
               if (!reloadData){

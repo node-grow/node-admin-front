@@ -141,9 +141,11 @@ export declare interface RequestOption{
     confirm?: boolean,
     onSuccess?: Function,
     onError?: Function,
+    reload_menu?: boolean,
 }
 
 async function request(option: any){
+
     option = Object.assign({},<RequestOption>{
         url: '',
         method: 'get',
@@ -155,7 +157,7 @@ async function request(option: any){
     if (option.confirm){
         const r = await new Promise(resolve => {
             Modal.confirm({
-                title: replaceUrl(option.confirm,option.replace),
+                title: replaceUrl(option.confirm, option.replace) || '确定要操作吗？',
                 icon: createVNode(ExclamationCircleOutlined),
                 onOk() {
                     resolve(true)

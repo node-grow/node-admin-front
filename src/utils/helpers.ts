@@ -1,3 +1,5 @@
+import {AsyncComponentLoader} from "vue";
+
 export function addQuery(url: string, query: any): string {
     let u = new URL(url, url.indexOf('://') === -1 ? location.origin : undefined)
     for (let q in query) {
@@ -49,7 +51,7 @@ export async function externalComponent(url:any) {
     return window[name];
 }
 
-export function importDynamicComponent(url: string) {
+export function importDynamicComponent(url: string): AsyncComponentLoader {
     const modules = import.meta.glob('@/**/*.vue')
     if (modules[url]) {
         return modules[url]()
