@@ -1,4 +1,4 @@
-import $store, {AdminTabOption} from '@/store'
+import useStore, {AdminTabOption} from '@/store'
 import {Modal} from "ant-design-vue";
 import {createVNode, getCurrentInstance, h} from "vue";
 import $http from "@/utils/http"
@@ -122,6 +122,8 @@ function goto_as_a(option: any) {
 }
 
 function add_tab(option: any) {
+    const store = useStore()
+
     option = Object.assign({}, <AdminTabOption>{
         title: '',
         url: '',
@@ -131,7 +133,7 @@ function add_tab(option: any) {
     }, option)
 
     option.url=replaceUrl(option.url,option.replace)
-    $store.commit('pushAdminTab', option)
+    store.pushAdminTab(option)
 }
 
 export declare interface RequestOption{

@@ -71,7 +71,7 @@ const InputPassword=Input.Password
 const TypographyTitle = Typography.Title
 
 $store.commit('setAuthToken','')
-const system_config=computed(()=>$store.state.system_config)
+const system_config = computed(() => store.system_config)
 const validate_spining=ref(false)
 
 const formState = ref<PostUserRequest>({
@@ -106,7 +106,7 @@ const onFinish = async (values: any) => {
   let res = null
   try {
     res = await postUser(formState.value)
-    $store.commit('setAuthToken', res.data.token)
+    store.setAuthToken(res.data.token)
     $router.replace('/')
   }catch (e:any){
     // need_validate=e.toJSON().data.need_validate

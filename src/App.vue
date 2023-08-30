@@ -19,35 +19,39 @@
 
 <script setup lang="ts">
 import {computed, onMounted,} from "vue"
-import $store from '@/store'
 import {getSystemConfig} from "@/utils/api/common"
 import {ConfigProvider, Spin} from "ant-design-vue"
 
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
+import useStore from "@/store";
+import initStorePersistence from "@/store/store.persistence";
+
+const store = useStore()
+initStorePersistence(store)
 
 dayjs.locale('zh-cn');
 
-let count = computed(() => $store.state.count)
+let count = computed(() => store.count)
 onMounted(async () => {
   try {
     const res = await getSystemConfig()
 
-    $store.commit('setSystemConfig', res.data)
-    if (!$store.state.admin_tabs.length) {
-      $store.commit('setAdminTabs', res.data.default_tabs)
+    store.setSystemConfig(res.data)
+    if (!store.admin_tabs.length) {
+      store.setAdminTabs(res.data.default_tabs)
     }
   } catch (e) {
 
   }
 })
 
-if ($store.state.document_title) {
-  document.title = $store.state.document_title
+if (store.document_title) {
+  document.title = store.document_title
 }
 
-const loading = computed(() => $store.state.global_loading)
+const loading = computed(() => store.global_loading)
 </script>
 
 <style lang="less">

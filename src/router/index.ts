@@ -1,6 +1,7 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
-import $store from '@/store'
 import {importDynamicComponent} from "@/utils/helpers";
+import useStore from "@/store";
+
 
 const routes = [
   {
@@ -26,10 +27,11 @@ const router = createRouter({
 })
 
 router.beforeEach((route)=>{
+  const store = useStore()
   if (route.path==='/login'){
     return
   }
-  if ($store.state.auth_token){
+  if (store.auth_token) {
     return
   }
   router.replace('/login')

@@ -79,7 +79,7 @@
 </template>
 <script setup lang="ts">
 import {computed, onMounted, provide, ref} from 'vue'
-import $store from "@/store"
+import useStore from "@/store"
 import {getCurrentInfo, getCurrentMenu, getCurrentModule} from "@/utils/api/user"
 import SiderMenu from "./SiderMenu.vue"
 import AdminTab from "./AdminTabs.vue"
@@ -95,17 +95,18 @@ const SubMenu = Menu.SubMenu
 
 const userinfo = ref(null);
 
+const store = useStore()
 const reloadLayout = async () => {
   const infoRes = await getCurrentInfo()
   userinfo.value = infoRes.data
 
   const moduleRes = await getCurrentModule()
-  $store.commit('setNavModule', moduleRes.data)
+  store.setNavModule(moduleRes.data)
 
   if (modules.value.length > 0) {
-    $store.state.top_nav_selected_key = modules.value[0].name
+    store.top_nav_selected_key = modules.value[0].name
     const menuRes = await getCurrentMenu(modules.value[0].name)
-    $store.commit('setSiderMenu', menuRes.data)
+    store.setSiderMenu(menuRes.data)
   }
 }
 
@@ -119,23 +120,23 @@ const selected_sider_keys = ref([])
 const collapsed = ref(false)
 const open_sider_keys = ref([0])
 
-const system_name = computed(() => $store.state.system_config.system_name)
-const sider_menu = computed(() => $store.state.sider_menu)
-const modules = computed(() => $store.state.nav_module)
-const top_selected_key = computed(() => [$store.state.top_nav_selected_key])
+const system_name = computed(() => store.system_config.system_name)
+const sider_menu = computed(() => store.sider_menu)
+const modules = computed(() => store.nav_module)
+const top_selected_key = computed(() => [store.top_nav_selected_key])
 
 function logout() {
   deleteUser().then(res => {
-    $store.commit('setAdminTabs', $store.state.system_config.default_tabs)
-    $store.commit('setDocumentTitle', $store.state.system_config.system_name)
+    store.setAdminTabs(store.system_config.default_tabs)
+    store.setDocumentTitle(store.system_config.system_name)
     router.replace('/login')
   })
 }
 
 const onClickTopNav = async (m: { name: string }) => {
-  $store.state.top_nav_selected_key = m.name
+  store.top_nav_selected_key = m.name
   const menuRes = await getCurrentMenu(m.name)
-  $store.commit('setSiderMenu', menuRes.data)
+  store.setSiderMenu(menuRes.data)
 }
 </script>
 <style lang="less">

@@ -1,7 +1,7 @@
 import {AxiosError, AxiosStatic, default as axios} from "axios"
 import {notification} from "ant-design-vue"
 import $router from '@/router'
-import $store from '@/store'
+import useStore from "@/store";
 
 const timeout = 10000
 
@@ -16,33 +16,37 @@ let myAxios = <MyAxios>axios.create({
     timeout,
 })
 
-myAxios.loading=true
-myAxios.show_success_message=true
-myAxios.show_error_message=true
+myAxios.loading = true
+myAxios.show_success_message = true
+myAxios.show_error_message = true
 
-myAxios.interceptors.request.use(async (config)=>{
+
+myAxios.interceptors.request.use(async (config) => {
+    const store = useStore()
     if (myAxios.loading) {
-        $store.commit('setGlobalLoading', true)
+        store.setGlobalLoading(true)
     }
-    myAxios.loading=true
+    myAxios.loading = true
 
-    if (config.headers && $store.state.auth_token) {
-        config.headers['Authorization'] = $store.state.auth_token
+    if (config.headers && store.auth_token) {
+        config.headers['Authorization'] = store.auth_token
     }
     return config
-},error => {
-    $store.commit('setGlobalLoading',false)
+}, error => {
+    const store = useStore()
+    store.setGlobalLoading(false)
 
     return Promise.reject(error)
 })
 
-myAxios.interceptors.response.use(response=>{
-    $store.commit('setGlobalLoading',false)
+myAxios.interceptors.response.use(response => {
+    const store = useStore()
+    store.setGlobalLoading(false)
 
-    if (/(json|JSON)/.test(response.headers['content-type'])){
+    if (/(json|JSON)/.test(response.headers['content-type'])) {
         const res = response.data
-        const message=res?.message
-        if (myAxios.show_success_message && message){
+        const message = res?.message
+        if (myAxios.show_success_message && message) {
             notification.success({
                 message: message
             })
@@ -50,22 +54,23 @@ myAxios.interceptors.response.use(response=>{
 
         return res
     }
-    myAxios.show_success_message=true
+    myAxios.show_success_message = true
     return response
-},(error:AxiosError) => {
-    $store.commit('setGlobalLoading',false)
+}, (error: AxiosError) => {
+    const store = useStore()
+    store.setGlobalLoading(false)
 
-    if (error.response?.status===401){
+    if (error.response?.status === 401) {
         notification.error({
             message: '未授权，请重新登录'
         })
-        $router.replace({path:'/login'})
+        $router.replace({path: '/login'})
         return
     }
 
     // @ts-ignore
-    const res=error.response?.data?.apifoxError || error.response?.data
-    let message=res?.message||'网络请求错误，请稍候重试'
+    const res = error.response?.data?.apifoxError || error.response?.data
+    let message = res?.message || '网络请求错误，请稍候重试'
 
     if (myAxios.show_error_message) {
         notification.error({
@@ -73,7 +78,7 @@ myAxios.interceptors.response.use(response=>{
         })
     }
 
-    myAxios.show_error_message=true
+    myAxios.show_error_message = true
     return Promise.reject(error)
 })
 

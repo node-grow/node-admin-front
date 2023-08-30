@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import {computed, defineAsyncComponent, getCurrentInstance, provide, ref, Ref, watch} from "vue"
-import store from "@/store"
+import useStore from "@/store"
 import ATabs, {TabPane} from "ant-design-vue/es/tabs"
 import {Button} from "ant-design-vue";
 import {ReloadOutlined} from "@ant-design/icons-vue"
@@ -40,10 +40,11 @@ export default {
     Button,
   },
   setup: function () {
-    const tab_key = <Ref<string>>ref(store.state.admin_tab_index)
+    const store = useStore()
+    const tab_key = <Ref<string>>ref(store.admin_tab_index)
     const scroll_container = <Ref<any>>ref(null)
 
-    const admin_tabs = computed(() => store.state.admin_tabs)
+    const admin_tabs = computed(() => store.admin_tabs)
 
     const getTabIndex = () => {
       for (let i = 0; i < scroll_container.value.length; i++) {
@@ -58,10 +59,10 @@ export default {
       return scroll_container.value[getTabIndex()] || document.body
     })
     watch(tab_key, val => {
-      store.commit('setAdminTabIndex', val)
+      store.setAdminTabIndex(val)
     })
 
-    watch(() => store.state.admin_tab_index, val => {
+    watch(() => store.admin_tab_index, val => {
       tab_key.value = val
     })
 
@@ -70,7 +71,7 @@ export default {
     })
 
     function remove(targetKey: String) {
-      let admin_tabs = store.state.admin_tabs
+      let admin_tabs = store.admin_tabs
       if (tab_key.value + '' === targetKey + '') {
         for (let i in admin_tabs) {
           if (admin_tabs[i].key === targetKey && admin_tabs[parseInt(i) + 1]) {
@@ -81,7 +82,7 @@ export default {
         }
       }
       admin_tabs = admin_tabs.filter(tab => tab.key !== targetKey + '')
-      store.commit('setAdminTabs', admin_tabs)
+      store.setAdminTabs(admin_tabs)
     }
 
     function onEditTab(targetKey: string | MouseEvent, action: string) {
