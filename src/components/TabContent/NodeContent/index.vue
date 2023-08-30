@@ -9,18 +9,13 @@
 <script lang="ts">
 
 import Operation from "@/components/TabContent/NodeContent/Operation";
-import {computed, inject, provide, ref} from "vue"
-import ContentForm from "@/components/TabContent/NodeContent/Form/index.vue"
-import ContentTable from "@/components/TabContent/NodeContent/Table/index.vue"
-import ContentCustom from "@/components/TabContent/NodeContent/Custom.vue"
+import {computed, defineAsyncComponent, inject, provide, ref} from "vue"
 import {Spin} from "ant-design-vue";
+import {importDynamicComponent} from "@/utils/helpers";
 
 export default {
   name: "NodeContent",
   components: {
-    ContentForm,
-    ContentTable,
-    ContentCustom,
     Spin,
   },
   props: {
@@ -68,11 +63,13 @@ export default {
       componentIs: computed(()=>{
         switch (childOption.value?.type){
           case 'table':
-            return ContentTable
+            return defineAsyncComponent(() => importDynamicComponent('@/components/TabContent/NodeContent/Table/index.vue'))
           case 'form':
-            return ContentForm
+            return defineAsyncComponent(() => importDynamicComponent('@/components/TabContent/NodeContent/Form/index.vue'))
+          case 'tab':
+            return defineAsyncComponent(() => importDynamicComponent('@/components/TabContent/NodeContent/Tab/index.vue'))
           case 'custom':
-            return ContentCustom
+            return defineAsyncComponent(() => importDynamicComponent('@/components/TabContent/NodeContent/Custom.vue'))
         }
       })
     }
