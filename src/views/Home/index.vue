@@ -44,7 +44,8 @@
       </div>
     </LayoutHeader>
     <Layout>
-      <LayoutSider width="200" style="background: #fff;height: 100%;overflow-y:auto;overflow-x:hidden;">
+      <LayoutSider width="200" style="background: #fff;height: 100%;overflow-y:auto;overflow-x:hidden;"
+                   :collapsed="store.sider_menu_collapsed">
         <Menu
             v-model:selectedKeys="selected_sider_keys"
             v-model:openKeys="open_sider_keys"
@@ -64,7 +65,15 @@
 
         </Menu>
       </LayoutSider>
-      <Layout style="padding: 0 24px 24px">
+      <div class="sider-collapsed-container">
+        <div class="sider-collapsed" @click="store.sider_menu_collapsed = !store.sider_menu_collapsed">
+          <Button :type="store.sider_menu_collapsed?'primary':'default'">
+            <MenuUnfoldOutlined v-if="store.sider_menu_collapsed"/>
+            <MenuFoldOutlined v-else/>
+          </Button>
+        </div>
+      </div>
+      <Layout style="padding: 10px 24px 24px">
         <!--        <a-tabs></a-tabs>-->
         <div style="height: 20px"></div>
         <LayoutContent
@@ -81,11 +90,12 @@
 import {computed, onMounted, provide, ref} from 'vue'
 import useStore from "@/store"
 import {getCurrentInfo, getCurrentMenu, getCurrentModule} from "@/utils/api/user"
+import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons-vue'
 import SiderMenu from "./SiderMenu.vue"
 import AdminTab from "./AdminTabs.vue"
 import {deleteUser} from "@/utils/api/login";
 import router from "@/router";
-import {Badge, Layout, Menu} from "ant-design-vue"
+import {Badge, Button, Layout, Menu} from "ant-design-vue"
 
 const LayoutHeader = Layout.Header
 const LayoutContent = Layout.Content
@@ -93,12 +103,12 @@ const LayoutSider = Layout.Sider
 const MenuItem = Menu.Item
 const SubMenu = Menu.SubMenu
 
-const userinfo = ref(null);
+const userinfo = computed(() => store.user_info);
 
 const store = useStore()
 const reloadLayout = async () => {
   const infoRes = await getCurrentInfo()
-  userinfo.value = infoRes.data
+  store.setUserInfo(infoRes.data)
 
   const moduleRes = await getCurrentModule()
   store.setNavModule(moduleRes.data)
@@ -139,7 +149,7 @@ const onClickTopNav = async (m: { name: string }) => {
   store.setSiderMenu(menuRes.data)
 }
 </script>
-<style lang="less">
+<style scoped lang="less">
 .admin-layout {
   height: 100vh;
 
@@ -161,6 +171,17 @@ const onClickTopNav = async (m: { name: string }) => {
     .top-nav-span {
       color: #fff;
     }
+  }
+}
+
+.sider-collapsed-container {
+  position: relative;
+  margin-top: 5px;
+
+  .sider-collapsed {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }
 

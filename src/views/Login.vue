@@ -61,7 +61,7 @@
 <script setup lang="ts">
 import {computed, ref, watch} from 'vue'
 import {getValidateCode, postUser, PostUserRequest} from "@/utils/api/login"
-import $store from "@/store"
+import useStore from "@/store"
 import $router from '@/router'
 import {ReloadOutlined} from '@ant-design/icons-vue'
 import {Button, Form, Input, Space, Spin, Typography} from "ant-design-vue"
@@ -70,7 +70,9 @@ const FormItem= Form.Item
 const InputPassword=Input.Password
 const TypographyTitle = Typography.Title
 
-$store.commit('setAuthToken','')
+const store = useStore()
+
+store.setAuthToken('')
 const system_config = computed(() => store.system_config)
 const validate_spining=ref(false)
 

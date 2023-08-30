@@ -26,6 +26,7 @@ const useStore = defineStore('index', {
                 username: '',
             },
             sider_menu: [],
+            sider_menu_collapsed: false,
             nav_module: [],
             top_nav_selected_key: '',
             admin_tab_index: '',
