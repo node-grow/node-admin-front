@@ -1,23 +1,46 @@
 <template>
-  <ATextarea :value="value"
-           @input="$emit('update:value', $event.target.value)"
+  <AutoComplete v-if="option.auto_complete"
+                :options="autoOptions"
+  >
+    <Textarea :value="value"
+              @input="$emit('update:value', $event.target.value)"
               :placeholder="option.placeholder"
-             :disabled="disabled"
-             :rows="10"
-  ></ATextarea>
+              :disabled="disabled"
+              :rows="10"
+    ></Textarea>
+  </AutoComplete>
+  <Textarea v-else
+            :value="value"
+            @input="$emit('update:value', $event.target.value)"
+            :placeholder="option.placeholder"
+            :disabled="disabled"
+            :rows="10"
+  ></Textarea>
 </template>
 
-<script>
+<script setup lang="ts">
 import ItemMixin from "@/components/TabContent/NodeContent/Form/Item/ItemMixin";
-import {Input} from "ant-design-vue";
+import {AutoComplete, Textarea} from "ant-design-vue";
+import {useAutoComplete} from "@/components/TabContent/NodeContent/Form/Item/AutoComplete";
 
-export default {
-  name: "Textarea",
-  components: {
-    ATextarea: Input.TextArea
-  },
+defineOptions({
   mixins: [ItemMixin]
-}
+})
+
+const props = withDefaults(defineProps<{
+      value?: any,
+      option?: any,
+      disabled?: boolean
+    }>(),
+    {
+      value: null,
+      option: {},
+      disabled: false,
+    }
+)
+
+const {autoOptions} = useAutoComplete(props)
+
 </script>
 
 <style scoped>

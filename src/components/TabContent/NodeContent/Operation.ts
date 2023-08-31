@@ -94,12 +94,16 @@ async function modal(option: any) {
                 nodePreload: res?.data
             })
         },
+        style: {
+            minWidth: '720px',
+            maxWidth: '1000px',
+            width: '60vw',
+        },
         icon: null,
         keyboard: false,
         closable: true,
         cancelText: false,
         class: 'tab-content-modal',
-        width: '60vw',
         afterClose(){
             option.onClose()
         }

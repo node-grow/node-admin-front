@@ -76,7 +76,3 @@ yarn serve
 ```
 yarn build
 ```
-
-## TODO
-
-- 增加权限点检查渲染
