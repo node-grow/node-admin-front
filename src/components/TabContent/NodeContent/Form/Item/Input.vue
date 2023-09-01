@@ -1,6 +1,7 @@
 <template>
   <AutoComplete v-if="option.auto_complete"
-                :options="autoOptions"
+                :options="computedOptions"
+                @search="handleSearch"
   >
     <Input :value="value"
            @input="$emit('update:value', $event.target.value)"
@@ -36,7 +37,7 @@ const props = withDefaults(defineProps<{
     }
 )
 
-const {autoOptions} = useAutoComplete(props)
+const {computedOptions, handleSearch} = useAutoComplete(props)
 
 </script>
 
