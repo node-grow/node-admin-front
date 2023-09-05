@@ -1,6 +1,6 @@
 <template>
   <div style="text-align: left;">
-    <Tabs v-model:activeKey="activeKey">
+    <Tabs v-model:activeKey="activeKey" centered>
       <TabPane v-for="tab in tabs"
                :key="tab.name"
                :tab="tab.title">

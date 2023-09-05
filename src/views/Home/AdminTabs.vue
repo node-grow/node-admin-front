@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import {computed, defineAsyncComponent, getCurrentInstance, provide, ref, Ref, watch} from "vue"
+import {computed, defineAsyncComponent, getCurrentInstance, provide, ref, watch} from "vue"
 import useStore from "@/store"
 import ATabs, {TabPane} from "ant-design-vue/es/tabs"
 import {Button} from "ant-design-vue";
@@ -41,21 +41,21 @@ export default {
   },
   setup: function () {
     const store = useStore()
-    const tab_key = <Ref<string>>ref(store.admin_tab_index)
-    const scroll_container = <Ref<any>>ref(null)
+    const tab_key = ref<string>(store.admin_tab_index)
+    const scroll_container = ref<any>(null)
 
     const admin_tabs = computed(() => store.admin_tabs)
 
     const getTabIndex = () => {
       for (let i = 0; i < scroll_container.value.length; i++) {
-        const con=<HTMLElement>scroll_container.value[i]
-        if (con.id === 'tab_'+tab_key.value) {
+        const con = <HTMLElement>scroll_container.value[i]
+        if (con.id === 'tab_' + tab_key.value) {
           return i
         }
       }
       return 99999
     }
-    const sc = computed(()=>{
+    const sc = computed(() => {
       return scroll_container.value[getTabIndex()] || document.body
     })
     watch(tab_key, val => {
@@ -116,9 +116,10 @@ export default {
 
 <style lang="less">
 .admin-tabs {
-  .ant-tabs-nav{
-    margin-bottom: 0!important;
+  .ant-tabs-nav {
+    margin-bottom: 0 !important;
   }
+
   .ant-tabs-content {
     height: 100%;
   }

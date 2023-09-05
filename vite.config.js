@@ -1,5 +1,6 @@
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
+import {visualizer} from 'rollup-plugin-visualizer'
 
 const path = require('path')
 
@@ -7,7 +8,12 @@ const path = require('path')
 
 export default defineConfig({
     base: './',
-    plugins: [vue()],
+    plugins: [
+        vue(),
+        visualizer({
+            open: true,
+        }),
+    ],
     resolve: {
         extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
         alias: {

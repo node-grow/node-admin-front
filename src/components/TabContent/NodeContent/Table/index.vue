@@ -110,14 +110,14 @@ export default {
     const expanded_keys = ref()
     let tableContainer = <Ref<Element>>ref()
 
-    const scrollY = <Ref<number | null>>ref(null)
+    const scrollY = ref<number>(null)
 
     const scroll = (e: any) => {
       console.log(e)
     }
 
 
-    const filter_query = <Ref<object>>ref(props.option.filters_data || {})
+    const filter_query = <Ref<{ [key: string]: any }>>ref(props.option.filters_data || {})
 
     const selected_rows = <Ref<any[]>>ref([])
 
@@ -125,7 +125,7 @@ export default {
     provide('getSelectedRows', () => selected_rows.value)
     provide('getDataKey', () => props.option.data_key)
 
-    const columns = <ColumnType[]>props.option?.columns.map((column: ColumnType) => {
+    const columns = props.option?.columns.map((column: ColumnType) => {
       if (column.type === 'selection') {
         row_selection.value = <TableRowSelection>{
           checkStrictly: true,
@@ -145,7 +145,7 @@ export default {
       }
     }).filter((item: any) => item)
     const data_list = ref()
-    const pagination = <Ref<PaginationProps>>ref(false)
+    const pagination = ref<PaginationProps>({})
     const filters = ref([])
     const loading = ref(false)
     const page = <Ref<Number | null>>ref(null)
@@ -181,6 +181,10 @@ export default {
             current: res.data.pagination.current,
             total: res.data.pagination.total,
             showSizeChanger: false,
+            showTotal: (total, range) => {
+              return `当前显示 ${range[0]} - ${range[1]} 条数据 / 共 ${total} 条数据`
+            },
+            showQuickJumper: true,
             onChange(current: number) {
               pagination.value.current = current
               page.value = current

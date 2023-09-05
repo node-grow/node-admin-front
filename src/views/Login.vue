@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Space direction="vertical" :size="20" style="width: 60%;">
-      <TypographyTitle :level="2">{{system_config.system_name}} - 请登录</TypographyTitle>
+      <TypographyTitle :level="2">{{ system_config.system_name }} - 请登录</TypographyTitle>
       <Form
           :model="formState"
           name="basic"
@@ -17,7 +17,7 @@
             name="username"
             :rules="[{ required: true, message: '请输入用户名' }]"
         >
-          <Input v-model:value="formState.username" />
+          <Input v-model:value="formState.username"/>
         </FormItem>
 
         <FormItem
@@ -25,7 +25,7 @@
             name="password"
             :rules="[{ required: true, message: '请输入密码' }]"
         >
-          <InputPassword v-model:value="formState.password" />
+          <InputPassword v-model:value="formState.password"/>
         </FormItem>
 
         <FormItem
@@ -51,7 +51,7 @@
         </FormItem>
 
         <FormItem :wrapper-col="{ offset: 8, span: 16 }">
-          <Button type="primary" html-type="submit">提交</Button>
+          <Button :loading="loading" type="primary" html-type="submit">提交</Button>
         </FormItem>
       </Form>
     </Space>
@@ -65,16 +65,17 @@ import useStore from "@/store"
 import $router from '@/router'
 import {ReloadOutlined} from '@ant-design/icons-vue'
 import {Button, Form, Input, Space, Spin, Typography} from "ant-design-vue"
+import {getCurrentInfo} from "@/utils/api/user";
 
-const FormItem= Form.Item
-const InputPassword=Input.Password
+const FormItem = Form.Item
+const InputPassword = Input.Password
 const TypographyTitle = Typography.Title
 
 const store = useStore()
 
-store.setAuthToken('')
+store.auth_token = ''
 const system_config = computed(() => store.system_config)
-const validate_spining=ref(false)
+const validate_spining = ref(false)
 
 const formState = ref<PostUserRequest>({
   username: '',
@@ -85,19 +86,20 @@ const formState = ref<PostUserRequest>({
 
 const need_validate = ref(true)
 const validate_res = ref({})
+const loading = ref(false)
 
-const getValidate=()=>{
-  validate_spining.value=true
-  getValidateCode().then(res=>{
-    validate_res.value=res
-    formState.value.captcha_key=res.data.key
-  }).finally(()=>{
-    validate_spining.value=false
+const getValidate = () => {
+  validate_spining.value = true
+  getValidateCode().then(res => {
+    validate_res.value = res
+    formState.value.captcha_key = res.data.key
+  }).finally(() => {
+    validate_spining.value = false
   })
 }
 
-watch(need_validate,val=>{
-  if (val){
+watch(need_validate, val => {
+  if (val) {
     getValidate()
   }
 })
@@ -105,15 +107,24 @@ watch(need_validate,val=>{
 getValidate()
 
 const onFinish = async (values: any) => {
+  if (loading.value) {
+    return
+  }
+  loading.value = true
   let res = null
   try {
     res = await postUser(formState.value)
-    store.setAuthToken(res.data.token)
-    $router.replace('/')
-  }catch (e:any){
+    store.auth_token = res.data.token
+
+    const infoRes = await getCurrentInfo()
+    store.user_info = infoRes.data
+
+    await $router.replace('/')
+  } catch (e: any) {
     // need_validate=e.toJSON().data.need_validate
     getValidate()
   }
+  loading.value = false
 }
 
 const onFinishFailed = (errorInfo: any) => {
@@ -122,7 +133,7 @@ const onFinishFailed = (errorInfo: any) => {
 </script>
 
 <style lang="less">
-.container{
+.container {
   width: 100vw;
   height: 100vh;
   text-align: center;
@@ -130,36 +141,42 @@ const onFinishFailed = (errorInfo: any) => {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  .login-form{
+
+  .login-form {
     width: 80%;
 
-    .validate-img{
+    .validate-img {
       display: flex;
       width: 150px;
       position: relative;
       opacity: 1;
       transition: opacity .3s;
-      img{
+
+      img {
         flex: 1;
         width: 100%;
       }
-      .icon-reload{
+
+      .icon-reload {
         position: absolute;
         width: 30px;
         height: 30px;
         top: 50%;
         left: 50%;
-        transform: translate(-50%,-50%);
-        svg{
+        transform: translate(-50%, -50%);
+
+        svg {
           opacity: 0;
           transition: all .3s;
           transform: rotate(0deg);
         }
       }
-      &:hover{
+
+      &:hover {
         opacity: .5;
-        .icon-reload{
-          svg{
+
+        .icon-reload {
+          svg {
             opacity: 1;
             transform: rotate(90deg);
           }

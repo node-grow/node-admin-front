@@ -30,8 +30,6 @@
             v-if="userinfo"
             theme="dark"
             mode="horizontal"
-            key="99"
-            :selected-keys="[0]"
         >
           <SubMenu>
             <template #title>
@@ -47,8 +45,10 @@
       <LayoutSider width="200" style="background: #fff;height: 100%;overflow-y:auto;overflow-x:hidden;"
                    :collapsed="store.sider_menu_collapsed">
         <Menu
-            v-model:selectedKeys="selected_sider_keys"
-            v-model:openKeys="open_sider_keys"
+            :selectedKeys="selected_sider_keys"
+            @select="onSelectSiderMenu"
+            :openKeys="open_sider_keys"
+            @openChange="onSiderOpen"
             mode="inline"
             :collapsed="collapsed"
             :style="{ height: '100%', borderRight: 0 }"
@@ -89,7 +89,7 @@
 <script setup lang="ts">
 import {computed, onMounted, provide, ref} from 'vue'
 import useStore from "@/store"
-import {getCurrentInfo, getCurrentMenu, getCurrentModule} from "@/utils/api/user"
+import {getCurrentMenu, getCurrentModule} from "@/utils/api/user"
 import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons-vue'
 import SiderMenu from "./SiderMenu.vue"
 import AdminTab from "./AdminTabs.vue"
@@ -107,16 +107,13 @@ const userinfo = computed(() => store.user_info);
 
 const store = useStore()
 const reloadLayout = async () => {
-  const infoRes = await getCurrentInfo()
-  store.setUserInfo(infoRes.data)
-
   const moduleRes = await getCurrentModule()
-  store.setNavModule(moduleRes.data)
+  store.nav_module = moduleRes.data
 
   if (modules.value.length > 0) {
     store.top_nav_selected_key = modules.value[0].name
     const menuRes = await getCurrentMenu(modules.value[0].name)
-    store.setSiderMenu(menuRes.data)
+    store.sider_menu = menuRes.data
   }
 }
 
@@ -126,27 +123,37 @@ onMounted(async () => {
   await reloadLayout()
 })
 
-const selected_sider_keys = ref([])
 const collapsed = ref(false)
-const open_sider_keys = ref([0])
 
 const system_name = computed(() => store.system_config.system_name)
 const sider_menu = computed(() => store.sider_menu)
 const modules = computed(() => store.nav_module)
 const top_selected_key = computed(() => [store.top_nav_selected_key])
+const selected_sider_keys = computed(() => store.selected_sider_keys)
+const open_sider_keys = computed(() => store.open_sider_keys)
+
+const onSelectSiderMenu = ({selectedKeys}: { selectedKeys: string[] }) => {
+  store.selected_sider_keys = selectedKeys
+}
+
+const onSiderOpen = (keys: any) => {
+  store.open_sider_keys = keys
+}
 
 function logout() {
-  deleteUser().then(res => {
+  deleteUser().then(async res => {
     store.setAdminTabs(store.system_config.default_tabs)
-    store.setDocumentTitle(store.system_config.system_name)
-    router.replace('/login')
+    store.document_title = store.system_config.system_name
+    store.$reset()
+    await store.initConfig()
+    await router.replace('/login')
   })
 }
 
 const onClickTopNav = async (m: { name: string }) => {
   store.top_nav_selected_key = m.name
   const menuRes = await getCurrentMenu(m.name)
-  store.setSiderMenu(menuRes.data)
+  store.sider_menu = menuRes.data
 }
 </script>
 <style scoped lang="less">

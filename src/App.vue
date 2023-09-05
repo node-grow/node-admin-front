@@ -1,26 +1,16 @@
 <template>
-  <!--  <nav>-->
-  <!--    <router-link to="/">Home</router-link> |-->
-  <!--    <router-link to="/about">About</router-link>-->
-  <!--  </nav>-->
-  <!--  <a-button @click="addCount">点击{{count}}</a-button>-->
-  <!--  <a-button @click="testNoAuth">测试未登录授权</a-button>-->
-  <!--  <span>-->
-  <!--    <icon-font type="icon-font-jilu20190917"></icon-font>-->
-  <!--  </span>-->
-  <!--  <a-button @click="testAddTab">增加tab</a-button>-->
-  <!--  <a-button @click="testOpenModal">打开模态框</a-button>-->
   <ConfigProvider :locale="zhCN">
-    <Spin :spinning="loading" :delay="500">
-      <router-view/>
-    </Spin>
+    <App>
+      <Spin :spinning="loading" :delay="500">
+        <router-view/>
+      </Spin>
+    </App>
   </ConfigProvider>
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted,} from "vue"
-import {getSystemConfig} from "@/utils/api/common"
-import {ConfigProvider, Spin} from "ant-design-vue"
+import {computed, onMounted, watch,} from "vue"
+import {App, ConfigProvider, Spin} from "ant-design-vue"
 
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
 import dayjs from 'dayjs';
@@ -33,23 +23,17 @@ initStorePersistence(store)
 
 dayjs.locale('zh-cn');
 
-let count = computed(() => store.count)
 onMounted(async () => {
-  try {
-    const res = await getSystemConfig()
-
-    store.setSystemConfig(res.data)
-    if (!store.admin_tabs.length) {
-      store.setAdminTabs(res.data.default_tabs)
-    }
-  } catch (e) {
-
-  }
+  await store.initConfig()
 })
 
 if (store.document_title) {
   document.title = store.document_title
 }
+
+watch(() => store.document_title, () => {
+  document.title = store.document_title
+})
 
 const loading = computed(() => store.global_loading)
 </script>

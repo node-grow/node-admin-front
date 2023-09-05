@@ -1,5 +1,6 @@
 import {defineStore} from 'pinia'
 import {guid} from "@/utils/helpers";
+import {getSystemConfig} from "@/utils/api/common";
 
 export declare interface AdminTabOption {
     title: String,
@@ -22,46 +23,25 @@ const useStore = defineStore('index', {
                 default_tabs: [],
             },
             global_loading: false,
-            user_info: {
-                username: '',
-            },
+            user_info: null as any,
+            document_title: '',
+
             sider_menu: [],
             sider_menu_collapsed: false,
             nav_module: [],
             top_nav_selected_key: '',
+            selected_sider_keys: [] as string[],
+            open_sider_keys: [0],
             admin_tab_index: '',
             admin_tabs: <AdminTabOption[]><any[]>[],
-            document_title: '',
         }
     },
     actions: {
-        addCount() {
-            this.$state.count++
-        },
-        setAuthToken(val: string) {
-            this.$state.auth_token = val
-        },
         setSystemConfig(val: any) {
             this.$state.system_config = val
             if (!this.$state.document_title) {
-                document.title = this.$state.system_config.system_name
-                this.$state.document_title = document.title
+                this.$state.document_title = this.$state.system_config.system_name
             }
-        },
-        setGlobalLoading(val: boolean) {
-            this.$state.global_loading = val
-        },
-        setDocumentTitle(val: string) {
-            this.$state.document_title = val
-        },
-        setUserInfo(val: any) {
-            this.$state.user_info = val
-        },
-        setSiderMenu(val: any) {
-            this.$state.sider_menu = val
-        },
-        setNavModule(val: any) {
-            this.$state.nav_module = val
         },
         pushAdminTab(val: any) {
             for (let index = 0; index < this.$state.admin_tabs.length; index++) {
@@ -80,8 +60,7 @@ const useStore = defineStore('index', {
             this.$state.admin_tab_index = val
             this.$state.admin_tabs.map(item => {
                 if (item.key === val) {
-                    document.title = item.title + '-' + this.$state.system_config.system_name
-                    this.$state.document_title = document.title
+                    this.$state.document_title = item.title + '-' + this.$state.system_config.system_name
                 }
             })
         },
@@ -97,6 +76,19 @@ const useStore = defineStore('index', {
             })
             if (!this.$state.admin_tab_index) {
                 this.$state.admin_tab_index = <string>this.$state?.admin_tabs[0]?.key
+            }
+        },
+
+        async initConfig() {
+            try {
+                const res = await getSystemConfig()
+
+                this.setSystemConfig(res.data)
+                if (!this.$state.admin_tabs.length) {
+                    this.setAdminTabs(res.data.default_tabs)
+                }
+            } catch (e) {
+
             }
         }
     },

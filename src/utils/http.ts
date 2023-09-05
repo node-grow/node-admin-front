@@ -24,7 +24,7 @@ myAxios.show_error_message = true
 myAxios.interceptors.request.use(async (config) => {
     const store = useStore()
     if (myAxios.loading) {
-        store.setGlobalLoading(true)
+        store.global_loading = true
     }
     myAxios.loading = true
 
@@ -34,14 +34,14 @@ myAxios.interceptors.request.use(async (config) => {
     return config
 }, error => {
     const store = useStore()
-    store.setGlobalLoading(false)
+    store.global_loading = false
 
     return Promise.reject(error)
 })
 
 myAxios.interceptors.response.use(response => {
     const store = useStore()
-    store.setGlobalLoading(false)
+    store.global_loading = false
 
     if (/(json|JSON)/.test(response.headers['content-type'])) {
         const res = response.data
@@ -58,7 +58,7 @@ myAxios.interceptors.response.use(response => {
     return response
 }, (error: AxiosError) => {
     const store = useStore()
-    store.setGlobalLoading(false)
+    store.global_loading = false
 
     if (error.response?.status === 401) {
         notification.error({

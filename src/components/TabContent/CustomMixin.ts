@@ -2,12 +2,6 @@ import {getCurrentInstance, onMounted, onUnmounted} from "vue"
 import {externalComponent} from "@/utils/helpers";
 import http from "@/utils/http";
 
-declare global{
-    interface Window {
-        async_component: any,
-    }
-}
-
 export default {
     setup(props:any){
         const ins = getCurrentInstance()
@@ -22,6 +16,7 @@ export default {
                 // @ts-ignore
                 vm = vmFunc.default({
                     ...props,
+                    http,
                     instance: ins,
                 })
                 vm.mount('#' + props.uuid)
