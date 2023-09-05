@@ -11,10 +11,10 @@
 <script lang="ts">
 import _ from "lodash";
 import {defineAsyncComponent, getCurrentInstance, inject, ref} from "vue";
-import {TableActionOption} from "@/components/TabContent/NodeContent/Table";
 import {OperationType} from "@/components/TabContent/NodeContent/Operation";
 import {Badge, Spin} from "ant-design-vue";
 import {importDynamicComponent} from "@/utils/helpers";
+import useStore from "@/store";
 
 export default {
   name: "Action",
@@ -23,7 +23,7 @@ export default {
     Spin,
   },
   props: {
-    option: <TableActionOption><any>Object,
+    option: Object as any,
   },
   setup(props: any) {
     const loading = ref(false)
@@ -34,7 +34,6 @@ export default {
     )
     const operation = <OperationType>inject('operation')
     const reloadData = <Function>inject('reloadData')
-    const reloadLayout = <Function>inject('reloadLayout')
     const getModal = <Function>inject('getModal')
 
     const appContext = getCurrentInstance()?.appContext
@@ -67,8 +66,8 @@ export default {
               if (reloadData) {
                 reloadData()
               }
-              if (reloadLayout && props.option.operation.reload_layout) {
-                reloadLayout()
+              if (props.option.operation.reload_layout) {
+                useStore().reloadLayout()
               }
             },
             onClose() {

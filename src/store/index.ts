@@ -1,6 +1,7 @@
 import {defineStore} from 'pinia'
 import {guid} from "@/utils/helpers";
 import {getSystemConfig} from "@/utils/api/common";
+import {getCurrentMenu, getCurrentModule} from "@/utils/api/user";
 
 export declare interface AdminTabOption {
     title: String,
@@ -26,9 +27,9 @@ const useStore = defineStore('index', {
             user_info: null as any,
             document_title: '',
 
-            sider_menu: [],
+            sider_menu: [] as any[],
             sider_menu_collapsed: false,
-            nav_module: [],
+            nav_module: [] as any[],
             top_nav_selected_key: '',
             selected_sider_keys: [] as string[],
             open_sider_keys: [0],
@@ -37,6 +38,19 @@ const useStore = defineStore('index', {
         }
     },
     actions: {
+        async reloadLayout() {
+            const moduleRes = await getCurrentModule()
+            this.$state.nav_module = moduleRes.data
+
+            if (this.$state.nav_module.length > 0) {
+                if (!this.$state.top_nav_selected_key) {
+                    this.$state.top_nav_selected_key = this.$state.nav_module[0].name
+                }
+                const menuRes = await getCurrentMenu(this.$state.top_nav_selected_key)
+                this.$state.sider_menu = menuRes.data
+            }
+        },
+
         setSystemConfig(val: any) {
             this.$state.system_config = val
             if (!this.$state.document_title) {

@@ -19,6 +19,7 @@ import Operation, {RequestOption} from "@/components/TabContent/NodeContent/Oper
 import {ConditionOption, handleCondition} from "@/components/TabContent/NodeContent/Condition";
 import {Spin} from "ant-design-vue";
 import {importDynamicComponent} from "@/utils/helpers";
+import useStore from "@/store";
 
 export default {
   name: "Action",
@@ -45,8 +46,6 @@ export default {
 
     const appContext = getCurrentInstance()?.appContext
     const reloadData = <Function|null>inject('reloadData');
-    const reloadLayout = <Function | null>inject('reloadLayout', () => {
-    });
     return {
       loading,
       componentIs: component,
@@ -71,8 +70,8 @@ export default {
                 reloadData()
               }
 
-              if (reloadLayout && props.option.operation.reload_layout) {
-                reloadLayout()
+              if (props.option.operation.reload_layout) {
+                useStore().reloadLayout()
               }
             },
             onClose(){

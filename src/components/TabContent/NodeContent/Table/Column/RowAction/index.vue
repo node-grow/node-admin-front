@@ -19,6 +19,7 @@ import {ConditionOption, handleCondition} from "@/components/TabContent/NodeCont
 import {Badge, Spin} from "ant-design-vue";
 import {cloneDeep} from "lodash-es";
 import {importDynamicComponent} from "@/utils/helpers";
+import useStore from "@/store";
 
 export default {
   name: "RowAction",
@@ -38,7 +39,6 @@ export default {
     const appContext = getCurrentInstance()?.appContext
 
     const reloadData=<Function>inject('reloadData')
-    const reloadLayout = <Function>inject('reloadLayout')
 
     const loading =ref(false)
 
@@ -71,8 +71,8 @@ export default {
                 reloadData()
               }
 
-              if (reloadLayout && props.option.operation.reload_layout) {
-                reloadLayout()
+              if (props.option.operation.reload_layout) {
+                useStore().reloadLayout()
               }
             }
           })

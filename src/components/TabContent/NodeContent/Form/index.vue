@@ -44,6 +44,7 @@ import {FormInstance} from "ant-design-vue/lib/form";
 import {Button, Form, notification} from "ant-design-vue";
 import scrollIntoView from 'scroll-into-view-if-needed';
 import {ConditionOption, handleCondition} from "@/components/TabContent/NodeContent/Condition";
+import useStore from "@/store";
 
 export default {
   name: "ContentForm",
@@ -71,7 +72,6 @@ export default {
 
     const getModal = <Function>inject('getModal')
     const reloadData = <Function>inject('reloadData')
-
     const form = <Ref<FormInstance>>ref()
 
     const appContext = getCurrentInstance()?.appContext
@@ -111,13 +111,14 @@ export default {
         onSuccess(res: any) {
           rules.value = {}
 
-          if (getModal) {
-            getModal().destroy()
-            return
-          }
           if (reloadData) {
             reloadData()
-            return
+          }
+          if (operation.reload_layout) {
+            useStore().reloadLayout()
+          }
+          if (getModal) {
+            getModal().destroy()
           }
         },
         onError(e: AxiosError) {

@@ -87,9 +87,9 @@
   </Layout>
 </template>
 <script setup lang="ts">
-import {computed, onMounted, provide, ref} from 'vue'
+import {computed, onMounted, ref} from 'vue'
 import useStore from "@/store"
-import {getCurrentMenu, getCurrentModule} from "@/utils/api/user"
+import {getCurrentMenu} from "@/utils/api/user"
 import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons-vue'
 import SiderMenu from "./SiderMenu.vue"
 import AdminTab from "./AdminTabs.vue"
@@ -107,17 +107,8 @@ const userinfo = computed(() => store.user_info);
 
 const store = useStore()
 const reloadLayout = async () => {
-  const moduleRes = await getCurrentModule()
-  store.nav_module = moduleRes.data
-
-  if (modules.value.length > 0) {
-    store.top_nav_selected_key = modules.value[0].name
-    const menuRes = await getCurrentMenu(modules.value[0].name)
-    store.sider_menu = menuRes.data
-  }
+  await store.reloadLayout()
 }
-
-provide('reloadLayout', reloadLayout)
 
 onMounted(async () => {
   await reloadLayout()
@@ -132,7 +123,7 @@ const top_selected_key = computed(() => [store.top_nav_selected_key])
 const selected_sider_keys = computed(() => store.selected_sider_keys)
 const open_sider_keys = computed(() => store.open_sider_keys)
 
-const onSelectSiderMenu = ({selectedKeys}: { selectedKeys: string[] }) => {
+const onSelectSiderMenu = ({selectedKeys}: any) => {
   store.selected_sider_keys = selectedKeys
 }
 
