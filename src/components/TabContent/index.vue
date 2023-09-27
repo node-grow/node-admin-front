@@ -1,6 +1,6 @@
 <template>
   <div>
-    <component v-if="com" :is="componentIs" :nodePreload="nodePreloadRef" :option="option"></component>
+    <component v-if="com" :is="componentIs" :option="option"></component>
   </div>
 </template>
 
@@ -19,11 +19,9 @@ export default {
   props: {
     option: <AdminTabOption><any>Object,
     remove: Function,
-    nodePreload: Object,
   },
   setup(props:any) {
     const com = ref(true)
-    const nodePreloadRef = ref(props.nodePreload)
 
     if (props.remove) {
       provide('close', () => {
@@ -49,7 +47,6 @@ export default {
       }),
       reload,
       com,
-      nodePreloadRef,
     }
   },
 }

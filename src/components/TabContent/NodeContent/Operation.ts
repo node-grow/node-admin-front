@@ -5,49 +5,49 @@ import $http from "@/utils/http"
 import {ExclamationCircleOutlined} from "@ant-design/icons-vue"
 import ModalContainer from "@/components/TabContent/NodeContent/ModalContainer.vue"
 
-export function replaceUrl(url:string,replace?:any){
+export function replaceUrl(url: string, replace?: any) {
     let matches = url.match(/{\w+}/g) || url.match(/__\w+__/g)
-    if (!replace){
+    if (!replace) {
         return url
     }
-    if (matches){
-        matches.map((name:string)=>{
-            name=name.replace(/[{}]|__/g,'')
-            if (replace[name]===undefined){
+    if (matches) {
+        matches.map((name: string) => {
+            name = name.replace(/[{}]|__/g, '')
+            if (replace[name] === undefined) {
                 return
             }
-            url=url.replace(`{${name}}`,replace[name])
-            url=url.replace(`__${name}__`,replace[name])
+            url = url.replace(`{${name}}`, replace[name])
+            url = url.replace(`__${name}__`, replace[name])
         })
     }
     return url
 }
 
-export function replaceBody(body?:any,replace?:any){
-    if (!body){
+export function replaceBody(body?: any, replace?: any) {
+    if (!body) {
         return body
     }
-    if (!replace){
+    if (!replace) {
         return body
     }
 
-    switch (typeof body){
+    switch (typeof body) {
         case "object":
             for (const key in body) {
-                body[key]=replaceBody(body[key],replace)
+                body[key] = replaceBody(body[key], replace)
             }
             break
         case "string":
-            let matches=body.match(/^{(\w+)}$/)
-            if(!matches){
-                matches=body.match(/^__(\w+)__$/)
+            let matches = body.match(/^{(\w+)}$/)
+            if (!matches) {
+                matches = body.match(/^__(\w+)__$/)
             }
-            if (!matches){
+            if (!matches) {
                 break
             }
             const name = matches[1]
-            if (replace[name] !== undefined){
-                body=replace[name]
+            if (replace[name] !== undefined) {
+                body = replace[name]
             }
             break
     }
@@ -61,37 +61,39 @@ async function modal(option: any) {
         url: '',
         type: 'node_content',
         closable: true,
-        onClose(){
+        onClose() {
 
         },
         replace: {},
         body: {},
     }, option)
-    option.url= replaceUrl(option.url,option.replace)
+    option.url = replaceUrl(option.url, option.replace)
     const appContext = option.appContext || getCurrentInstance()?.appContext
 
-    let res:any={};
-    if (option.type==='node_content'){
-        res=await request({
+    let res: any = {};
+    if (option.type === 'node_content' && !option.node_data) {
+        res = await request({
             ...option,
-            onSuccess(){},
+            onSuccess() {
+            },
         })
+
+        option.node_data = res?.data
     }
 
     const modal = Modal.info({
         title: option.title,
         centered: true,
         appContext,
-        content(){
+        content() {
             return h(ModalContainer, {
                 option: option,
-                getModal(){
+                getModal() {
                     return modal
                 },
                 style: {
                     width: '100%',
                 },
-                nodePreload: res?.data
             })
         },
         style: {
@@ -104,7 +106,7 @@ async function modal(option: any) {
         closable: true,
         cancelText: false,
         class: 'tab-content-modal',
-        afterClose(){
+        afterClose() {
             option.onClose()
         }
     })
@@ -136,31 +138,33 @@ function add_tab(option: any) {
         replace: null
     }, option)
 
-    option.url=replaceUrl(option.url,option.replace)
+    option.url = replaceUrl(option.url, option.replace)
     store.pushAdminTab(option)
 }
 
-export declare interface RequestOption{
+export declare interface RequestOption {
     url: String,
     method: String,
-    body?: Object|any,
+    body?: Object | any,
     confirm?: boolean,
     onSuccess?: Function,
     onError?: Function,
     reload_menu?: boolean,
 }
 
-async function request(option: any){
+async function request(option: any) {
 
-    option = Object.assign({},<RequestOption>{
+    option = Object.assign({}, <RequestOption>{
         url: '',
         method: 'get',
         replace: null,
-        onSuccess(){},
-        onError(){},
-    },option)
+        onSuccess() {
+        },
+        onError() {
+        },
+    }, option)
 
-    if (option.confirm){
+    if (option.confirm) {
         const r = await new Promise(resolve => {
             Modal.confirm({
                 title: replaceUrl(option.confirm, option.replace) || '确定要操作吗？',
@@ -174,7 +178,7 @@ async function request(option: any){
                 },
             });
         })
-        if (!r){
+        if (!r) {
             return r;
         }
     }
@@ -189,7 +193,7 @@ async function request(option: any){
         })
         option.onSuccess(res)
         return res
-    }catch (err){
+    } catch (err) {
         option.onError(err)
         throw err
     }

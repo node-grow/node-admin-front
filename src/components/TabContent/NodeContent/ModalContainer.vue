@@ -1,6 +1,6 @@
 <template>
   <div style="max-height: 80vh;overflow:auto;position: relative;" ref="scroll_container">
-    <component :is="TabContent" :nodePreload="nodePreload" :option="option"></component>
+    <component :is="TabContent" :option="option"></component>
   </div>
 </template>
 
@@ -13,7 +13,6 @@ export default {
   props: {
     option: Object,
     getModal: Function,
-    nodePreload: Object,
   },
   setup(props:any){
     const scroll_container = ref(null)
@@ -29,6 +28,8 @@ export default {
     provide('close',()=>{
       props?.getModal()?.destroy()
     })
+
+    console.log(props.option)
 
     return {
       TabContent: defineAsyncComponent(() => importDynamicComponent('@/components/TabContent/index.vue')),

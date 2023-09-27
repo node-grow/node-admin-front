@@ -4,7 +4,7 @@
       <TabPane v-for="tab in tabs"
                :key="tab.name"
                :tab="tab.title">
-        <NodeContent :option="{url: tab.url,method: tab.method}"></NodeContent>
+        <NodeContent :option="tab"></NodeContent>
       </TabPane>
     </Tabs>
   </div>

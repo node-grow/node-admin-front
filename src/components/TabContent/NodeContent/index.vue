@@ -1,80 +1,62 @@
 <template>
-  <div v-if="option" style="padding: 20px">
+  <div v-if="childOption" style="padding: 20px">
     <Spin :spinning="loading">
-      <component :is="componentIs" :option="option.option"></component>
+      <component :is="componentIs" :option="childOption.option"></component>
     </Spin>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 
 import Operation from "@/components/TabContent/NodeContent/Operation";
 import {computed, defineAsyncComponent, inject, provide, ref} from "vue"
 import {Spin} from "ant-design-vue";
 import {importDynamicComponent} from "@/utils/helpers";
+import _ from "lodash";
 
-export default {
-  name: "NodeContent",
-  components: {
-    Spin,
-  },
-  props: {
-    option: Object,
-    nodePreload: Object,
-  },
-  setup(props:any){
-    const childOption = <any>ref(null)
-    const loading= ref(false)
-    const close=<Function|null>inject('close')
-    try{
-      childOption.value=props.nodePreload
-      if (!childOption.value) {
-        loading.value=true
-        Operation.request({
-          ...props.option,
-          onSuccess(){},
-        }).then((res:any) => {
-          childOption.value = res.data
-        }).catch((e:any) => {
-          if (close) {
-            close()
-          }
-        }).finally(() => {
-          loading.value = false
-        })
-      }else{
+const props = defineProps<{
+  option: any,
+}>()
 
-      }
-    }catch (e){
-
+const childOption = <any>ref(null)
+const loading = ref(false)
+const close = <Function | null>inject('close')
+if (!props.option?.node_data) {
+  loading.value = true
+  Operation.request({
+    ...props.option,
+    onSuccess() {
+    },
+  }).then((res: any) => {
+    childOption.value = res.data
+  }).catch((e: any) => {
+    if (close) {
+      close()
     }
-    provide('reloadData',()=>{
-      Operation.request({
-        ...props.option,
-        onSuccess(){},
-      }).then((res:any)=>{
-        childOption.value=res.data
-      })
-    })
-
-    return {
-      loading,
-      option: childOption,
-      componentIs: computed(()=>{
-        switch (childOption.value?.type){
-          case 'table':
-            return defineAsyncComponent(() => importDynamicComponent('@/components/TabContent/NodeContent/Table/index.vue'))
-          case 'form':
-            return defineAsyncComponent(() => importDynamicComponent('@/components/TabContent/NodeContent/Form/index.vue'))
-          case 'tab':
-            return defineAsyncComponent(() => importDynamicComponent('@/components/TabContent/NodeContent/Tab/index.vue'))
-          case 'custom':
-            return defineAsyncComponent(() => importDynamicComponent('@/components/TabContent/NodeContent/Custom.vue'))
-        }
-      })
-    }
-  },
+  }).finally(() => {
+    loading.value = false
+  })
+} else {
+  childOption.value = props.option.node_data
 }
+provide('reloadData', () => {
+  if (!props.option.url) {
+    return
+  }
+  Operation.request({
+    ...props.option,
+    onSuccess() {
+    },
+  }).then((res: any) => {
+    childOption.value = res.data
+  })
+})
+
+const componentIs = computed(() => {
+  const componentName = _.upperFirst(_.camelCase(childOption.value?.type))
+  return defineAsyncComponent(() => importDynamicComponent(`@/components/TabContent/NodeContent/${componentName}/index.vue`))
+})
+
 </script>
 
 <style lang="less" scoped>

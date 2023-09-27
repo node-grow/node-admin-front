@@ -14,12 +14,13 @@
 
 增加Tab页
 
-| 字段       | 必须 | 标题     | 类型      | 默认值  | 说明                        |
-|----------|----|--------|---------|------|---------------------------|
-| url      | 是  | 渲染配置地址 | String  | 无    |                           |
-| title    | 是  | tab页标题 | String  | 无    |                           |
-| type     | 是  | 类型     | String  | 无    | [node_content，inner_path] |
-| closable | 是  | 是否可关闭  | Boolean | true |                           |
+| 字段        | 必须 | 标题     | 类型      | 默认值  | 说明                         |
+|-----------|----|--------|---------|------|----------------------------|
+| url       | 否  | 渲染配置地址 | String  | 无    | 当node_data为空时必填            |
+| title     | 是  | tab页标题 | String  | 无    |                            |
+| type      | 是  | 类型     | String  | 无    | [node_content，inner_path]  |
+| closable  | 是  | 是否可关闭  | Boolean | true |                            |
+| node_data | 否  | 渲染内容   | Object  | 无    | type为node_content有效，与url互斥 |
 
 ---
 
@@ -27,11 +28,12 @@
 
 弹窗
 
-| 字段    | 必须 | 标题     | 类型     | 默认值 | 说明                        |
-|-------|----|--------|--------|-----|---------------------------|
-| url   | 是  | 渲染配置地址 | String | 无   |                           |
-| title | 是  | tab页标题 | String | 无   |                           |
-| type  | 是  | 类型     | String | 无   | [node_content，inner_path] |
+| 字段        | 必须 | 标题     | 类型     | 默认值 | 说明                         |
+|-----------|----|--------|--------|-----|----------------------------|
+| url       | 否  | 渲染配置地址 | String | 无   | 当node_data为空时必填            |
+| title     | 是  | tab页标题 | String | 无   |                            |
+| type      | 是  | 类型     | String | 无   | [node_content，inner_path]  |
+| node_data | 否  | 渲染内容   | Object | 无   | type为node_content有效，与url互斥 |
 
 ---
 
