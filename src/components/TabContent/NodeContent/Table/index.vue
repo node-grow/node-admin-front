@@ -1,10 +1,9 @@
 <template>
-  <div style="display:flex;flex-direction: column;">
-    <div class="top-container"
-         style="display:flex;flex-direction: column; justify-content: space-between;margin-bottom: 10px;">
+  <div class="container-box">
+    <div class="top-container">
       <Row tyep="flex" justify="space-between">
         <Col flex="0 1 20%" :wrap="true">
-          <div class="actions" v-if="option?.actions?.length" style="display:flex;flex-wrap: wrap;margin-bottom: 10px;">
+          <div class="actions" v-if="option?.actions?.length">
             <Action v-for="a_option in option.actions" :option="a_option"></Action>
           </div>
         </Col>
@@ -12,35 +11,35 @@
           <Row justify="end">
             <Col>
               <Form
-                v-if="option?.filters?.length"
-                layout="inline"
-                autocomplete="off"
-                style="width: 100%;"
-                :labelWrap="true"
-            >
-              <Row type="flex">
-                <Col flex="1">
-                  <Row wrap justify="end">
-                    <Tooltip v-for="(f_option,key) in option.filters">
-                      <template #title>{{ f_option.title }}</template>
-                      <FormItem
-                          :key="key"
-                          style="margin-bottom: 10px;">
-                        <Filter :option="f_option" v-model:value="filter_query[f_option.name]"></Filter>
-                      </FormItem>
-                    </Tooltip>
-                  </Row>
-                </Col>
-                <FormItem :wrapper-col="{ flex: 'auto' }">
-                  <Button type="primary" @click="filter">
-                    <SearchOutlined></SearchOutlined>
-                  </Button>
-                </FormItem>
-                <Col>
-                </Col>
-              </Row>
+                  v-if="option?.filters?.length"
+                  layout="inline"
+                  autocomplete="off"
+                  style="width: 100%;"
+                  :labelWrap="true"
+              >
+                <Row type="flex">
+                  <Col flex="1">
+                    <Row wrap justify="end">
+                      <Tooltip v-for="(f_option,key) in option.filters">
+                        <template #title>{{ f_option.title }}</template>
+                        <FormItem
+                            :key="key"
+                            style="margin-bottom: 10px;">
+                          <Filter :option="f_option" v-model:value="filter_query[f_option.name]"></Filter>
+                        </FormItem>
+                      </Tooltip>
+                    </Row>
+                  </Col>
+                  <FormItem :wrapper-col="{ flex: 'auto' }">
+                    <Button type="primary" @click="filter">
+                      <SearchOutlined></SearchOutlined>
+                    </Button>
+                  </FormItem>
+                  <Col>
+                  </Col>
+                </Row>
 
-            </Form>
+              </Form>
             </Col>
           </Row>
 
@@ -75,7 +74,7 @@ import Action from '@/components/TabContent/NodeContent/Table/Action/index.vue'
 import {ColumnType} from "@/components/TabContent/NodeContent/Table/index";
 import {getDataList} from "@/utils/api/node";
 import {TableRowSelection} from "ant-design-vue/es/table/interface";
-import {Button, Col, Form, PaginationProps, Row, Table, Tooltip} from "ant-design-vue";
+import {Button, Col, Form, FormItem, PaginationProps, Row, Table, Tooltip} from "ant-design-vue";
 import {addQuery, guid} from "@/utils/helpers";
 import Column from "@/components/TabContent/NodeContent/Table/Column/index.vue"
 import Filter from "@/components/TabContent/NodeContent/Table/Filter/index.vue";
@@ -87,7 +86,7 @@ export default {
   components: {
     Table,
     Form,
-    FormItem: Form.Item,
+    FormItem,
     Button,
     Row,
     Col,
@@ -110,12 +109,11 @@ export default {
     const expanded_keys = ref()
     let tableContainer = <Ref<Element>>ref()
 
-    const scrollY = ref<number>(null)
+    const scrollY = ref<number | null>(null)
 
     const scroll = (e: any) => {
       console.log(e)
     }
-
 
     const filter_query = <Ref<{ [key: string]: any }>>ref(props.option.filters_data || {})
 
@@ -225,7 +223,7 @@ export default {
       })
     })
 
-    const filter = ()=>{
+    const filter = () => {
       loadData(addQuery(props.option.data_url, filter_query.value), true)
     }
 
@@ -244,18 +242,32 @@ export default {
       scrollY,
       scroll,
       filter,
-      closeModal() {
-        if (getModal) {
-          getModal().destroy()
-        }
-      }
     }
   },
 }
 </script>
 
 <style lang="less" scoped>
-.table-container{
-  box-shadow: 0 0 1px #ccc;
+
+.container-box {
+  display: flex;
+  flex-direction: column;
+
+  .top-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+  }
+
+  .table-container {
+    box-shadow: 0 0 1px #ccc;
+  }
 }
 </style>
