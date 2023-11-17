@@ -208,10 +208,10 @@
   resolved "https://registry.yarnpkg.com/@types/event-emitter/-/event-emitter-0.3.3.tgz#727032a9fc67565f96bbd78b2e2809275c97d7e7"
   integrity sha512-UfnOK1pIxO7P+EgPRZXD9jMpimd8QEFcEZ5R67R1UhGbv4zghU5+NE7U8M8G9H5Jc8FI51rqDWQs6FtUfq2e/Q==
 
-"@types/lodash-es@^4.17.9":
-  version "4.17.9"
-  resolved "https://registry.yarnpkg.com/@types/lodash-es/-/lodash-es-4.17.9.tgz#49dbe5112e23c54f2b387d860b7d03028ce170c2"
-  integrity sha512-ZTcmhiI3NNU7dEvWLZJkzG6ao49zOIjEgIE0RgV7wbPxU0f2xT3VSAHw2gmst8swH6V0YkLRGp4qPlX/6I90MQ==
+"@types/lodash-es@^4.17.11":
+  version "4.17.11"
+  resolved "https://registry.yarnpkg.com/@types/lodash-es/-/lodash-es-4.17.11.tgz#6ff7878f90371256a6fed0b7b4707d5d940d945b"
+  integrity sha512-eCw8FYAWHt2DDl77s+AMLLzPn310LKohruumpucZI4oOFJkIgnlaJcy23OKMJxx4r9PeTF13Gv6w+jqjWQaYUg==
   dependencies:
     "@types/lodash" "*"
 
