@@ -28,7 +28,7 @@
     "@types/lodash-es": "^4.17.12",
     "@vitejs/plugin-vue": "^4.5.0",
     "less": "^4.2.0",
-    "rollup-plugin-visualizer": "^5.9.3",
+    "rollup-plugin-visualizer": "^5.10.0",
     "typescript": "^5.2.2",
     "vite": "^4.5.0"
   }
