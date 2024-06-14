@@ -7,30 +7,25 @@
       @update:value="v=>$emit('update:value',v)"></component>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import _ from "lodash";
-import {defineAsyncComponent} from "vue";
+import {defineAsyncComponent, provide} from "vue";
 import {importDynamicComponent} from "@/utils/helpers";
 
-export default {
-  name: "Item",
-  props: {
-    option: Object,
-    value: [Object,String,Number,Array,Boolean],
-    formData: Object,
-  },
-  setup(props:any){
+const props = defineProps<{
+  option: any,
+  value: any,
+  formData: any,
+}>()
 
-    const c =_.upperFirst(_.camelCase(props.option.type));
-    const component=defineAsyncComponent(()=>
-        importDynamicComponent('@/components/TabContent/NodeContent/Form/Item/' + c + '.vue')
-    )
-    return {
-      componentIs: component,
+const c = _.upperFirst(_.camelCase(props.option.type));
+const componentIs = defineAsyncComponent(() =>
+    importDynamicComponent('@/components/TabContent/NodeContent/Form/Item/' + c + '.vue')
+)
 
-    }
-  }
-}
+provide('getFormItemName', () => {
+  return props.option.name
+})
 </script>
 
 <style scoped>

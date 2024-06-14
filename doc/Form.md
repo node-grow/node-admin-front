@@ -105,13 +105,15 @@
 
 下拉选择
 
-| 字段          |       | 必须 | 标题    | 类型              | 默认值   | 说明        |
-|-------------|-------|----|-------|-----------------|-------|-----------|
-| searchable  |       | 是  | 是否可搜索 | Boolean         | false |           |
-| placeholder |       | 是  | 占位符   | String          | 无     |           |
-| options     |       | 是  | 占位符   | Array<Option[]> | 无     |           |
-|             | label | 是  | 展示名称  | String          | 无     | Options字段 |
-|             | value | 是  | 选项值   | String          | 无     | Options字段 |
+| 字段           | 必须 | 标题    | 类型              | 默认值      | 说明                                    |
+|--------------|----|-------|-----------------|----------|---------------------------------------|
+| searchable   | 是  | 是否可搜索 | Boolean         | false    |                                       |
+| placeholder  | 是  | 占位符   | String          | 无        |                                       |
+| options      | 是  | 占位符   | Array<Option[]> | 无        |                                       |
+| option.label | 是  | 展示名称  | String          | 无        | Options字段                             |
+| option.value | 是  | 选项值   | String          | 无        | Options字段                             |
+| search_url   | 否  | 搜索地址  | String          | 无        | 接口说明参照 [Search接口](./Helper.md#Search) |
+| mode         | 否  | 模式    | String          | combobox | 参考 ant-design-vue Select 模式配置         |
 
 ---
 
@@ -232,6 +234,12 @@ value值类型为上述字段的file_list
   }
 }
 ```
+
+##### table
+
+| 字段      | 必须 | 标题 | 类型                                               | 默认值 | 说明 |
+|---------|----|----|--------------------------------------------------|-----|----|
+| columns | 是  | 列  | Array<[TableColumn](./FormItem/Table.md#Column)> | 无   |    |
 
 ---
 

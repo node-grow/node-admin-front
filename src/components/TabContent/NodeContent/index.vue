@@ -9,7 +9,7 @@
 <script setup lang="ts">
 
 import Operation from "@/components/TabContent/NodeContent/Operation";
-import {computed, defineAsyncComponent, inject, provide, ref} from "vue"
+import {computed, defineAsyncComponent, inject, onMounted, provide, ref} from "vue"
 import {Spin} from "ant-design-vue";
 import {importDynamicComponent} from "@/utils/helpers";
 import _ from "lodash";
@@ -19,26 +19,39 @@ const props = defineProps<{
 }>()
 
 const childOption = <any>ref(null)
-const loading = ref(false)
+const loading = ref(true)
 const close = <Function | null>inject('close')
-if (!props.option?.node_data) {
+
+const loadData = () => {
   loading.value = true
-  Operation.request({
-    ...props.option,
-    onSuccess() {
-    },
-  }).then((res: any) => {
-    childOption.value = res.data
-  }).catch((e: any) => {
-    if (close) {
-      close()
-    }
-  }).finally(() => {
+  if (!props.option?.node_data) {
+    Operation.request({
+      ...props.option,
+      onSuccess() {
+      },
+    }).then((res: any) => {
+      childOption.value = res.data
+    }).catch((e: any) => {
+      if (close) {
+        close()
+      }
+    }).finally(() => {
+      loading.value = false
+    })
+  } else {
+    childOption.value = props.option.node_data
     loading.value = false
-  })
-} else {
-  childOption.value = props.option.node_data
+  }
 }
+
+onMounted(() => {
+  loadData()
+})
+
+provide('ncSetOption', (option: any) => {
+  childOption.value = option
+})
+
 provide('reloadData', () => {
   if (!props.option.url) {
     return

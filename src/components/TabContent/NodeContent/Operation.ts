@@ -1,6 +1,6 @@
 import useStore, {AdminTabOption} from '@/store'
 import {Modal} from "ant-design-vue";
-import {createVNode, getCurrentInstance, h} from "vue";
+import {createVNode, getCurrentInstance, h, inject} from "vue";
 import $http from "@/utils/http"
 import {ExclamationCircleOutlined} from "@ant-design/icons-vue"
 import ModalContainer from "@/components/TabContent/NodeContent/ModalContainer.vue"
@@ -81,7 +81,7 @@ async function modal(option: any) {
         option.node_data = res?.data
     }
 
-    const modal = Modal.info({
+    const modalVm = Modal.info({
         title: option.title,
         centered: true,
         appContext,
@@ -89,7 +89,7 @@ async function modal(option: any) {
             return h(ModalContainer, {
                 option: option,
                 getModal() {
-                    return modal
+                    return modalVm
                 },
                 style: {
                     width: '100%',
@@ -124,6 +124,25 @@ function goto_as_a(option: any) {
     a.href = option.url
     a.target = option.target
     a.click()
+}
+
+function goto(option: any) {
+    option = Object.assign({}, <AdminTabOption>{
+        title: '',
+        url: '',
+        type: 'node_content',
+        closable: true,
+        replace: null
+    }, option)
+
+    option.url = replaceUrl(option.url, option.replace)
+    const ncSetOption = inject<Function>('ncSetOption')
+    request(option).then((res: any) => {
+        if (!ncSetOption) {
+            return
+        }
+        ncSetOption(res.data.option)
+    })
 
 }
 
@@ -204,6 +223,7 @@ export declare interface OperationType {
 }
 
 export default <OperationType>{
+    goto,
     goto_as_a,
     add_tab,
     modal,
