@@ -54,9 +54,9 @@
              :row-selection="row_selection"
              :data-source="data_list"
              v-model:expanded-row-keys="expanded_keys"
-             :scroll="{y: scrollY}"
              class="list-table"
-             :columns="columns">
+             :columns="columns"
+             @change="onChange">
         <template #bodyCell="{ column, text, record }">
           <Column :column="column" :record="record"></Column>
         </template>
@@ -68,13 +68,13 @@
 <script lang="ts">
 import ContentMixin from "@/components/TabContent/NodeContent/ContentMixin";
 import type {Ref} from 'vue';
-import {inject, nextTick, provide, ref, toRaw} from 'vue';
+import {inject, provide, ref, toRaw} from 'vue';
 import {CheckOutlined, EditOutlined, SearchOutlined} from '@ant-design/icons-vue';
 import Action from '@/components/TabContent/NodeContent/Table/Action/index.vue'
 import {ColumnType} from "@/components/TabContent/NodeContent/Table/index";
 import {getDataList} from "@/utils/api/node";
 import {TableRowSelection} from "ant-design-vue/es/table/interface";
-import {Button, Col, Form, FormItem, PaginationProps, Row, Table, Tooltip} from "ant-design-vue";
+import {Button, Col, Form, FormItem, PaginationProps, Row, Table, TableColumnType, Tooltip} from "ant-design-vue";
 import {addQuery, guid} from "@/utils/helpers";
 import Column from "@/components/TabContent/NodeContent/Table/Column/index.vue"
 import Filter from "@/components/TabContent/NodeContent/Table/Filter/index.vue";
@@ -109,12 +109,6 @@ export default {
     const expanded_keys = ref()
     let tableContainer = <Ref<Element>>ref()
 
-    const scrollY = ref<number | null>(null)
-
-    const scroll = (e: any) => {
-      console.log(e)
-    }
-
     const filter_query = <Ref<{ [key: string]: any }>>ref(props.option.filters_data || {})
 
     const selected_rows = <Ref<any[]>>ref([])
@@ -123,7 +117,14 @@ export default {
     provide('getSelectedRows', () => selected_rows.value)
     provide('getDataKey', () => props.option.data_key)
 
-    const columns = props.option?.columns.map((column: ColumnType) => {
+    const columns = ref()
+    const data_list = ref()
+    const pagination = ref<PaginationProps>({})
+    const filters = ref([])
+    const loading = ref(false)
+    const page = <Ref<Number | null>>ref(null)
+
+    columns.value = props.option?.columns.map((column: ColumnType) => {
       if (column.type === 'selection') {
         row_selection.value = <TableRowSelection>{
           checkStrictly: true,
@@ -140,14 +141,9 @@ export default {
         title: column.title,
         fixed: column.fixed,
         resColumn: column,
+        sorter: column.sortable,
       }
     }).filter((item: any) => item)
-    const data_list = ref()
-    const pagination = ref<PaginationProps>({})
-    const filters = ref([])
-    const loading = ref(false)
-    const page = <Ref<Number | null>>ref(null)
-
 
     async function loadData(url: string, refresh_page = false) {
       if (refresh_page) {
@@ -182,34 +178,15 @@ export default {
             showTotal: (total, range) => {
               return `当前显示 ${range[0]} - ${range[1]} 条数据 / 共 ${total} 条数据`
             },
-            showQuickJumper: true,
-            onChange(current: number) {
-              pagination.value.current = current
-              page.value = current
-              loadData(url)
-            },
           }
         }
       } catch (e) {
         console.error(e)
       }
       loading.value = false
-
-      nextTick(() => {
-        if (!tableContainer.value) {
-          return
-        }
-        if (tableContainer.value.clientHeight >= 548) {
-          scrollY.value = 548
-        } else {
-          scrollY.value = null
-        }
-      })
     }
 
     loadData(addQuery(props.option.data_url, filter_query.value))
-
-    const getModal = <any>inject('getModal')
 
     const getScrollContainer = <Function>inject('getScrollContainer')
     provide('reloadData', async () => {
@@ -224,7 +201,42 @@ export default {
     })
 
     const filter = () => {
+      columns.value = columns.value.map(col => {
+        col.sortOrder = null
+        return col
+      })
       loadData(addQuery(props.option.data_url, filter_query.value), true)
+    }
+
+    let lastSorter: any = null
+    const onChange = (c_pagination: any, filters: any, sorter: any) => {
+      if (!lastSorter) {
+        lastSorter = sorter
+      }
+      if (sorter.order === lastSorter.order && sorter.field === lastSorter.field) {
+        page.value = c_pagination.current
+      } else {
+        page.value = 1
+        lastSorter = {
+          order: sorter.order,
+          field: sorter.field,
+        }
+      }
+
+      const orderMap: { [key: string]: string } = {ascend: 'asc', descend: 'desc'}
+      loadData(addQuery(props.option.data_url, {
+        ...filter_query.value,
+        sort_field: sorter.order ? sorter.field : '',
+        sort_order: orderMap[sorter.order],
+        page: page.value,
+      }), true)
+
+      columns.value = columns.value.map((col: TableColumnType) => {
+        if (col.dataIndex === sorter.field) {
+          col.sortOrder = sorter.order
+        }
+        return col
+      })
     }
 
     provide('filter', filter)
@@ -242,6 +254,7 @@ export default {
       scrollY,
       scroll,
       filter,
+      onChange,
     }
   },
 }

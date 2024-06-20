@@ -23,13 +23,21 @@ const container: Container = {
         return defineAsyncComponent({
             loadingComponent: Loading,
             loader: async () => {
-                await new Promise(async (resolve) => {
-                    while (store.loadedExtraScript === false) {
-                        await sleep(100)
+                try {
+                    await new Promise(async (resolve) => {
+                        while (store.loadedExtraScript === false) {
+                            await sleep(100)
+                        }
+                        resolve(true)
+                    })
+                    if (components[key] instanceof Function) {
+                        return components[key]()
                     }
-                    resolve(true)
-                })
-                return components[key]()
+                    return components[key]
+                } catch (e) {
+                    console.error(`component ${key} is load error`)
+                    throw e
+                }
             },
         })
     }
