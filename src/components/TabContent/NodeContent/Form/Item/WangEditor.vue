@@ -29,6 +29,7 @@ import {getConfig} from "@/utils/api/upload";
 import $http from "@/utils/http"
 import {replaceBody} from "@/components/TabContent/NodeContent/Operation";
 import {notification} from "ant-design-vue";
+import {isArray} from "lodash";
 
 export default {
   name: "WangEditor",
@@ -98,15 +99,29 @@ export default {
                   formData.append(dataKey,data[dataKey])
                 }
 
+                let headers: any = {}
+                if (isArray(res.data.headers)) {
+                  res.data.headers.forEach((header: any) => {
+                    headers[header.key] = replaceBody(header, file_var)
+                  })
+                } else {
+                  headers = replaceBody(res.data.headers, file_var)
+                }
+
                 const upRes = await $http({
                   url: res.data.url,
                   method: res.data.method || 'post',
                   data: formData,
-                  headers: replaceBody(res.data.headers, file_var),
+                  headers,
                 })
                 insertFn(upRes.data.url,file.name)
               }catch (e:any){
                 console.error(e)
+                if (e.response.status == 413) {
+                  notification.warn({
+                    message: '图片大小超过限制'
+                  })
+                }
                 return false
               }
             },

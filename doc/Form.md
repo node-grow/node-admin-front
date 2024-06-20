@@ -2,23 +2,23 @@
 
 ## 结构
 
-| 字段      | 必须  | 标题   | 类型                         | 默认值 | 说明  |
-|---------|-----|------|----------------------------|-----|-----|
-| items   | 是   | 表单项  | Array<[Item](#Item)[]>     | 无   |     |
-| data    | 是   | 表单数据 | Object                     | 无   |     |
-| actions | 是   | 表单操作 | Array<[Action](#Action)[]> | 无   |     |
+| 字段      | 必须 | 标题   | 类型                         | 默认值 | 说明 |
+|---------|----|------|----------------------------|-----|----|
+| items   | 是  | 表单项  | Array<[Item](#Item)[]>     | 无   |    |
+| data    | 是  | 表单数据 | Object                     | 无   |    |
+| actions | 是  | 表单操作 | Array<[Action](#Action)[]> | 无   |    |
 
 ### Item
 
-| 字段          | 必须  | 标题   | 类型                                  | 默认值   | 说明                          |
-|-------------|-----|------|-------------------------------------|-------|-----------------------------|
-| type        | 是   | 类型   | String                              | 无     | [ItemOption](#ItemOption)类型 |
-| name        | 是   | 字段名  | String                              | 无     |                             |
-| label       | 是   | 展示标题 | String                              | 无     |                             |
-| item_option | 是   | 类型配置 | Object<[ItemOption](#ItemOption)>   | 无     |                             |
-| tips        | 否   | 提示   | String                              | ""    |                             |
-| condition   | 否   | 操作   | Object<[Condition](./Condition.md)> | null  |                             |
-| disabled    | 否   | 是否禁用 | Boolean                             | false |                             |
+| 字段          | 必须 | 标题   | 类型                                  | 默认值   | 说明                          |
+|-------------|----|------|-------------------------------------|-------|-----------------------------|
+| type        | 是  | 类型   | String                              | 无     | [ItemOption](#ItemOption)类型 |
+| name        | 是  | 字段名  | String                              | 无     |                             |
+| label       | 是  | 展示标题 | String                              | 无     |                             |
+| item_option | 是  | 类型配置 | Object<[ItemOption](#ItemOption)>   | 无     |                             |
+| tips        | 否  | 提示   | String                              | ""    |                             |
+| condition   | 否  | 操作   | Object<[Condition](./Condition.md)> | null  |                             |
+| disabled    | 否  | 是否禁用 | Boolean                             | false |                             |
 
 #### ItemOption
 
@@ -26,19 +26,21 @@
 
 文本显示
 
-| 字段   | 必须  | 标题     | 类型     | 默认值 | 说明       |
-|------|-----|--------|--------|-----|----------|
-| text | 否   | 展示文字   | String | ""  | 与html二选一 |
-| html | 否   | 展示html | String | ""  | 与text二选一 |
-
+| 字段   | 必须 | 标题     | 类型     | 默认值 | 说明       |
+|------|----|--------|--------|-----|----------|
+| text | 否  | 展示文字   | String | ""  | 与html二选一 |
+| html | 否  | 展示html | String | ""  | 与text二选一 |
 
 ##### input
 
 单行文本输入
 
-| 字段          | 必须  | 标题  | 类型                              | 默认值 | 说明  |
-|-------------|-----|-----|---------------------------------|-----|-----|
-| placeholder | 是   | 占位符 | String                          | 无   |     |
+| 字段                        | 必须 | 标题         | 类型       | 默认值   | 说明                        |
+|---------------------------|----|------------|----------|-------|---------------------------|
+| placeholder               | 是  | 占位符        | String   | 无     |                           |
+| auto_complete             | 否  | 是否自动完成     | Boolean  | false |                           |
+| auto_complete_options     | 否  | 自动完成选项     | String[] | 无     |                           |
+| auto_complete_options_url | 否  | 自动完成选项搜索地址 | String   | 无     | 会在后方加上query: search=value |
 
 ---
 
@@ -46,9 +48,12 @@
 
 多行文本输入
 
-| 字段          | 必须  | 标题  | 类型                              | 默认值 | 说明  |
-|-------------|-----|-----|---------------------------------|-----|-----|
-| placeholder | 是   | 占位符 | String                          | 无   |     |
+| 字段                        | 必须 | 标题         | 类型       | 默认值   | 说明                        |
+|---------------------------|----|------------|----------|-------|---------------------------|
+| placeholder               | 是  | 占位符        | String   | 无     |                           |
+| auto_complete             | 否  | 是否自动完成     | Boolean  | false |                           |
+| auto_complete_options     | 否  | 自动完成选项     | String[] | 无     |                           |
+| auto_complete_options_url | 否  | 自动完成选项搜索地址 | String   | 无     | 会在后方加上query: search=value |
 
 ---
 
@@ -56,9 +61,9 @@
 
 密码输入
 
-| 字段          | 必须  | 标题  | 类型                              | 默认值 | 说明  |
-|-------------|-----|-----|---------------------------------|-----|-----|
-| placeholder | 是   | 占位符 | String                          | 无   |     |
+| 字段          | 必须 | 标题  | 类型     | 默认值 | 说明 |
+|-------------|----|-----|--------|-----|----|
+| placeholder | 是  | 占位符 | String | 无   |    |
 
 ---
 
@@ -66,12 +71,12 @@
 
 日期时间选择
 
-| 字段           | 必须  | 标题     | 类型                                                          | 默认值   | 说明  |
-|--------------|-----|--------|-------------------------------------------------------------|-------|-----|
-| placeholder  | 否   | 占位符    | String                                                      | 无     |     |
-| show_time    | 否   | 是否展示时间 | Boolean                                                     | false |     |
-| picker       | 否   | 选择器    | String<"date", "week", "month", "quarter", "year">          | date  |     |
-| value_format | 否   | 值格式    | String [具体格式](https://day.js.org/docs/zh-CN/display/format) | null  |     |
+| 字段           | 必须 | 标题     | 类型                                                          | 默认值   | 说明 |
+|--------------|----|--------|-------------------------------------------------------------|-------|----|
+| placeholder  | 否  | 占位符    | String                                                      | 无     |    |
+| show_time    | 否  | 是否展示时间 | Boolean                                                     | false |    |
+| picker       | 否  | 选择器    | String<"date", "week", "month", "quarter", "year">          | date  |    |
+| value_format | 否  | 值格式    | String [具体格式](https://day.js.org/docs/zh-CN/display/format) | null  |    |
 
 ---
 
@@ -79,12 +84,12 @@
 
 日期时间范围
 
-| 字段           | 必须  | 标题     | 类型                                                          | 默认值   | 说明  |
-|--------------|-----|--------|-------------------------------------------------------------|-------|-----|
-| placeholder  | 否   | 占位符    | Array<[String,String]>                                      | 无     |     |
-| show_time    | 否   | 是否展示时间 | Boolean                                                     | false |     |
-| picker       | 否   | 选择器    | String<"date", "week", "month", "quarter", "year">          | date  |     |
-| value_format | 否   | 值格式    | String [具体格式](https://day.js.org/docs/zh-CN/display/format) | null  |     |
+| 字段           | 必须 | 标题     | 类型                                                          | 默认值   | 说明 |
+|--------------|----|--------|-------------------------------------------------------------|-------|----|
+| placeholder  | 否  | 占位符    | Array<[String,String]>                                      | 无     |    |
+| show_time    | 否  | 是否展示时间 | Boolean                                                     | false |    |
+| picker       | 否  | 选择器    | String<"date", "week", "month", "quarter", "year">          | date  |    |
+| value_format | 否  | 值格式    | String [具体格式](https://day.js.org/docs/zh-CN/display/format) | null  |    |
 
 ---
 
@@ -100,13 +105,15 @@
 
 下拉选择
 
-| 字段          |       | 必须  | 标题   | 类型              | 默认值 | 说明       |
-|-------------|-------|-----|------|-----------------|-----|----------|
-| searchable |       | 是   | 是否可搜索  | Boolean | false   |          |
-| placeholder |       | 是   | 占位符  | String          | 无   |          |
-| options     |       | 是   | 占位符  | Array<Option[]> | 无   |          |
-|             | label | 是   | 展示名称 | String          | 无   | Option字段 |
-|             | value | 是   | 选项值  | String          | 无   | Option字段 |
+| 字段           | 必须 | 标题    | 类型              | 默认值      | 说明                                    |
+|--------------|----|-------|-----------------|----------|---------------------------------------|
+| searchable   | 是  | 是否可搜索 | Boolean         | false    |                                       |
+| placeholder  | 是  | 占位符   | String          | 无        |                                       |
+| options      | 是  | 占位符   | Array<Option[]> | 无        |                                       |
+| option.label | 是  | 展示名称  | String          | 无        | Options字段                             |
+| option.value | 是  | 选项值   | String          | 无        | Options字段                             |
+| search_url   | 否  | 搜索地址  | String          | 无        | 接口说明参照 [Search接口](./Helper.md#Search) |
+| mode         | 否  | 模式    | String          | combobox | 参考 ant-design-vue Select 模式配置         |
 
 ---
 
@@ -114,11 +121,12 @@
 
 单选
 
-| 字段      |       | 必须  | 标题   | 类型              | 默认值 | 说明       |
-|---------|-------|-----|------|-----------------|-----|----------|
-| options |       | 是   | 占位符  | Array<Option[]> | 无   |          |
-|         | label | 是   | 展示名称 | String          | 无   | Option字段 |
-|         | value | 是   | 选项值  | String          | 无   | Option字段 |
+| 字段          |       | 必须 | 标题   | 类型                  | 默认值     | 说明        |
+|-------------|-------|----|------|---------------------|---------|-----------|
+| options     |       | 是  | 选项   | Array<Option[]>     | 无       |           |
+|             | label | 是  | 展示名称 | String              | 无       | Options字段 |
+|             | value | 是  | 选项值  | String              | 无       | Options字段 |
+| option_type |       | 否  | 选项类型 | 'button'\|'default' | default |           |
 
 ---
 
@@ -126,11 +134,11 @@
 
 多选
 
-| 字段      |       | 必须  | 标题   | 类型              | 默认值 | 说明       |
-|---------|-------|-----|------|-----------------|-----|----------|
-| options |       | 是   | 占位符  | Array<Option[]> | 无   |          |
-|         | label | 是   | 展示名称 | String          | 无   | Option字段 |
-|         | value | 是   | 选项值  | String          | 无   | Option字段 |
+| 字段      |       | 必须 | 标题   | 类型              | 默认值 | 说明        |
+|---------|-------|----|------|-----------------|-----|-----------|
+| options |       | 是  | 选项   | Array<Option[]> | 无   |           |
+|         | label | 是  | 展示名称 | String          | 无   | Options字段 |
+|         | value | 是  | 选项值  | String          | 无   | Options字段 |
 
 ---
 
@@ -138,9 +146,9 @@
 
 富文本
 
-| 字段                      |     | 必须  | 标题         | 类型     | 默认值 | 说明  |
-|-------------------------|-----|-----|------------|--------|-----|-----|
-| upload_image_config_url |     | 是   | 获取上传图片配置地址 | String | 无   |     |
+| 字段                      |     | 必须 | 标题         | 类型     | 默认值 | 说明 |
+|-------------------------|-----|----|------------|--------|-----|----|
+| upload_image_config_url |     | 是  | 获取上传图片配置地址 | String | 无   |    |
 
 ---
 
@@ -148,13 +156,13 @@
 
 iconfont图标
 
-| 字段      |       | 必须  | 标题   | 类型              | 默认值 | 说明       |
-|---------|-------|-----|------|-----------------|-----|----------|
-| searchable |       | 是   | 是否可搜索  | Boolean | false   |          |
-| placeholder |       | 是   | 占位符  | String          | 无   |          |
-| options |       | 是   | 占位符  | Array<Option[]> | 无   |          |
-|         | label | 是   | 展示名称 | String          | 无   | Option字段 |
-|         | value | 是   | 选项值(需为iconfont中的symbol)  | String          | 无   | Option字段 |
+| 字段          |       | 必须 | 标题                      | 类型              | 默认值   | 说明       |
+|-------------|-------|----|-------------------------|-----------------|-------|----------|
+| searchable  |       | 是  | 是否可搜索                   | Boolean         | false |          |
+| placeholder |       | 是  | 占位符                     | String          | 无     |          |
+| options     |       | 是  | 占位符                     | Array<Option[]> | 无     |          |
+|             | label | 是  | 展示名称                    | String          | 无     | Option字段 |
+|             | value | 是  | 选项值(需为iconfont中的symbol) | String          | 无     | Option字段 |
 
 ---
 
@@ -162,15 +170,15 @@ iconfont图标
 
 图片上传
 
-| 字段         |      | 必须  | 标题        | 类型            | 默认值     | 说明                                                                                                       |
-|------------|------|-----|-----------|---------------|---------|----------------------------------------------------------------------------------------------------------|
-| max_count  |      | 否   | 最大上传数     | Number        | 1       |                                                                                                          |
-| file_list  |      | 是   | 文件列表      | Array<File[]> | 无       |                                                                                                          |
-|            | url  | 是   | 文件地址      | String        | 无       | File字段                                                                                                   |
-|            | name | 是   | 文件名       | String        | 无       | File字段                                                                                                   |
-|            | id   | 是   | 文件id      | String        | 无       | File字段                                                                                                   |
-| config_url |      | 是   | 获取上传配置的地址 | String        | 无       |                                                                                                          |
-| accept     |      | 否   | 允许上传的文件类型 | String        | image/* | 详见 [input accept Attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept) |
+| 字段         |      | 必须 | 标题        | 类型            | 默认值     | 说明                                                                                                       |
+|------------|------|----|-----------|---------------|---------|----------------------------------------------------------------------------------------------------------|
+| max_count  |      | 否  | 最大上传数     | Number        | 1       |                                                                                                          |
+| file_list  |      | 是  | 文件列表      | Array<File[]> | 无       |                                                                                                          |
+|            | url  | 是  | 文件地址      | String        | 无       | File字段                                                                                                   |
+|            | name | 是  | 文件名       | String        | 无       | File字段                                                                                                   |
+|            | id   | 是  | 文件id      | String        | 无       | File字段                                                                                                   |
+| config_url |      | 是  | 获取上传配置的地址 | String        | 无       |                                                                                                          |
+| accept     |      | 否  | 允许上传的文件类型 | String        | image/* | 详见 [input accept Attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept) |
 
 value值类型为上述字段的file_list
 
@@ -180,15 +188,15 @@ value值类型为上述字段的file_list
 
 文件上传
 
-| 字段         |      | 必须  | 标题        | 类型            | 默认值 | 说明                                                                                                       |
-|------------|------|-----|-----------|---------------|-----|----------------------------------------------------------------------------------------------------------|
-| max_count  |      | 否   | 最大上传数     | Number        | 1   |                                                                                                          |
-| file_list  |      | 是   | 文件列表      | Array<File[]> | 无   |                                                                                                          |
-|            | url  | 是   | 文件地址      | String        | 无   | File字段                                                                                                   |
-|            | name | 是   | 文件名       | String        | 无   | File字段                                                                                                   |
-|            | id   | 是   | 文件id      | String        | 无   | File字段                                                                                                   |
-| config_url |      | 是   | 获取上传配置的地址 | String        | 无   |                                                                                                          |
-| accept     |      | 否   | 允许上传的文件类型 | String        | 无   | 详见 [input accept Attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept) |
+| 字段         |      | 必须 | 标题        | 类型            | 默认值 | 说明                                                                                                       |
+|------------|------|----|-----------|---------------|-----|----------------------------------------------------------------------------------------------------------|
+| max_count  |      | 否  | 最大上传数     | Number        | 1   |                                                                                                          |
+| file_list  |      | 是  | 文件列表      | Array<File[]> | 无   |                                                                                                          |
+|            | url  | 是  | 文件地址      | String        | 无   | File字段                                                                                                   |
+|            | name | 是  | 文件名       | String        | 无   | File字段                                                                                                   |
+|            | id   | 是  | 文件id      | String        | 无   | File字段                                                                                                   |
+| config_url |      | 是  | 获取上传配置的地址 | String        | 无   |                                                                                                          |
+| accept     |      | 否  | 允许上传的文件类型 | String        | 无   | 详见 [input accept Attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept) |
 
 value值类型为上述字段的file_list
 
@@ -198,11 +206,11 @@ value值类型为上述字段的file_list
 
 地区联动
 
-| 字段          | 必须  | 标题      | 类型     | 默认值 | 说明                    |
-|-------------|-----|---------|--------|-----|-----------------------|
-| placeholder | 否   | 占位符     | String | 无   |                       |
-| url         | 是   | 加载地区url | String | 无   | 例：/divisions/\_\_id__ |
-| level       | 是   | 最大级别    | String | 无   |                       |
+| 字段          | 必须 | 标题      | 类型     | 默认值 | 说明                    |
+|-------------|----|---------|--------|-----|-----------------------|
+| placeholder | 否  | 占位符     | String | 无   |                       |
+| url         | 是  | 加载地区url | String | 无   | 例：/divisions/\_\_id__ |
+| level       | 是  | 最大级别    | String | 无   |                       |
 
 响应返回格式：
 
@@ -227,15 +235,21 @@ value值类型为上述字段的file_list
 }
 ```
 
+##### table
+
+| 字段      | 必须 | 标题 | 类型                                               | 默认值 | 说明 |
+|---------|----|----|--------------------------------------------------|-----|----|
+| columns | 是  | 列  | Array<[TableColumn](./FormItem/Table.md#Column)> | 无   |    |
+
 ---
 
 ##### custom
 
 自定义组件（接口提供地址）
 
-| 字段  | 必须  | 标题  | 类型     | 默认值 | 说明  |
-|-----|-----|-----|--------|-----|-----|
-| url | 是   | 地址  | String | 无   |     |
+| 字段  | 必须 | 标题 | 类型     | 默认值 | 说明 |
+|-----|----|----|--------|-----|----|
+| url | 是  | 地址 | String | 无   |    |
 
 开发指南请查看[Custom开发](./Custom.md)
 
@@ -247,12 +261,12 @@ value值类型为上述字段的file_list
 
 ### Action
 
-| 字段            | 必须  | 标题     | 类型                                    | 默认值  | 说明                                                             |
-|---------------|-----|--------|---------------------------------------|------|----------------------------------------------------------------|
-| type          | 是   | 类型     | String                                | 无    | [ActionOption](#ActionOption)类型                                |
-| action_option | 是   | 类型配置   | Object<[ActionOption](#ActionOption)> | 无    |                                                                |
-| operation     | 否   | 操作     | Object<[Operation](./Operation.md)>   | {}   |                                                                |
-| condition     | 否   | 操作     | Object<[Condition](./Condition.md)>   | null |                                                                |
+| 字段            | 必须 | 标题   | 类型                                    | 默认值  | 说明                              |
+|---------------|----|------|---------------------------------------|------|---------------------------------|
+| type          | 是  | 类型   | String                                | 无    | [ActionOption](#ActionOption)类型 |
+| action_option | 是  | 类型配置 | Object<[ActionOption](#ActionOption)> | 无    |                                 |
+| operation     | 否  | 操作   | Object<[Operation](./Operation.md)>   | {}   |                                 |
+| condition     | 否  | 操作   | Object<[Condition](./Condition.md)>   | null |                                 |
 
 #### ActionOption
 
@@ -260,11 +274,11 @@ value值类型为上述字段的file_list
 
 提交
 
-| 字段       | 必须  | 标题     | 类型      | 默认值   | 说明                                                             |
-|----------|-----|--------|---------|-------|----------------------------------------------------------------|
-| title    | 是   | 展示标题   | String  | 无     |                                                                |
-| btn_type | 是   | 按钮展示样式 | String  | 无     | 详情查看[Antdv的Button](https://antdv.com/components/button-cn#API) |
-| style    | 否   | 样式     | Object | null |                                                                |
+| 字段       | 必须 | 标题     | 类型     | 默认值  | 说明                                                             |
+|----------|----|--------|--------|------|----------------------------------------------------------------|
+| title    | 是  | 展示标题   | String | 无    |                                                                |
+| btn_type | 是  | 按钮展示样式 | String | 无    | 详情查看[Antdv的Button](https://antdv.com/components/button-cn#API) |
+| style    | 否  | 样式     | Object | null |                                                                |
 
 ---
 
@@ -272,11 +286,11 @@ value值类型为上述字段的file_list
 
 普通按钮
 
-| 字段       | 必须  | 标题     | 类型      | 默认值   | 说明                                                             |
-|----------|-----|--------|---------|-------|----------------------------------------------------------------|
-| title    | 是   | 展示标题   | String  | 无     |                                                                |
-| btn_type | 是   | 按钮展示样式 | String  | 无     | 详情查看[Antdv的Button](https://antdv.com/components/button-cn#API) |
-| style    | 否   | 样式     | Object | null |                                                                |
+| 字段       | 必须 | 标题     | 类型     | 默认值  | 说明                                                             |
+|----------|----|--------|--------|------|----------------------------------------------------------------|
+| title    | 是  | 展示标题   | String | 无    |                                                                |
+| btn_type | 是  | 按钮展示样式 | String | 无    | 详情查看[Antdv的Button](https://antdv.com/components/button-cn#API) |
+| style    | 否  | 样式     | Object | null |                                                                |
 
 ---
 
@@ -284,9 +298,9 @@ value值类型为上述字段的file_list
 
 自定义组件（接口提供地址）
 
-| 字段  | 必须  | 标题  | 类型     | 默认值 | 说明  |
-|-----|-----|-----|--------|-----|-----|
-| url | 是   | 地址  | String | 无   |     |
+| 字段  | 必须 | 标题 | 类型     | 默认值 | 说明 |
+|-----|----|----|--------|-----|----|
+| url | 是  | 地址 | String | 无   |    |
 
 开发指南请查看[Custom开发](./Custom.md)
 

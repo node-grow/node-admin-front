@@ -8,7 +8,7 @@ import lodash, {isArray} from 'lodash'
 import {isObject} from "lodash-es";
 
 declare interface This {
-    max_count: Number,
+    max_count: number,
     file_list: UploadFile[],
     value: UploadFile[],
     option: {

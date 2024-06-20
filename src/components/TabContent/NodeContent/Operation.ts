@@ -1,54 +1,53 @@
-import $store, {AdminTabOption} from '@/store'
-import {Modal, notification} from "ant-design-vue";
-import {createVNode, getCurrentInstance, h} from "vue";
+import useStore, {AdminTabOption} from '@/store'
+import {Modal} from "ant-design-vue";
+import {createVNode, getCurrentInstance, h, inject} from "vue";
 import $http from "@/utils/http"
-import {AxiosError} from "axios";
 import {ExclamationCircleOutlined} from "@ant-design/icons-vue"
 import ModalContainer from "@/components/TabContent/NodeContent/ModalContainer.vue"
 
-export function replaceUrl(url:string,replace?:any){
+export function replaceUrl(url: string, replace?: any) {
     let matches = url.match(/{\w+}/g) || url.match(/__\w+__/g)
-    if (!replace){
+    if (!replace) {
         return url
     }
-    if (matches){
-        matches.map((name:string)=>{
-            name=name.replace(/[{}]|__/g,'')
-            if (replace[name]===undefined){
+    if (matches) {
+        matches.map((name: string) => {
+            name = name.replace(/[{}]|__/g, '')
+            if (replace[name] === undefined) {
                 return
             }
-            url=url.replace(`{${name}}`,replace[name])
-            url=url.replace(`__${name}__`,replace[name])
+            url = url.replace(`{${name}}`, replace[name])
+            url = url.replace(`__${name}__`, replace[name])
         })
     }
     return url
 }
 
-export function replaceBody(body?:any,replace?:any){
-    if (!body){
+export function replaceBody(body?: any, replace?: any) {
+    if (!body) {
         return body
     }
-    if (!replace){
+    if (!replace) {
         return body
     }
 
-    switch (typeof body){
+    switch (typeof body) {
         case "object":
             for (const key in body) {
-                body[key]=replaceBody(body[key],replace)
+                body[key] = replaceBody(body[key], replace)
             }
             break
         case "string":
-            let matches=body.match(/^{(\w+)}$/)
-            if(!matches){
-                matches=body.match(/^__(\w+)__$/)
+            let matches = body.match(/^{(\w+)}$/)
+            if (!matches) {
+                matches = body.match(/^__(\w+)__$/)
             }
-            if (!matches){
+            if (!matches) {
                 break
             }
             const name = matches[1]
-            if (replace[name] !== undefined){
-                body=replace[name]
+            if (replace[name] !== undefined) {
+                body = replace[name]
             }
             break
     }
@@ -62,57 +61,72 @@ async function modal(option: any) {
         url: '',
         type: 'node_content',
         closable: true,
-        onClose(){
+        onClose() {
 
         },
         replace: {},
         body: {},
     }, option)
-    option.url= replaceUrl(option.url,option.replace)
+    option.url = replaceUrl(option.url, option.replace)
     const appContext = option.appContext || getCurrentInstance()?.appContext
 
-    let res:any={};
-    if (option.type==='node_content'){
-        res=await request({
+    let res: any = {};
+    if (option.type === 'node_content' && !option.node_data) {
+        res = await request({
             ...option,
-            onSuccess(){},
+            onSuccess() {
+            },
         })
+
+        option.node_data = res?.data
     }
 
-    const modal = Modal.info({
+    const modalVm = Modal.info({
         title: option.title,
         centered: true,
         appContext,
-        content(){
+        content() {
             return h(ModalContainer, {
                 option: option,
-                getModal(){
-                    return modal
+                getModal() {
+                    return modalVm
                 },
                 style: {
                     width: '100%',
                 },
-                nodePreload: res?.data
             })
+        },
+        style: {
+            minWidth: '720px',
+            maxWidth: '1000px',
+            width: '60vw',
         },
         icon: null,
         keyboard: false,
         closable: true,
         cancelText: false,
         class: 'tab-content-modal',
-        width: '60vw',
-        afterClose(){
+        afterClose() {
             option.onClose()
         }
     })
 
 }
 
-function goto(option: any) {
+function goto_as_a(option: any) {
+    option = Object.assign({}, {
+        url: '',
+        target: '_blank',
+    }, option)
 
+    option.url = replaceUrl(option.href || option.url, option.replace)
+    const a = document.createElement('a')
+    a.href = option.url
+    a.target = option.target
+    a.click()
 }
 
-function add_tab(option: any) {
+function goto(option: any) {
     option = Object.assign({}, <AdminTabOption>{
         title: '',
         url: '',
@@ -121,32 +135,58 @@ function add_tab(option: any) {
         replace: null
     }, option)
 
-    option.url=replaceUrl(option.url,option.replace)
-    $store.commit('pushAdminTab', option)
+    option.url = replaceUrl(option.url, option.replace)
+    const ncSetOption = inject<Function>('ncSetOption')
+    request(option).then((res: any) => {
+        if (!ncSetOption) {
+            return
+        }
+        ncSetOption(res.data.option)
+    })
+
 }
 
-export declare interface RequestOption{
+function add_tab(option: any) {
+    const store = useStore()
+
+    option = Object.assign({}, <AdminTabOption>{
+        title: '',
+        url: '',
+        type: 'node_content',
+        closable: true,
+        replace: null
+    }, option)
+
+    option.url = replaceUrl(option.url, option.replace)
+    store.pushAdminTab(option)
+}
+
+export declare interface RequestOption {
     url: String,
     method: String,
-    body?: Object|any,
+    body?: Object | any,
     confirm?: boolean,
     onSuccess?: Function,
     onError?: Function,
+    reload_menu?: boolean,
 }
 
-async function request(option: any){
-    option = Object.assign({},<RequestOption>{
+async function request(option: any) {
+
+    option = Object.assign({}, <RequestOption>{
         url: '',
         method: 'get',
         replace: null,
-        onSuccess(){},
-        onError(){},
-    },option)
+        onSuccess() {
+        },
+        onError() {
+        },
+    }, option)
 
-    if (option.confirm){
+    if (option.confirm) {
         const r = await new Promise(resolve => {
             Modal.confirm({
-                title: replaceUrl(option.confirm,option.replace),
+                title: replaceUrl(option.confirm, option.replace) || '确定要操作吗？',
                 icon: createVNode(ExclamationCircleOutlined),
                 onOk() {
                     resolve(true)
@@ -157,7 +197,7 @@ async function request(option: any){
                 },
             });
         })
-        if (!r){
+        if (!r) {
             return r;
         }
     }
@@ -172,7 +212,7 @@ async function request(option: any){
         })
         option.onSuccess(res)
         return res
-    }catch (err){
+    } catch (err) {
         option.onError(err)
         throw err
     }
@@ -183,7 +223,8 @@ export declare interface OperationType {
 }
 
 export default <OperationType>{
-    // goto,
+    goto,
+    goto_as_a,
     add_tab,
     modal,
     request

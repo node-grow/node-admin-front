@@ -4,30 +4,26 @@
         ref="form"
         :model="formState"
         name="basic"
-        :label-col="{ span: 4 }"
-        :wrapper-col="{ span: 16 }"
         autocomplete="off"
         :rules="rules"
-        :validate-on-rule-change="true"
-    >
+        :validate-on-rule-change="true">
       <template v-for="(item,key) in option.items">
         <FormItem
             v-if="handleCondition(item.condition)"
             :key="key"
+            :label-col="{ span: 4 }"
+            :wrapper-col="{ span: item.label?16:20, offset: item.label?0:2 }"
             :label="item.label"
             :name="item.name"
-            :extra="item.tips"
-        >
+            :extra="item.tips">
           <Item :option="item" :formData="formState" v-model:value="formState[item.name]"></Item>
         </FormItem>
       </template>
-
 
       <FormItem :wrapper-col="{offset: 4,span: 16}" style="text-align:left;">
         <div style="display:flex;">
           <Action v-for="action in option.actions" :option="action" :formData="formState"></Action>
         </div>
-
       </FormItem>
     </Form>
   </div>
@@ -35,23 +31,24 @@
 
 <script lang="ts">
 import ContentMixin from "@/components/TabContent/NodeContent/ContentMixin";
-import {getCurrentInstance, inject, nextTick, provide, Ref, ref, toRaw, watch} from "vue";
+import {getCurrentInstance, inject, nextTick, provide, Ref, ref, watch} from "vue";
 import Item from "@/components/TabContent/NodeContent/Form/Item/index.vue"
 import {AxiosError} from "axios";
 import Operation, {RequestOption} from "@/components/TabContent/NodeContent/Operation";
 import Action from "@/components/TabContent/NodeContent/Form/Action/index.vue"
 import {FormInstance} from "ant-design-vue/lib/form";
-import {Button, Form, notification} from "ant-design-vue";
+import {Button, Form, FormItem, notification} from "ant-design-vue";
 import scrollIntoView from 'scroll-into-view-if-needed';
 import {ConditionOption, handleCondition} from "@/components/TabContent/NodeContent/Condition";
+import useStore from "@/store";
+import _ from "lodash";
 
 export default {
   name: "ContentForm",
   components: {
     Form,
-    FormItem: Form.Item,
+    FormItem,
     Button,
-
     Item,
     Action,
   },
@@ -67,11 +64,9 @@ export default {
     })
     const rules = ref<any>({})
 
-    const fErrors = ref<any>({})
 
     const getModal = <Function>inject('getModal')
     const reloadData = <Function>inject('reloadData')
-
     const form = <Ref<FormInstance>>ref()
 
     const appContext = getCurrentInstance()?.appContext
@@ -111,36 +106,46 @@ export default {
         onSuccess(res: any) {
           rules.value = {}
 
-          if (getModal) {
-            getModal().destroy()
-            return
-          }
           if (reloadData) {
             reloadData()
-            return
+          }
+          if (operation.reload_layout) {
+            useStore().reloadLayout()
+          }
+          if (getModal) {
+            getModal().destroy()
           }
         },
-        onError(e: AxiosError) {
+        onError(e: AxiosError<any>) {
           if (!e.response?.data.errors) {
             return
           }
           const r: any = {}
-          const data = toRaw({...formState.value})
+          const data = JSON.parse(JSON.stringify(formState.value))
           for (const name in e.response?.data.errors) {
             const errors = e.response?.data.errors[name]
             if (!errors?.length) {
               continue
             }
-            fErrors.value[name] = errors.join()
-            r[name] = {
-              validator(rule: any, value: any) {
-                return new Promise((resolve, reject) => {
-                  if (data[name] === value) {
-                    reject(errors.join())
-                  } else {
-                    resolve(true)
-                  }
-                })
+
+            let ruleName = ''
+            name.split('.').forEach((n: string) => {
+              if (/^\d+$/.test(n)) {
+                ruleName += `[${n}]`
+              } else {
+                ruleName += `.${n}`
+              }
+            })
+            ruleName = ruleName.replace(/^\./, '')
+
+            r[ruleName] = {
+              async validator(rule: any, value: any) {
+                await nextTick()
+                if (_.get(data, ruleName) === _.get(formState.value, ruleName)) {
+                  throw new Error(errors.join())
+                } else {
+                  return true
+                }
               }
             }
           }
@@ -181,7 +186,6 @@ export default {
       form,
       formState,
       rules,
-      fErrors,
 
       handleCondition(option?: ConditionOption) {
         return handleCondition(formState.value, option)

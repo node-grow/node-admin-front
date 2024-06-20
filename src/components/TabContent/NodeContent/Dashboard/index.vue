@@ -1,16 +1,16 @@
 <template>
   <div style="padding: 20px;">
     <Descriptions
-        v-if="infos"
-        :column="2"
+        v-if="option.infos"
+        :column="option.column || 2"
         bordered>
       <template #title>
         <div class="center">
-          <TypographyTitle :level="4">平台概况</TypographyTitle>
+          <TypographyTitle :level="4">{{ option.title }}</TypographyTitle>
         </div>
       </template>
       <DescriptionsItem
-          v-for="info in infos"
+          v-for="info in option.infos"
           :label="info.label">
         {{ info.value }}
       </DescriptionsItem>
@@ -19,17 +19,16 @@
 </template>
 
 <script setup lang="ts">
-import {Descriptions, TypographyTitle} from "ant-design-vue";
-import {ref} from "vue";
-import {getSystemInfo} from "@/utils/api/common";
+import {Descriptions, DescriptionsItem, TypographyTitle} from "ant-design-vue";
 
-const DescriptionsItem = Descriptions.Item
+const {option} = defineProps<{
+  option: {
+    infos: any[],
+    title: string,
+    column?: number,
+  }
+}>()
 
-const infos = ref(null)
-
-getSystemInfo().then(res => {
-  infos.value = res.data.infos
-})
 </script>
 
 <style scoped lang="less">

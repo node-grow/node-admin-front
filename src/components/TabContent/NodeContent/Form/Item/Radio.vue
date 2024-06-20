@@ -4,6 +4,7 @@
       :value="value"
       :options="option.options"
       :disabled="disabled"
+      :option-type="option.option_type || 'default'"
       @change="$emit('update:value', $event.target.value)"
   ></RadioGroup>
 </template>

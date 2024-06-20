@@ -1,20 +1,21 @@
-import {Store} from "vuex";
+import {Store} from "pinia";
 
-export default<T> (store: Store<T>): void=>{
+export default <T>(store: Store<any>): void => {
+    const storeKey = 'store-' + store.$id
     // 不需要持久化的数据存入sessionStorage
-    if (sessionStorage.getItem('store')){
-        store.replaceState(
+    if (sessionStorage.getItem(storeKey)) {
+        store.$state =
             Object.assign(
                 {},
-                store.state,
-                JSON.parse(sessionStorage.getItem('store') as string)
+                store.$state,
+                JSON.parse(sessionStorage.getItem(storeKey) as string)
             )
-        );
+        ;
         // 移除sessionStorage中的数据
-        sessionStorage.removeItem("store");
+        sessionStorage.removeItem(storeKey);
     }
     // 页面刷新的时候进行持久化
-    window.addEventListener('beforeunload',()=>{
-        sessionStorage.setItem("store", JSON.stringify(store.state));
+    window.addEventListener('beforeunload', () => {
+        sessionStorage.setItem(storeKey, JSON.stringify(store.$state));
     })
 }

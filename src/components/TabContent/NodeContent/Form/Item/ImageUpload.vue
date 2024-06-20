@@ -15,7 +15,7 @@
         :disabled="disabled"
     >
       <div>
-        <plus-outlined />
+        <plus-outlined/>
         <div style="margin-top: 8px">选择图片</div>
       </div>
     </Upload>
@@ -38,24 +38,26 @@ export default {
     Modal,
     PlusOutlined,
   },
-  mixins: [ItemMixin,UploadMixin],
-  methods:{
-  },
-  setup(props:any){
-    const max_count=props.option.max_count || 1
+  mixins: [ItemMixin, UploadMixin],
+  methods: {},
+  setup(props: any) {
+    const max_count = props.option.max_count || 1
 
-    const ins= getCurrentInstance()
+    const ins = getCurrentInstance()
     return {
       max_count,
-      async handlePreview (this:{$viewerApi:Function},file: UploadFile & {
-        originFileObj: File,
-        url: String
-      }) {
-        if (!file.url && !file.preview) {
-          file.preview = (await getBase64(file.originFileObj)) as string;
+      async handlePreview(this: { $viewerApi: Function, items: any[] }, file: UploadFile) {
+        if (!file.url && !file.preview && file.originFileObj) {
+          this.items[this.items.indexOf(file)].preview = (await getBase64(file.originFileObj)) as string
         }
+        const images = this.items.map((f: any) => {
+          return <string | object>(f.url || f.preview)
+        })
         ins?.proxy?.$viewerApi({
-          images: [<string|object>(file.url || file.preview)]
+          images: images,
+          options: {
+            initialViewIndex: this.items.indexOf(file)
+          }
         })
       }
     };
