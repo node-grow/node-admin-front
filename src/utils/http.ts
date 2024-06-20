@@ -28,8 +28,9 @@ myAxios.interceptors.request.use(async (config) => {
     }
     myAxios.loading = true
 
-    if (config.headers && store.auth_token) {
-        config.headers['Authorization'] = store.auth_token
+    const auth_token = sessionStorage.getItem('auth_token')
+    if (config.headers && auth_token) {
+        config.headers['Authorization'] = auth_token
     }
     return config
 }, error => {

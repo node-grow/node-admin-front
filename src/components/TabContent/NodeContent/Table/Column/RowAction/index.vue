@@ -13,12 +13,12 @@
 
 <script lang="ts">
 import _ from "lodash";
-import {defineAsyncComponent, getCurrentInstance, inject, ref} from "vue";
+import {getCurrentInstance, inject, ref} from "vue";
 import Operation from "@/components/TabContent/NodeContent/Operation";
 import {ConditionOption, handleCondition} from "@/components/TabContent/NodeContent/Condition";
 import {Badge, Spin} from "ant-design-vue";
 import {cloneDeep} from "lodash-es";
-import {importAsyncModule} from "@/utils/helpers";
+import container from "@/utils/container";
 
 export default {
   name: "RowAction",
@@ -30,28 +30,26 @@ export default {
     option: Object,
     record: Object,
   },
-  setup(props:any){
-    const c =_.upperFirst(_.camelCase(props.option.type));
-    const component=defineAsyncComponent(()=>
-        importAsyncModule('@/components/TabContent/NodeContent/Table/Column/RowAction/' + c + '.vue')
-    )
+  setup(props: any) {
+    const c = _.upperFirst(_.camelCase(props.option.type));
+    const component = container.get('TabContent/NodeContent/Table/Column/RowAction/' + c)
     const appContext = getCurrentInstance()?.appContext
 
-    const reloadData=<Function>inject('reloadData')
+    const reloadData = <Function>inject('reloadData')
 
-    const loading =ref(false)
+    const loading = ref(false)
 
     return {
       loading,
       componentIs: component,
-      handleCondition(option?:ConditionOption){
-        return handleCondition(props.record,option)
+      handleCondition(option?: ConditionOption) {
+        return handleCondition(props.record, option)
       },
-      async operate(){
+      async operate() {
         if (!props?.option?.operation) {
           return
         }
-        loading.value=true
+        loading.value = true
         const fn = Operation[props.option.operation.type]
         try {
           await fn({
@@ -71,10 +69,10 @@ export default {
               }
             }
           })
-        }catch (e) {
+        } catch (e) {
 
         }
-        loading.value=false
+        loading.value = false
       }
     }
   }

@@ -55,6 +55,7 @@ export default {
   mixins: [
     ContentMixin
   ],
+  inject: ['ncSetOption'],
   setup(props: any) {
 
     const formState = ref<any>(props.option.data || {})
@@ -69,7 +70,7 @@ export default {
     const reloadData = <Function>inject('reloadData')
     const form = <Ref<FormInstance>>ref()
 
-    const appContext = getCurrentInstance()?.appContext
+    const instance = getCurrentInstance()
 
     const submit = async (operation: any) => {
       let form_data;
@@ -84,7 +85,7 @@ export default {
 
       const fn = <Function>Operation[operation.type]
       await fn(<RequestOption | any>{
-        appContext,
+        instance,
         ...operation.operation_option,
         body: {
           ...form_data,

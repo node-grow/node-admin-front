@@ -9,8 +9,7 @@
 
 <script lang="ts">
 import _ from "lodash";
-import {defineAsyncComponent} from "vue";
-import {importAsyncModule} from "@/utils/helpers";
+import container from "@/utils/container";
 
 export default {
   name: "Item",
@@ -22,9 +21,7 @@ export default {
   setup(props:any){
 
     const c =_.upperFirst(_.camelCase(props.option.type));
-    const component=defineAsyncComponent(()=>
-        importAsyncModule('@/components/TabContent/NodeContent/Form/Item/' + c + '.vue')
-    )
+    const component = container.get('TabContent/NodeContent/Form/Item/' + c)
     return {
       componentIs: component,
 

@@ -1,6 +1,6 @@
 import useStore, {AdminTabOption} from '@/store'
 import {Modal} from "ant-design-vue";
-import {createVNode, getCurrentInstance, h, inject} from "vue";
+import {createVNode, getCurrentInstance, h, withCtx} from "vue";
 import $http from "@/utils/http"
 import {ExclamationCircleOutlined} from "@ant-design/icons-vue"
 import ModalContainer from "@/components/TabContent/NodeContent/ModalContainer.vue"
@@ -68,7 +68,7 @@ async function modal(option: any) {
         body: {},
     }, option)
     option.url = replaceUrl(option.url, option.replace)
-    const appContext = option.appContext || getCurrentInstance()?.appContext
+    const appContext = option?.instance?.appContext || getCurrentInstance()?.appContext
 
     let res: any = {};
     if (option.type === 'node_content' && !option.node_data) {
@@ -126,7 +126,7 @@ function goto_as_a(option: any) {
     a.click()
 }
 
-function goto(option: any) {
+function navigate(option: any) {
     option = Object.assign({}, <AdminTabOption>{
         title: '',
         url: '',
@@ -135,14 +135,16 @@ function goto(option: any) {
         replace: null
     }, option)
 
-    option.url = replaceUrl(option.url, option.replace)
-    const ncSetOption = inject<Function>('ncSetOption')
-    request(option).then((res: any) => {
-        if (!ncSetOption) {
-            return
-        }
-        ncSetOption(res.data.option)
-    })
+    withCtx(() => {
+        option.url = replaceUrl(option.url, option.replace)
+        const ncSetOption = option.instance.proxy.ncSetOption
+        request(option).then((res: any) => {
+            if (!ncSetOption) {
+                return
+            }
+            ncSetOption(res.data)
+        })
+    }, option.instance.context)()
 
 }
 
@@ -171,7 +173,7 @@ export declare interface RequestOption {
     reload_menu?: boolean,
 }
 
-async function request(option: any) {
+export async function request(option: any) {
 
     option = Object.assign({}, <RequestOption>{
         url: '',
@@ -223,7 +225,7 @@ export declare interface OperationType {
 }
 
 export default <OperationType>{
-    goto,
+    navigate,
     goto_as_a,
     add_tab,
     modal,

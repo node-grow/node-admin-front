@@ -6,16 +6,11 @@
 
 <script lang="ts">
 import {AdminTabOption} from "@/store"
-import InnerPath from "@/components/TabContent/InnerPath.vue"
-import NodeContent from "@/components/TabContent/NodeContent/index.vue"
 import {computed, nextTick, provide, ref} from "vue";
+import container from "@/utils/container";
 
 export default {
   name: 'TabContent',
-  components: {
-    InnerPath,
-    NodeContent,
-  },
   props: {
     option: <AdminTabOption><any>Object,
     remove: Function,
@@ -40,9 +35,9 @@ export default {
       componentIs: computed(() => {
         switch (props.option.type) {
           case 'inner_path':
-            return InnerPath
+            return container.get('TabContent/InnerPath')
           case 'node_content':
-            return NodeContent
+            return container.get('TabContent/NodeContent')
         }
       }),
       reload,

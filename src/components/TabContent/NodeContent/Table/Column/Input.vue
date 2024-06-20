@@ -25,10 +25,10 @@
 </template>
 
 <script lang="ts">
-import {getCurrentInstance, inject, nextTick, onMounted, ref, toRaw} from 'vue'
+import {getCurrentInstance, inject, onMounted, ref} from 'vue'
 import ColumnMixin from "@/components/TabContent/NodeContent/Table/Column/ColumnMixin";
-import {EditOutlined, CheckOutlined,CloseOutlined} from '@ant-design/icons-vue'
-import {Input as AInput, Spin,notification} from 'ant-design-vue'
+import {CheckOutlined, CloseOutlined, EditOutlined} from '@ant-design/icons-vue'
+import {Input as AInput, notification, Spin} from 'ant-design-vue'
 import Operation from "@/components/TabContent/NodeContent/Operation";
 import scrollIntoView from 'scroll-into-view-if-needed';
 import {cloneDeep} from "lodash-es";
@@ -43,9 +43,10 @@ export default {
     AInput,
     Spin,
   },
+  inject: ['ncSetOption'],
   setup(props: any) {
     const editing = ref(false)
-    const appContext = getCurrentInstance()?.appContext
+    const instance = getCurrentInstance()
     const reloadData = <Function>inject('reloadData')
     const text = ref(props.record[props.column.dataIndex])
 
@@ -100,7 +101,7 @@ export default {
         loading.value=true
         await fn({
           ...cloneDeep(props.option.operation.operation_option),
-          appContext,
+          instance,
           replace: replace,
           onClose() {
             if (reloadData) {

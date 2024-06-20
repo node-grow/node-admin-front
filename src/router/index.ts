@@ -1,22 +1,22 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
-import $store from '@/store'
-import {importAsyncModule} from "@/utils/helpers";
+import {importDynamicComponent} from "@/utils/helpers";
+
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => importAsyncModule('@/views/Home/index.vue'),
+      component: () => importDynamicComponent('@/views/Home/index.vue'),
   },
   {
     path: '/login',
     name: 'login',
-    component: () => importAsyncModule('@/views/Login.vue'),
+      component: () => importDynamicComponent('@/views/Login.vue'),
   },
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: () => importAsyncModule('@/views/Dashboard.vue'),
+      component: () => importDynamicComponent('@/views/Dashboard.vue'),
   }
 ]
 
@@ -29,7 +29,8 @@ router.beforeEach((route)=>{
   if (route.path==='/login'){
     return
   }
-  if ($store.state.auth_token){
+    const auth_token = sessionStorage.getItem('auth_token')
+    if (auth_token) {
     return
   }
   router.replace('/login')

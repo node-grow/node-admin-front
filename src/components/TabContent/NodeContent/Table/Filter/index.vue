@@ -12,27 +12,25 @@
 <script lang="ts">
 import FilterMixin from "@/components/TabContent/NodeContent/Table/Filter/FilterMixin";
 import _ from "lodash";
-import {ComponentInternalInstance, defineAsyncComponent, inject} from "vue";
-import {importAsyncModule} from "@/utils/helpers";
+import {ComponentInternalInstance, inject} from "vue";
+import container from "@/utils/container";
 
 export default {
   name: "Filter",
   mixins: [FilterMixin],
-  props: ['value','filter_on_change'],
+  props: ['value', 'filter_on_change'],
   emits: ['update:value'],
   inject: ['filter'],
-  setup(props:any, ins: ComponentInternalInstance){
-    const c =_.upperFirst(_.camelCase(props.option.type));
-    const component=defineAsyncComponent(()=>
-        importAsyncModule('@/components/TabContent/NodeContent/Table/Filter/' + c + '.vue')
-    )
+  setup(props: any, ins: ComponentInternalInstance) {
+    const c = _.upperFirst(_.camelCase(props.option.type));
+    const component = container.get('TabContent/NodeContent/Table/Filter/' + c)
 
     const filter = <Function>inject('filter')
     return {
       componentIs: component,
-      onChange(v:any){
+      onChange(v: any) {
         ins.emit('update:value', v)
-        if (props.option.filter_on_change && filter){
+        if (props.option.filter_on_change && filter) {
           filter()
         }
       }
