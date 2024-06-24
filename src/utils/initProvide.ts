@@ -67,6 +67,9 @@ export default {
         container.register('TabContent/NodeContent/Table/Column/Input', () => import('@/components/TabContent/NodeContent/Table/Column/Input.vue'))
         container.register('TabContent/NodeContent/Table/Column/Images', () => import('@/components/TabContent/NodeContent/Table/Column/Images.vue'))
 
+        // 表格列筛选
+        container.register('TabContent/NodeContent/Table/Column/DropdownFilter/Input', () => import('@/components/TabContent/NodeContent/Table/Column/DropdownFilter/Input.vue'))
+
         // 表格行操作
         container.register('TabContent/NodeContent/Table/Column/RowAction/Custom', () => import('@/components/Common/Custom.vue'))
         container.register('TabContent/NodeContent/Table/Column/RowAction/LinkButton', () => import('@/components/TabContent/NodeContent/Table/Column/RowAction/LinkButton.vue'))
