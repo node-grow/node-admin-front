@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts" setup>
-import {inject, provide, Ref, ref, toRaw} from 'vue';
+import {inject, provide, Ref, ref, toRaw, watch} from 'vue';
 import {SearchOutlined} from '@ant-design/icons-vue';
 import Action from '@/components/TabContent/NodeContent/Table/Action/index.vue'
 import {ColumnType} from "@/components/TabContent/NodeContent/Table/index";
@@ -183,52 +183,38 @@ provide('reloadData', async () => {
   })
 })
 
-const onFilter = () => {
-  columns.value = columns.value.map((col: TableColumnType) => {
-    col.sortOrder = null
-    col.filtered = false
-    return col
-  })
-  loadData(addQuery(props.option.data_url, filter_query.value), true)
-}
 
-let lastSorter: any = null
-let lastFilter: any = null
-const onChange = (c_pagination: any, filters: any, sorter: any) => {
-  let reload = false
-  page.value = c_pagination.current
-  if (sorter.order !== lastSorter?.order || sorter.field !== lastSorter?.field) {
-    reload = true
-    lastSorter = {
-      order: sorter.order,
-      field: sorter.field,
-    }
-  }
-
-  if (!lastFilter) {
-    lastFilter = columnFilterQuery.value
-  }
-  if (JSON.stringify(columnFilterQuery.value) !== JSON.stringify(lastFilter)) {
-    reload = true
-    lastFilter = columnFilterQuery.value
+let lastQuery: any = null
+const getQuery = () => {
+  const query = {
+    ...filter_query.value,
+    ...columnFilterQuery.value,
   }
 
   const orderMap: { [key: string]: string } = {ascend: 'asc', descend: 'desc'}
-  const query = toRaw(filter_query.value)
-  if (sorter.order) {
-    query.sort_field = sorter.field
-    query.sort_order = orderMap[sorter.order]
-  } else {
-    delete query.sort_field
-    delete query.sort_order
+  columns.value.forEach((col: TableColumnType) => {
+    if (col.sortOrder) {
+      query.sort_field = col.dataIndex
+      query.sort_order = orderMap[col.sortOrder]
+    }
+  })
+  if (!lastQuery) {
+    lastQuery = query
   }
-  console.log('query', query)
+  if (JSON.stringify(lastQuery) !== JSON.stringify(query)) {
+    lastQuery = query
+    page.value = 1
+  }
 
-  loadData(addQuery(props.option.data_url, {
-    ...query,
-    ...columnFilterQuery.value
-  }), reload)
+  return query
+}
 
+const onFilter = () => {
+  loadData(addQuery(props.option.data_url, getQuery()), true)
+}
+
+const onChange = (c_pagination: any, filters: any, sorter: any) => {
+  page.value = c_pagination.current
   columns.value = columns.value.map((col: TableColumnType) => {
     if (col.dataIndex === sorter.field) {
       col.sortOrder = sorter.order
@@ -238,42 +224,28 @@ const onChange = (c_pagination: any, filters: any, sorter: any) => {
 
     return col
   })
+
+  loadData(addQuery(props.option.data_url, getQuery()))
 }
+
+watch(columnFilterQuery, () => {
+  columns.value = columns.value.map((col: TableColumnType) => {
+    col.filteredValue = columnFilterQuery.value[<string>col.dataIndex]
+    col.filtered = !!col.filteredValue
+    return col
+  })
+
+  loadData(addQuery(props.option.data_url, getQuery()))
+}, {deep: true})
 
 const handleColumnFilterConfirm = (value: any, column: TableColumnType, confirm: any) => {
   confirm()
   columnFilterQuery.value[<string>column.dataIndex] = value
-
-  columns.value = columns.value.map((col: TableColumnType) => {
-    if (col.dataIndex === column.dataIndex && columnFilterQuery.value[<string>col.dataIndex]) {
-      col.filteredValue = value
-      col.filtered = true
-    }
-
-    return col
-  })
-
-  loadData(addQuery(props.option.data_url, {
-    ...filter_query.value,
-    ...columnFilterQuery.value
-  }))
 }
 
 const handleColumnClearFilters = (column: TableColumnType, clearFilters: any) => {
   clearFilters()
   columnFilterQuery.value[<string>column.dataIndex] = undefined
-  columns.value = columns.value.map((col: TableColumnType) => {
-    if (col.dataIndex === column.dataIndex) {
-      col.filteredValue = null
-      col.filtered = false
-    }
-
-    return col
-  })
-  loadData(addQuery(props.option.data_url, {
-    ...filter_query.value,
-    ...columnFilterQuery.value
-  }))
 }
 
 provide('filter', onFilter)

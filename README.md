@@ -42,7 +42,7 @@ yarn install
 ### 开发
 
 ```
-yarn serve
+yarn dev
 ```
 
 #### 目录结构
@@ -60,10 +60,13 @@ yarn serve
     │          ├─Form
     │          │  ├─Action（表单操作组件目录）
     │          │  └─Item（表单项组件目录）
+    │          │      └─Table
+    │          │          └─Column（表单项-表格列组件目录）
     │          └─Table
     │              ├─Action（表格顶部操作组件目录）
     │              ├─Column（表格列组件目录）
     │              │  └─RowAction（表格行操作组件目录）
+    │              │  └─DropdownFilter（表格列筛选组件目录）
     │              └─Filter（表格数据过滤组件目录）
     ├─router（路由）
     ├─store（全局存储目录）
@@ -75,4 +78,15 @@ yarn serve
 
 ```
 yarn build
+```
+
+## 注册组件
+
+该方式适用于>=v1.3版本<br/>
+根据 `src/components` 后目录结构，将组件注册到 `$container` 容器中即可 <br/>
+`$app`及`$container`已暴露在`window`中
+
+```ts
+// 示例
+$container.register('TabContent/NodeContent/Form/Item/Test', () => import('[Test组件路径].vue'))
 ```

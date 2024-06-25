@@ -142,16 +142,14 @@ ActionOption结束
 
 ### Column
 
-| 字段            | 必须 | 标题   | 类型                                    | 默认值   | 说明                               |
-|---------------|----|------|---------------------------------------|-------|----------------------------------|
-| type          | 是  | 类型   | String                                | 无     | [ColumnOption](#ColumnOption)类型  |
-| name          | 是  | 字段名  | String                                | 无     |                                  |
-| title         | 是  | 列标题  | String                                | 无     |                                  |
-| column_option | 是  | 类型配置 | Object<[ColumnOption](#ColumnOption)> | 无     |                                  |
-| sortable      | 否  | 可排序  | Boolean                               | false | 启用排序后将以sort_field和sort_order字段发送 |           |
-| filter        | 否  | 筛选   | Object                                | 无     |                                  |
-| filter.type   | 否  | 筛选类型 | String<"input">                       | 无     |                                  |
-| filter.option | 否  | 筛选配置 | Object                                | 无     |                                  |
+| 字段            | 必须 | 标题   | 类型                                    | 默认值   | 说明                                  |
+|---------------|----|------|---------------------------------------|-------|-------------------------------------|
+| type          | 是  | 类型   | String                                | 无     | [ColumnOption](#ColumnOption)类型     |
+| name          | 是  | 字段名  | String                                | 无     |                                     |
+| title         | 是  | 列标题  | String                                | 无     |                                     |
+| column_option | 是  | 类型配置 | Object<[ColumnOption](#ColumnOption)> | 无     |                                     |
+| sortable      | 否  | 可排序  | Boolean                               | false | 启用排序后将以sort_field和sort_order字段发送    |           |
+| filter        | 否  | 筛选   | Object                                | null  | 参考[Filter](./TableColumn/Filter.md) |
 
 #### ColumnOption
 
