@@ -18,10 +18,19 @@ const container: Container = {
         components[key] = loader
     },
     get(key: string) {
+        if (!components[key]){
+            throw new Error(`component ${key} is not registered`)
+        }
         const store = useStore()
 
         return defineAsyncComponent({
             loadingComponent: Loading,
+            onError(error, retry, fail, attempts) {
+                if (attempts<3){
+                    return retry()
+                }
+                fail()
+            },
             loader: async () => {
                 try {
                     await new Promise(async (resolve) => {
