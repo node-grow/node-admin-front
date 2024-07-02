@@ -10,11 +10,11 @@
 
 <script lang="ts">
 import _ from "lodash";
-import {defineAsyncComponent, getCurrentInstance, inject, ref} from "vue";
+import {getCurrentInstance, inject, ref} from "vue";
 import {OperationType} from "@/components/TabContent/NodeContent/Operation";
 import {Badge, Spin} from "ant-design-vue";
-import {importDynamicComponent} from "@/utils/helpers";
 import useStore from "@/store";
+import container from "@/utils/container";
 
 export default {
   name: "Action",
@@ -25,18 +25,17 @@ export default {
   props: {
     option: Object as any,
   },
+  inject: ['ncSetOption'],
   setup(props: any) {
     const loading = ref(false)
 
     const c = _.upperFirst(_.camelCase(props.option.type));
-    const component = defineAsyncComponent(() =>
-        importDynamicComponent('@/components/TabContent/NodeContent/Table/Action/' + c + '.vue')
-    )
+    const component = container.get('TabContent/NodeContent/Table/Action/' + c)
     const operation = <OperationType>inject('operation')
     const reloadData = <Function>inject('reloadData')
     const getModal = <Function>inject('getModal')
 
-    const appContext = getCurrentInstance()?.appContext
+    const instance = getCurrentInstance()
     const getSelectedRows = <null | Function>inject('getSelectedRows')
     const getDataKey = <null | Function>inject('getDataKey')
     return {
@@ -52,7 +51,7 @@ export default {
         try {
           await fn({
             ...props.option.operation.operation_option,
-            appContext,
+            instance,
             replace: {
               selected_rows: getSelectedRows ? getSelectedRows() : [],
               selected_keys: getSelectedRows ? getSelectedRows().map((row: any) => {

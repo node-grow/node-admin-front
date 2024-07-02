@@ -9,10 +9,10 @@
 <script setup lang="ts">
 
 import Operation from "@/components/TabContent/NodeContent/Operation";
-import {computed, defineAsyncComponent, inject, onMounted, provide, ref} from "vue"
+import {computed, inject, onMounted, provide, ref} from "vue"
 import {Spin} from "ant-design-vue";
-import {importDynamicComponent} from "@/utils/helpers";
 import _ from "lodash";
+import container from "@/utils/container";
 
 const props = defineProps<{
   option: any,
@@ -67,7 +67,7 @@ provide('reloadData', () => {
 
 const componentIs = computed(() => {
   const componentName = _.upperFirst(_.camelCase(childOption.value?.type))
-  return defineAsyncComponent(() => importDynamicComponent(`@/components/TabContent/NodeContent/${componentName}/index.vue`))
+  return container.get(`TabContent/NodeContent/${componentName}`)
 })
 
 </script>

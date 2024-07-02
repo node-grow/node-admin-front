@@ -1,7 +1,7 @@
 import {Store} from "pinia";
 
-export default <T>(store: Store<any>): void => {
-    const storeKey = 'store-' + store.$id
+export default <T>(store: Store): void => {
+    const storeKey = 'store-node-admin'
     // 不需要持久化的数据存入sessionStorage
     if (sessionStorage.getItem(storeKey)) {
         store.$state =
@@ -12,10 +12,20 @@ export default <T>(store: Store<any>): void => {
             )
         ;
         // 移除sessionStorage中的数据
-        sessionStorage.removeItem(storeKey);
+        // sessionStorage.removeItem(storeKey);
     }
     // 页面刷新的时候进行持久化
     window.addEventListener('beforeunload', () => {
-        sessionStorage.setItem(storeKey, JSON.stringify(store.$state));
+        if (store.$state.loadedExtraScript) {
+            // 重置加载状态
+            store.$state.loadedExtraScript = false
+        }
+
+        sessionStorage.setItem(storeKey, JSON.stringify(store.$state, (key, value) => {
+            if (key === 'instance') {
+                return undefined;
+            }
+            return value;
+        }));
     })
 }

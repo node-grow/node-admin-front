@@ -1,8 +1,6 @@
 <template>
-  <div class="cell" ref="cell">
-    <div class="editable-cell">
-      <AInput v-model:value="value" :placeholder="props.option.placeholder"/>
-    </div>
+  <div class="cell">
+    <AInput v-model:value="value" :placeholder="props.option.placeholder"/>
   </div>
 </template>
 

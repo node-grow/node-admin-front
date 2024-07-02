@@ -1,6 +1,5 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
 import {importDynamicComponent} from "@/utils/helpers";
-import useStore from "@/store";
 
 
 const routes = [
@@ -27,11 +26,11 @@ const router = createRouter({
 })
 
 router.beforeEach((route)=>{
-  const store = useStore()
   if (route.path==='/login'){
     return
   }
-  if (store.auth_token) {
+    const auth_token = sessionStorage.getItem('auth_token')
+    if (auth_token) {
     return
   }
   router.replace('/login')

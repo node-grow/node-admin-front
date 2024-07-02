@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import ColumnMixin from "@/components/TabContent/NodeContent/Table/Column/ColumnMixin";
-import {Switch as ASwitch, Spin} from 'ant-design-vue'
+import {Spin, Switch as ASwitch} from 'ant-design-vue'
 import {getCurrentInstance, inject, ref} from "vue";
 import Operation from "@/components/TabContent/NodeContent/Operation";
 import {cloneDeep} from "lodash-es";
@@ -25,9 +25,10 @@ export default {
   mixins: [
     ColumnMixin
   ],
+  inject: ['ncSetOption'],
   setup(props: any) {
     const value = ref(props.record[props.column.dataIndex])
-    const appContext = getCurrentInstance()?.appContext
+    const instance = getCurrentInstance()
     const reloadData = <Function>inject('reloadData')
     const loading = ref(false)
     let values: Boolean[] = props.option.values
@@ -52,7 +53,7 @@ export default {
         try {
           await fn({
             ...cloneDeep(props.option.operation.operation_option),
-            appContext,
+            instance,
             replace,
             onClose() {
               if (reloadData) {

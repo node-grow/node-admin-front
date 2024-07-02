@@ -12,4 +12,9 @@ export interface ColumnType {
     option: Object,
     name: String,
     fixed: String|any,
+    sortable?: boolean,
+    filter: {
+        type: String,
+        option: any,
+    },
 }

@@ -17,15 +17,16 @@ const useStore = defineStore('index', {
     state() {
         return {
             count: 0,
-            auth_token: '',
             system_config: {
                 system_name: '',
                 iconfont_url: '',
                 default_tabs: [],
+                extra_scripts: [],
             },
             global_loading: false,
             user_info: null as any,
             document_title: '',
+            loadedExtraScript: false,
 
             sider_menu: [] as any[],
             sider_menu_collapsed: false,
@@ -34,7 +35,7 @@ const useStore = defineStore('index', {
             selected_sider_keys: [] as string[],
             open_sider_keys: [0],
             admin_tab_index: '',
-            admin_tabs: <AdminTabOption[]><any[]>[],
+            admin_tabs: <AdminTabOption[]>[],
         }
     },
     actions: {
@@ -101,9 +102,36 @@ const useStore = defineStore('index', {
                 if (!this.$state.admin_tabs.length) {
                     this.setAdminTabs(res.data.default_tabs)
                 }
+                await this.loadExtraScript()
+                this.$state.loadedExtraScript = true
             } catch (e) {
-
+                console.error(e)
             }
+        },
+
+        loadExtraScript() {
+            console.log(this.$state.loadedExtraScript)
+            if (this.$state.loadedExtraScript) {
+                return
+            }
+
+            if (!this.$state.system_config.extra_scripts?.length) {
+                return
+            }
+
+            return Promise.all(this.$state.system_config.extra_scripts.map((item: string) => {
+                return new Promise((resolve, reject) => {
+                    const script = document.createElement('script')
+                    script.src = item
+                    script.onload = () => {
+                        resolve(true)
+                    }
+                    script.onerror = () => {
+                        reject(false)
+                    }
+                    document.body.appendChild(script)
+                })
+            }))
         }
     },
 })

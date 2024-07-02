@@ -7,9 +7,9 @@
 
 <script setup lang="ts">
 import _ from 'lodash'
-import {computed, defineAsyncComponent, inject, ref, watch} from "vue";
-import {importDynamicComponent} from "@/utils/helpers";
+import {computed, inject, ref, watch} from "vue";
 import {FormItem} from "ant-design-vue";
+import container from "@/utils/container";
 
 const props = defineProps<{
   column: any,
@@ -35,9 +35,7 @@ watch(record, () => {
 }, {deep: true})
 
 const c = _.upperFirst(_.camelCase(props.column.resColumn.type));
-const componentIs = defineAsyncComponent(() =>
-    importDynamicComponent('@/components/TabContent/NodeContent/Form/Item/Table/Column/' + c + '.vue')
-)
+const componentIs = container.get('TabContent/NodeContent/Form/Item/Table/Column/' + c)
 </script>
 
 <style scoped lang="less">

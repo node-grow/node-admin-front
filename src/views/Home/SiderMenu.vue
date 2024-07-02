@@ -45,7 +45,7 @@ const props = defineProps({
   badge: [String, Number],
 })
 
-const context = getCurrentInstance()?.appContext
+const instance = getCurrentInstance()
 
 const collapseDot = computed(() => {
   if (!props.children?.length) {
@@ -71,7 +71,10 @@ function operate() {
     return
   }
   const fn = Operation[props.operation.type]
-  fn(props.operation.option, context)
+  fn({
+    ...props.operation.option,
+    instance,
+  })
 }
 
 </script>

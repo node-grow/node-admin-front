@@ -1,8 +1,8 @@
 export function addQuery(url: string, query: any): string {
     let u = new URL(url, url.indexOf('://') === -1 ? location.origin : undefined)
     for (let q in query) {
-        if ([undefined,null,''].indexOf(query[q]) === -1) {
-            u.searchParams.set(q,query[q])
+        if ([undefined, null, ''].indexOf(query[q]) === -1) {
+            u.searchParams.set(q, query[q])
         }
     }
     return u.toString()
@@ -56,4 +56,8 @@ export function importDynamicComponent(path: string): any {
     }
     path = path.replace(/^@\//, '/src/')
     return modules[path]()
+}
+
+export async function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms))
 }

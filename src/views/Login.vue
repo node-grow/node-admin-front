@@ -73,7 +73,6 @@ const TypographyTitle = Typography.Title
 
 const store = useStore()
 
-store.auth_token = ''
 const system_config = computed(() => store.system_config)
 const validate_spining = ref(false)
 
@@ -114,7 +113,7 @@ const onFinish = async (values: any) => {
   let res = null
   try {
     res = await postUser(formState.value)
-    store.auth_token = res.data.token
+    sessionStorage.setItem('auth_token', res.data.token)
 
     const infoRes = await getCurrentInfo()
     store.user_info = infoRes.data

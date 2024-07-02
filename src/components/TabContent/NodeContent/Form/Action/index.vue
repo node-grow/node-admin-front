@@ -13,13 +13,13 @@
 
 <script lang="ts">
 import _ from "lodash";
-import {defineAsyncComponent, getCurrentInstance, inject, provide, ref} from "vue";
+import {getCurrentInstance, inject, provide, ref} from "vue";
 import {FormInstance} from "ant-design-vue/lib/form";
 import Operation, {RequestOption} from "@/components/TabContent/NodeContent/Operation";
 import {ConditionOption, handleCondition} from "@/components/TabContent/NodeContent/Condition";
 import {Spin} from "ant-design-vue";
-import {importDynamicComponent} from "@/utils/helpers";
 import useStore from "@/store";
+import container from "@/utils/container";
 
 export default {
   name: "Action",
@@ -30,6 +30,7 @@ export default {
     option: Object,
     formData: Object,
   },
+  inject: ['ncSetOption'],
   setup(props: any) {
     const loading=ref(false)
     provide('setLoading',(val:boolean)=>{
@@ -39,13 +40,12 @@ export default {
     const getForm = <Function | null>inject('getForm')
 
     const c = _.upperFirst(_.camelCase(props.option.type));
-    const component = defineAsyncComponent(() =>
-        importDynamicComponent('@/components/TabContent/NodeContent/Form/Action/' + c + '.vue')
-    )
+    const component = container.get('TabContent/NodeContent/Form/Action/' + c)
     const form: FormInstance = getForm ? getForm() : {}
 
-    const appContext = getCurrentInstance()?.appContext
+    const instance = getCurrentInstance()
     const reloadData = <Function|null>inject('reloadData');
+
     return {
       loading,
       componentIs: component,
@@ -59,7 +59,7 @@ export default {
         loading.value=true
         try {
           await fn(<RequestOption | any>{
-            appContext,
+            instance,
             ...operation.operation_option,
             body: {
               ...form.model,
