@@ -13,5 +13,6 @@ declare global {
     interface Window {
         $container: Container,
         $app: any,
+        Vue: any,
     }
 }
