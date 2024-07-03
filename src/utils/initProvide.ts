@@ -1,5 +1,4 @@
 import {App} from "vue";
-import container from "@/utils/container";
 
 export default {
     install(app: App) {
@@ -13,6 +12,8 @@ export default {
         if (typeof window !== 'undefined') {
             window.$app = app;
         }
+
+        const container = window.$container
 
         // 注册内置组件
         container.register('TabContent/InnerPath', () => import('@/components/TabContent/InnerPath.vue'))

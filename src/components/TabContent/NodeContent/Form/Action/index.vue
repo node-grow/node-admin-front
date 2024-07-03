@@ -19,7 +19,6 @@ import Operation, {RequestOption} from "@/components/TabContent/NodeContent/Oper
 import {ConditionOption, handleCondition} from "@/components/TabContent/NodeContent/Condition";
 import {Spin} from "ant-design-vue";
 import useStore from "@/store";
-import container from "@/utils/container";
 
 export default {
   name: "Action",
@@ -40,7 +39,7 @@ export default {
     const getForm = <Function | null>inject('getForm')
 
     const c = _.upperFirst(_.camelCase(props.option.type));
-    const component = container.get('TabContent/NodeContent/Form/Action/' + c)
+    const component = window.$container.get('TabContent/NodeContent/Form/Action/' + c)
     const form: FormInstance = getForm ? getForm() : {}
 
     const instance = getCurrentInstance()

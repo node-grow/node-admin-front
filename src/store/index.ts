@@ -110,7 +110,6 @@ const useStore = defineStore('index', {
         },
 
         loadExtraScript() {
-            console.log(this.$state.loadedExtraScript)
             if (this.$state.loadedExtraScript) {
                 return
             }

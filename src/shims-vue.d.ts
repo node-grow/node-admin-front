@@ -1,5 +1,5 @@
 import '@vue/runtime-core'
-import {Container} from "@/utils/container";
+import {Container} from "@/container";
 
 /// <reference types="vite/client" />
 declare module '*.vue' {

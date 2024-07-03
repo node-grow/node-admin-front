@@ -7,7 +7,6 @@
 <script lang="ts">
 import {AdminTabOption} from "@/store"
 import {computed, nextTick, provide, ref} from "vue";
-import container from "@/utils/container";
 
 export default {
   name: 'TabContent',
@@ -35,9 +34,9 @@ export default {
       componentIs: computed(() => {
         switch (props.option.type) {
           case 'inner_path':
-            return container.get('TabContent/InnerPath')
+            return window.$container.get('TabContent/InnerPath')
           case 'node_content':
-            return container.get('TabContent/NodeContent')
+            return window.$container.get('TabContent/NodeContent')
         }
       }),
       reload,

@@ -18,7 +18,6 @@
 import {Button} from 'ant-design-vue'
 import {ref} from "vue";
 import _ from "lodash";
-import container from "@/utils/container";
 
 const props = defineProps<{
   filter: any,
@@ -38,7 +37,7 @@ const onClearFilters = () => {
 }
 
 const c = _.upperFirst(_.camelCase(props.filter.type));
-const componentIs = container.get('TabContent/NodeContent/Table/Column/DropdownFilter/' + c)
+const componentIs = window.$container.get('TabContent/NodeContent/Table/Column/DropdownFilter/' + c)
 
 </script>
 

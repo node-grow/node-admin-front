@@ -214,7 +214,14 @@ const onFilter = () => {
 }
 
 const onChange = (c_pagination: any, filters: any, sorter: any) => {
-  page.value = c_pagination.current
+  if (page.value != c_pagination.current) {
+    page.value = c_pagination.current
+    const con = <HTMLElement>getScrollContainer()
+    con?.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  }
   columns.value = columns.value.map((col: TableColumnType) => {
     if (col.dataIndex === sorter.field) {
       col.sortOrder = sorter.order

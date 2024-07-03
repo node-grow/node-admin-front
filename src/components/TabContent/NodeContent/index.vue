@@ -12,7 +12,6 @@ import Operation from "@/components/TabContent/NodeContent/Operation";
 import {computed, inject, onMounted, provide, ref} from "vue"
 import {Spin} from "ant-design-vue";
 import _ from "lodash";
-import container from "@/utils/container";
 
 const props = defineProps<{
   option: any,
@@ -67,7 +66,7 @@ provide('reloadData', () => {
 
 const componentIs = computed(() => {
   const componentName = _.upperFirst(_.camelCase(childOption.value?.type))
-  return container.get(`TabContent/NodeContent/${componentName}`)
+  return window.$container.get(`TabContent/NodeContent/${componentName}`)
 })
 
 </script>

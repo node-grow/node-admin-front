@@ -4,7 +4,6 @@
 
 <script lang="ts">
 import _ from 'lodash'
-import container from "@/utils/container";
 
 export default {
   name: "Column",
@@ -14,7 +13,7 @@ export default {
   },
   setup(props:any){
     const c =_.upperFirst(_.camelCase(props.column.resColumn.type));
-    const component = container.get('TabContent/NodeContent/Table/Column/' + c)
+    const component = window.$container.get('TabContent/NodeContent/Table/Column/' + c)
     return {
       componentIs: component
     }

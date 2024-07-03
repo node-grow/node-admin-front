@@ -52,4 +52,6 @@ const container: Container = {
     }
 }
 
-export default container
+if (typeof window !== 'undefined') {
+    window.$container = container;
+}

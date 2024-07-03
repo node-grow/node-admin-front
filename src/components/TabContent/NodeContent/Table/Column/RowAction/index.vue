@@ -18,7 +18,6 @@ import Operation from "@/components/TabContent/NodeContent/Operation";
 import {ConditionOption, handleCondition} from "@/components/TabContent/NodeContent/Condition";
 import {Badge, Spin} from "ant-design-vue";
 import {cloneDeep} from "lodash-es";
-import container from "@/utils/container";
 
 export default {
   name: "RowAction",
@@ -32,7 +31,7 @@ export default {
   },
   setup(props: any) {
     const c = _.upperFirst(_.camelCase(props.option.type));
-    const component = container.get('TabContent/NodeContent/Table/Column/RowAction/' + c)
+    const component = window.$container.get('TabContent/NodeContent/Table/Column/RowAction/' + c)
     const appContext = getCurrentInstance()?.appContext
 
     const reloadData = <Function>inject('reloadData')

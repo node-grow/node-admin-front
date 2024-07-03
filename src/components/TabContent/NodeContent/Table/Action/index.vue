@@ -14,7 +14,6 @@ import {getCurrentInstance, inject, ref} from "vue";
 import {OperationType} from "@/components/TabContent/NodeContent/Operation";
 import {Badge, Spin} from "ant-design-vue";
 import useStore from "@/store";
-import container from "@/utils/container";
 
 export default {
   name: "Action",
@@ -30,7 +29,7 @@ export default {
     const loading = ref(false)
 
     const c = _.upperFirst(_.camelCase(props.option.type));
-    const component = container.get('TabContent/NodeContent/Table/Action/' + c)
+    const component = window.$container.get('TabContent/NodeContent/Table/Action/' + c)
     const operation = <OperationType>inject('operation')
     const reloadData = <Function>inject('reloadData')
     const getModal = <Function>inject('getModal')

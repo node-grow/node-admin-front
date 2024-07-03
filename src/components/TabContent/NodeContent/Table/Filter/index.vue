@@ -13,7 +13,6 @@
 import FilterMixin from "@/components/TabContent/NodeContent/Table/Filter/FilterMixin";
 import _ from "lodash";
 import {ComponentInternalInstance, inject} from "vue";
-import container from "@/utils/container";
 
 export default {
   name: "Filter",
@@ -23,7 +22,7 @@ export default {
   inject: ['filter'],
   setup(props: any, ins: ComponentInternalInstance) {
     const c = _.upperFirst(_.camelCase(props.option.type));
-    const component = container.get('TabContent/NodeContent/Table/Filter/' + c)
+    const component = window.$container.get('TabContent/NodeContent/Table/Filter/' + c)
 
     const filter = <Function>inject('filter')
     return {

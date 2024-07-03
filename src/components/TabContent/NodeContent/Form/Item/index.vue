@@ -9,7 +9,6 @@
 
 <script lang="ts">
 import _ from "lodash";
-import container from "@/utils/container";
 
 export default {
   name: "Item",
@@ -21,7 +20,7 @@ export default {
   setup(props:any){
 
     const c =_.upperFirst(_.camelCase(props.option.type));
-    const component = container.get('TabContent/NodeContent/Form/Item/' + c)
+    const component = window.$container.get('TabContent/NodeContent/Form/Item/' + c)
     return {
       componentIs: component,
 
