@@ -10,7 +10,7 @@
   "dependencies": {
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-vue": "^5.1.10",
-    "ant-design-vue": "^4.2.3",
+    "ant-design-vue": "^4.2.5",
     "axios": "^1.7.7",
     "babel-plugin-import": "^1.13.8",
     "core-js": "^3.38.1",
