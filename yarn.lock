@@ -1295,16 +1295,7 @@ pinia@^2.2.2:
     "@vue/devtools-api" "^6.6.3"
     vue-demi "^0.14.10"
 
-postcss@^8.4.40, postcss@^8.4.43:
-  version "8.4.47"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.47.tgz#5bf6c9a010f3e724c503bf03ef7947dcb0fea365"
-  integrity sha512-56rxCq7G/XfB4EkXq9Egn5GCqugWvDFjafDOThIdMBsI15iqPqR5r15TfSr1YPYeEI19YeaXMCbY6u88Y76GLQ==
-  dependencies:
-    nanoid "^3.3.7"
-    picocolors "^1.1.0"
-    source-map-js "^1.2.1"
-
-postcss@^8.4.47:
+postcss@^8.4.43, postcss@^8.4.47:
   version "8.4.47"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.47.tgz#5bf6c9a010f3e724c503bf03ef7947dcb0fea365"
   integrity sha512-56rxCq7G/XfB4EkXq9Egn5GCqugWvDFjafDOThIdMBsI15iqPqR5r15TfSr1YPYeEI19YeaXMCbY6u88Y76GLQ==
@@ -1526,12 +1517,13 @@ typescript@^5.5.4:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.5.4.tgz#d9852d6c82bad2d2eda4fd74a5762a8f5909e9ba"
   integrity sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==
 
-v-viewer@^3.0.11:
-  version "3.0.13"
-  resolved "https://registry.yarnpkg.com/v-viewer/-/v-viewer-3.0.13.tgz#de08227a01915f80275bc45875d1420f6ac44bc6"
-  integrity sha512-T8pgGzlF0ZCHVpD/32OKsD8MlpI6tqYP3n1XLcSjvGQMc0ABn8nJ4AumxvzAKVQrLRWtDTG6qRGAyCPCmi7ceA==
+v-viewer@^3.0.20:
+  version "3.0.20"
+  resolved "https://registry.yarnpkg.com/v-viewer/-/v-viewer-3.0.20.tgz#29e140a26369102cd58c06cccbf91242b9dadf4f"
+  integrity sha512-KM0MwEMMdQ7qmWhlkDKUGaf0pCornpXTnaFPwRWDmVN+0/dVslMRSXnq3eHDWhxgBqpJ46wr4WXYQqWsHO9hUg==
   dependencies:
     lodash-es "^4.17.21"
+    viewerjs "^1.11.6"
 
 viewerjs@^1.11.6:
   version "1.11.6"
