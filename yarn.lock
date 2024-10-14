@@ -1530,10 +1530,10 @@ viewerjs@^1.11.6:
   resolved "https://registry.yarnpkg.com/viewerjs/-/viewerjs-1.11.6.tgz#19a1e78c15eba5a9fbbf34ebc5ab312d6e8932ed"
   integrity sha512-TlhdSp2oEOLFXvEp4psKaeTjR5zBjTRcM/sHUN8PkV1UWuY8HKC8n7GaVdW5Xqnwdr/F1OmzLik1QwDjI4w/nw==
 
-vite@^5.4.7:
-  version "5.4.7"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-5.4.7.tgz#d226f57c08b61379e955f3836253ed3efb2dcf00"
-  integrity sha512-5l2zxqMEPVENgvzTuBpHer2awaetimj2BGkhBPdnwKbPNOlHsODU+oiazEZzLK7KhAnOrO+XGYJYn4ZlUhDtDQ==
+vite@^5.4.8:
+  version "5.4.8"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-5.4.8.tgz#af548ce1c211b2785478d3ba3e8da51e39a287e8"
+  integrity sha512-FqrItQ4DT1NC4zCUqMB4c4AZORMKIa0m8/URVCZ77OZ/QSNeJ54bU1vrFADbDsuwfIPcgknRkmqakQcgnL4GiQ==
   dependencies:
     esbuild "^0.21.3"
     postcss "^8.4.43"
