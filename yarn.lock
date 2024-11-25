@@ -1539,10 +1539,10 @@ v-viewer@^3.0.21:
     lodash-es "^4.17.21"
     viewerjs "^1.11.6"
 
-viewerjs@^1.11.6:
-  version "1.11.6"
-  resolved "https://registry.yarnpkg.com/viewerjs/-/viewerjs-1.11.6.tgz#19a1e78c15eba5a9fbbf34ebc5ab312d6e8932ed"
-  integrity sha512-TlhdSp2oEOLFXvEp4psKaeTjR5zBjTRcM/sHUN8PkV1UWuY8HKC8n7GaVdW5Xqnwdr/F1OmzLik1QwDjI4w/nw==
+viewerjs@^1.11.6, viewerjs@^1.11.7:
+  version "1.11.7"
+  resolved "https://registry.yarnpkg.com/viewerjs/-/viewerjs-1.11.7.tgz#99c39b86c3f1b6debf446747a1f0e25f8be4db74"
+  integrity sha512-0JuVqOmL5v1jmEAlG5EBDR3XquxY8DWFQbFMprOXgaBB0F7Q/X9xWdEaQc59D8xzwkdUgXEMSSknTpriq95igg==
 
 vite@^5.4.11:
   version "5.4.11"
