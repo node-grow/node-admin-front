@@ -8,10 +8,8 @@ import lodash from "lodash";
 
 export default {
   name: "Custom",
-  props: {
-    option: Object
-  },
-  setup(props:any){
+  props: ['option', 'value'],
+  setup(props: any){
     const uuid = lodash.uniqueId('custom-com-');
     return CustomMixin.setup({...props,uuid})
   }
