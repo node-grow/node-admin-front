@@ -10,7 +10,8 @@
       :placeholder="option.placeholder || title"
       :showSearch="option.search_url?true:option.searchable"
       @search="onSearch"
-      :not-found-content="fetching ? undefined : null"
+      :filter-option="!option.search_url"
+      :not-found-content="null"
   >
     <template v-if="fetching" #notFoundContent>
       <Spin size="small"/>
@@ -26,6 +27,7 @@ import {inject, ref} from "vue";
 import {debounce} from "lodash-es";
 import http from "@/utils/http";
 import {addQuery} from "@/utils/helpers";
+import {uniq} from "lodash";
 
 export default {
   name: "Select",
@@ -37,6 +39,7 @@ export default {
   setup(props: any) {
     const getScrollContainer = <Function | null>inject('getScrollContainer')
     const options = ref(props.option.options)
+    let lastSearchId = 0
 
     const fetching = ref(false)
     const onSearch = debounce(async (val: any) => {
@@ -46,9 +49,18 @@ export default {
       }
 
       fetching.value = true
-      const res = await http.get(addQuery(props.option.search_url, {keyword: val}))
-      fetching.value = false
-      options.value = res.data
+      lastSearchId += 1
+
+      const searchId = lastSearchId
+      try {
+        const res = await http.get(addQuery(props.option.search_url, {keyword: val}))
+        if (searchId !== lastSearchId) {
+          return
+        }
+        options.value = res.data
+      }finally {
+        fetching.value = false
+      }
 
     }, 300)
 
