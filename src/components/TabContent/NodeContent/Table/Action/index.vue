@@ -36,6 +36,7 @@ export default {
 
     const instance = getCurrentInstance()
     const getSelectedRows = <null | Function>inject('getSelectedRows')
+    const setSelectedRows = <null | Function>inject('setSelectedRows')
     const getDataKey = <null | Function>inject('getDataKey')
     return {
       componentIs: component,
@@ -58,6 +59,9 @@ export default {
               }).join(',') : '',
             },
             onSuccess(res: any) {
+              if (setSelectedRows) {
+                setSelectedRows([])
+              }
               if (getModal) {
                 getModal().destroy()
               }

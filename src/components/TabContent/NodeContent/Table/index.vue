@@ -95,6 +95,7 @@ const selected_rows = <Ref<any[]>>ref([])
 
 const row_selection = <Ref>ref(null)
 provide('getSelectedRows', () => selected_rows.value)
+provide('setSelectedRows', (v: any[]) => selected_rows.value=v)
 provide('getDataKey', () => props.option.data_key)
 
 const columns = ref()
