@@ -46,7 +46,7 @@
 | btn_type     | 否  | 按钮展示样式 | String  | primary | 详情查看[Antdv的Button](https://antdv.com/components/button-cn#API) |
 | title        | 是  | 按钮展示名称 | String  | 无       |                                                                |
 | style        | 否  | 样式     | Object  | null    |                                                                |
-| for_selected | 否  | 选中行操作  | Boolean | false   |                                                                |
+| for_selected | 否  | 选中行操作  | Boolean | false   | 操作替换参数 selected_rows，selected_keys                             |
 
 ---
 
