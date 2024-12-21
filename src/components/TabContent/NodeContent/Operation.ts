@@ -4,6 +4,7 @@ import {createVNode, getCurrentInstance, h, withCtx} from "vue";
 import $http from "@/utils/http"
 import {ExclamationCircleOutlined} from "@ant-design/icons-vue"
 import ModalContainer from "@/components/TabContent/NodeContent/ModalContainer.vue"
+import container from "@/container";
 
 export function replaceUrl(url: string, replace?: any) {
     let matches = url.match(/{\w+}/g) || url.match(/__\w+__/g)
@@ -81,7 +82,7 @@ async function modal(option: any) {
         option.node_data = res?.data
     }
 
-    const modalVm = Modal.info({
+    const modalVm = container.getCommonObject('modal').info({
         title: option.title,
         centered: true,
         appContext,

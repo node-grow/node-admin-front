@@ -1,6 +1,7 @@
 <template>
   <ConfigProvider :locale="zhCN">
     <App>
+      <InjectCommon/>
       <Spin :spinning="loading" :delay="500">
         <router-view/>
       </Spin>
@@ -17,6 +18,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import useStore from "@/store";
 import initStorePersistence from "@/store/store.persistence";
+import InjectCommon from "@/components/Common/InjectCommon.vue";
 
 const store = useStore()
 initStorePersistence(store)

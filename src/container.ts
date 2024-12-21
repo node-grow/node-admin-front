@@ -5,12 +5,25 @@ import Loading from "@/components/Common/Loading.vue";
 
 export type Container = {
     register(key: string, loader: AsyncComponentLoader): void
-    get(key: string): AsyncComponentLoader
+    get(key: string): AsyncComponentLoader,
+    registerCommonObject(key: string, value: any): void
+    getCommonObject(key: string): any
 }
 
 const components = <{ [key: string]: AsyncComponentLoader }>{}
+const commonObject = <{ [key: string]: any }>{}
 
 const container: Container = {
+    registerCommonObject(key: string, value: any) {
+        if (commonObject[key]) {
+            throw new Error(`common object ${key} is already registered`)
+        }
+        commonObject[key] = value
+    },
+    getCommonObject(key: string) {
+        return commonObject[key]
+    },
+
     register(key: string, loader: AsyncComponentLoader) {
         if (components[key]) {
             throw new Error(`component ${key} is already registered`)
@@ -55,3 +68,5 @@ const container: Container = {
 if (typeof window !== 'undefined') {
     window.$container = container;
 }
+
+export default container

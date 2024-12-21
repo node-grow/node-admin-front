@@ -1,7 +1,7 @@
 import {AxiosError, AxiosStatic, default as axios} from "axios"
-import {notification} from "ant-design-vue"
 import $router from '@/router'
 import useStore from "@/store";
+import container from "@/container";
 
 const timeout = 10000
 
@@ -48,7 +48,7 @@ myAxios.interceptors.response.use(response => {
         const res = response.data
         const message = res?.message
         if (myAxios.show_success_message && message) {
-            notification.success({
+            container.getCommonObject('notification').success({
                 message: message
             })
         }
@@ -62,7 +62,7 @@ myAxios.interceptors.response.use(response => {
     store.global_loading = false
 
     if (error.response?.status === 401) {
-        notification.error({
+        container.getCommonObject('notification').error({
             message: '未授权，请重新登录'
         })
         $router.replace({path: '/login'})
@@ -74,7 +74,7 @@ myAxios.interceptors.response.use(response => {
     let message = res?.message || '网络请求错误，请稍候重试'
 
     if (myAxios.show_error_message) {
-        notification.error({
+        container.getCommonObject('notification').error({
             message: message
         })
     }
