@@ -11,9 +11,9 @@
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-vue": "^5.1.10",
     "ant-design-vue": "^4.2.6",
-    "axios": "^1.7.9",
+    "axios": "^1.8.2",
     "babel-plugin-import": "^1.13.8",
-    "core-js": "^3.40.0",
+    "core-js": "^3.41.0",
     "cross-env": "^7.0.3",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
@@ -31,6 +31,6 @@
     "@vitejs/plugin-vue": "^5.2.1",
     "rollup-plugin-visualizer": "^5.14.0",
     "typescript": "^5.8.2",
-    "vite": "^6.1.1"
+    "vite": "^6.2.1"
   }
 }
