@@ -1769,10 +1769,10 @@ typescript@^5.8.3:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.8.3.tgz#92f8a3e5e3cf497356f4178c34cd65a7f5e8440e"
   integrity sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==
 
-v-viewer@^3.0.21:
-  version "3.0.21"
-  resolved "https://registry.yarnpkg.com/v-viewer/-/v-viewer-3.0.21.tgz#cd789be10b73789a0e1b86cbb6e64db02fc036f5"
-  integrity sha512-FyorVqtWiv9LvDG36XEh8HDv8TAcVnMn0+s4b9yKUdBriAZNlYJvgyhGnhyBH/w9yK1PlLVyhorKEj26B6JK1Q==
+v-viewer@^3.0.22:
+  version "3.0.22"
+  resolved "https://registry.yarnpkg.com/v-viewer/-/v-viewer-3.0.22.tgz#52c78c199c9687e214202209e9937eca13e253dd"
+  integrity sha512-uYyP5FPT4K/Sd5D1mhB2HMVV8jnf6zYy2HD1PHCNAO6s2Iway+Wls60pwh7y4F3e2Nlc9549Pvy2HXaq8PKrAg==
   dependencies:
     lodash-es "^4.17.21"
     viewerjs "^1.11.6"
